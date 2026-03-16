@@ -7,14 +7,9 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -26,6 +21,15 @@ export default function Navbar() {
     { name: "Corporate Gifts", path: "/products?category=corporate" },
   ];
 
+  // Framer Motion variants for hover effect
+  const linkHover = {
+    hover: { scale: 1.1, color: "#8B3A62", transition: { duration: 0.2 } },
+  };
+
+  const iconHover = {
+    hover: { scale: 1.2, color: "#8B3A62", transition: { duration: 0.2 } },
+  };
+
   return (
     <nav
       className={`sticky top-0 z-50 bg-white transition-all duration-300 ${
@@ -33,74 +37,89 @@ export default function Navbar() {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
         <div className="flex items-center justify-between h-16 sm:h-18 lg:h-20">
 
-          <Link to="/" className="flex items-center space-x-2">
+          {/* Logo */}
+          <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-[#8B3A62]">
-              <span className="text-white text-lg sm:text-xl">🎁</span>
+              <span className="text-white text-lg sm:text-xl"></span>
             </div>
-
             <span className="text-lg sm:text-xl lg:text-2xl font-semibold text-[#8B3A62] tracking-tight">
               GiftHamper
             </span>
           </Link>
 
-         
-          <div className="hidden md:flex items-center space-x-8 text-sm xl:text-base font-medium">
+          {/* Desktop Menu Links */}
+          <div className="hidden lg:flex items-center space-x-8 text-sm xl:text-base font-medium flex-1 ml-8">
             {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                to={link.path}
-                className="text-gray-700 hover:text-[#8B3A62] transition-colors"
-              >
-                {link.name}
-              </Link>
+              <motion.div key={link.name} variants={linkHover} whileHover="hover">
+                <Link
+                  to={link.path}
+                  className="text-gray-700 transition-colors duration-200"
+                >
+                  {link.name}
+                </Link>
+              </motion.div>
             ))}
           </div>
 
-          <div className="hidden md:flex items-center space-x-5">
-
-            <div className="relative">
+          {/* Desktop Icons */}
+          <div className="hidden lg:flex items-center space-x-5">
+            {/* Search */}
+            <motion.div variants={iconHover} whileHover="hover" className="relative">
               <input
                 type="text"
                 placeholder="Search gifts..."
                 className="w-48 xl:w-64 pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-full bg-[#FFF8F6] focus:outline-none focus:ring-2 focus:ring-[#8B3A62]"
               />
-
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-            </div>
+            </motion.div>
 
-            <button className="relative p-2 text-gray-700 hover:text-[#8B3A62] transition">
+            {/* Wishlist */}
+            <motion.button
+              variants={iconHover}
+              whileHover="hover"
+              className="relative p-2 text-gray-700 transition"
+            >
               <Heart size={22} />
-
               <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                
+                {/* Optional count */}
               </span>
-            </button>
+            </motion.button>
 
-            <button className="relative p-2 text-gray-700 hover:text-[#8B3A62] transition">
+            {/* Cart */}
+            <motion.button
+              variants={iconHover}
+              whileHover="hover"
+              className="relative p-2 text-gray-700 transition"
+            >
               <ShoppingCart size={22} />
-
               <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                
+                {/* Optional count */}
               </span>
-            </button>
+            </motion.button>
 
-            <button className="flex items-center space-x-2 bg-[#8B3A62] text-white px-5 py-2 rounded-full text-sm hover:shadow-lg transition">
+            {/* Login */}
+            <motion.button
+              variants={iconHover}
+              whileHover="hover"
+              className="flex items-center space-x-2 bg-[#8B3A62] text-white px-5 py-2 rounded-full text-sm hover:shadow-lg transition"
+            >
               <User size={16} />
               <span>Login</span>
-            </button>
+            </motion.button>
           </div>
 
+          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2"
+            className="lg:hidden p-2 ml-2"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
+        {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -108,53 +127,49 @@ export default function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="md:hidden overflow-hidden"
+              className="lg:hidden overflow-hidden"
             >
               <div className="py-4 space-y-4 border-t">
-
+                {/* Mobile Search */}
                 <div className="relative">
                   <input
                     type="text"
                     placeholder="Search gifts..."
                     className="w-full pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-full bg-[#FFF8F6] focus:outline-none focus:ring-2 focus:ring-[#8B3A62]"
                   />
-
                   <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
                 </div>
 
+                {/* Mobile Links */}
                 {navLinks.map((link) => (
                   <Link
                     key={link.name}
                     to={link.path}
                     onClick={() => setIsMenuOpen(false)}
-                    className="block text-gray-700 hover:text-[#8B3A62] py-2 text-sm font-medium"
+                    className="block text-gray-700 hover:text-[#8B3A62] py-2 text-sm font-medium transition-colors duration-200"
                   >
                     {link.name}
                   </Link>
                 ))}
 
+                {/* Mobile Icons */}
                 <div className="flex justify-between pt-4 border-t text-sm">
-
                   <button className="flex items-center gap-2 text-gray-700">
-                    <Heart size={18} />
-                    Wishlist
+                    <Heart size={18} /> Wishlist
                   </button>
-
                   <button className="flex items-center gap-2 text-gray-700">
-                    <ShoppingCart size={18} />
-                    Cart
+                    <ShoppingCart size={18} /> Cart
                   </button>
                 </div>
 
+                {/* Mobile Login */}
                 <button className="w-full flex items-center justify-center gap-2 bg-[#8B3A62] text-white py-3 rounded-full text-sm font-medium">
-                  <User size={16} />
-                  Login / Register
+                  <User size={16} /> Login / Register
                 </button>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-
       </div>
     </nav>
   );
