@@ -38,7 +38,7 @@ export default function Navbar() {
 
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center bg-[#8B3A62]">
-              <span className="text-white text-lg sm:text-xl"></span>
+              <span className="text-white text-lg sm:text-xl">🎁</span>
             </div>
 
             <span className="text-lg sm:text-xl lg:text-2xl font-semibold text-[#8B3A62] tracking-tight">
@@ -47,7 +47,7 @@ export default function Navbar() {
           </Link>
 
          
-          <div className="hidden lg:flex items-center space-x-8 text-sm xl:text-base font-medium">
+          <div className="hidden md:flex items-center space-x-8 text-sm xl:text-base font-medium">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -59,7 +59,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="hidden lg:flex items-center space-x-5">
+          <div className="hidden md:flex items-center space-x-5">
 
             <div className="relative">
               <input
@@ -95,7 +95,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-2"
+            className="md:hidden p-2"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -108,7 +108,7 @@ export default function Navbar() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
-              className="lg:hidden overflow-hidden"
+              className="md:hidden overflow-hidden"
             >
               <div className="py-4 space-y-4 border-t">
 
