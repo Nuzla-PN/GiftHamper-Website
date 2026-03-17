@@ -213,14 +213,18 @@ export default function HomeSections() {
         </motion.section>
 
                               {/*CUSTOM HAMPER CTA  */}
-      {/* <motion.section
+       <motion.section
         data-section="custom"
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
         className="mt-20"
         >
-        <div className="bg-gradient-to-r from-[#8B3A62] to-[#D4AF37] rounded-3xl p-8 sm:p-12 flex flex-col lg:flex-row items-center justify-between gap-6 text-white shadow-xl">
+        <h2 className="text-3xl sm:text-4xl text-[#8B3A62] font-semibold">
+            Create Your Custom Hamper 
+            </h2>
+            
+        {/* <div className="bg-gradient-to-r from-[#8B3A62] to-[#D4AF37] rounded-3xl p-8 sm:p-12 flex flex-col lg:flex-row items-center justify-between gap-6 text-white shadow-xl">
             
             <div>
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-3">
@@ -235,8 +239,8 @@ export default function HomeSections() {
             Start Building
             </button>
 
-        </div>
-        </motion.section> */}
+        </div> */}
+        </motion.section> 
 
     </div>
   );
