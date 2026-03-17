@@ -236,7 +236,7 @@ export default function Navbar() {
                      className={`absolute top-full mt-2 z-[1000] w-[95vw] sm:w-[520px] max-w-[95vw] sm:max-w-[520px] bg-white rounded-xl shadow-2xl border border-gray-100 p-6
                      ${
                         menu.name === "Gift Types"
-                          ? "left-0 sm:left-0"
+                          ? "right-0 sm:right-0"
                           : menu.name === "Price Range"
                           ? "right-0 sm:right-0"
                           : "left-1/2 -translate-x-1/2"
