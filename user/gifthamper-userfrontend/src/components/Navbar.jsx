@@ -51,8 +51,11 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-  const handleClickOutside = () => setActiveDropdown(null);
+ useEffect(() => {
+  const handleClickOutside = (e) => {
+    setActiveDropdown(null);
+  };
+
   document.addEventListener("click", handleClickOutside);
   return () => document.removeEventListener("click", handleClickOutside);
 }, []);
@@ -211,10 +214,12 @@ export default function Navbar() {
             ].map((menu) => (
               <div key={menu.name} className="relative" onMouseEnter={() => !isMobile && setActiveDropdown(menu.name)} onMouseLeave={() => !isMobile && setActiveDropdown(null)}>
                 <button 
-                onClick={() =>
-                    isMobile &&
-                    setActiveDropdown(activeDropdown === menu.name ? null : menu.name)
-                  }
+                onClick={(e) => {
+                    e.stopPropagation(); 
+                    if (isMobile) {
+                      setActiveDropdown(activeDropdown === menu.name ? null : menu.name);
+                    }
+                  }}
                   className="flex items-center space-x-1.5 text-sm font-medium text-gray-700 hover:text-[#8B3A62] transition-colors py-4">
                   <span>{menu.name}</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === menu.name ? 'rotate-180' : ''}`} />
