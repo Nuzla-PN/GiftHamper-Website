@@ -52,7 +52,10 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-  const handleClickOutside = () => setActiveDropdown(null);
+  const handleClickOutside = (e) => {
+    setActiveDropdown(null);
+  };
+
   document.addEventListener("click", handleClickOutside);
   return () => document.removeEventListener("click", handleClickOutside);
 }, []);
@@ -194,7 +197,7 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      <div className="hidden lg:block">
+      <div className="block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-center space-x-10 h-14">
             <Link to="/" className="text-sm font-medium text-gray-700 hover:text-[#8B3A62] transition-colors">Home</Link>
@@ -207,12 +210,14 @@ export default function Navbar() {
               { name: 'Gift Types', items: giftTypeCategories },
               { name: 'Price Range', items: priceRangeCategories }
             ].map((menu) => (
-              <div key={menu.name} className="relative" onMouseEnter={() => setActiveDropdown(menu.name)} onMouseLeave={() => setActiveDropdown(null)}>
+              <div key={menu.name} className="relative" onMouseEnter={() => !isMobile && setActiveDropdown(menu.name)} onMouseLeave={() => !isMobile && setActiveDropdown(null)}>
                 <button 
-                onClick={() =>
-                    isMobile &&
-                    setActiveDropdown(activeDropdown === menu.name ? null : menu.name)
-                  }
+                  onClick={(e) => {
+                    e.stopPropagation(); 
+                    if (isMobile) {
+                      setActiveDropdown(activeDropdown === menu.name ? null : menu.name);
+                    }
+                  }}
                   className="flex items-center space-x-1.5 text-sm font-medium text-gray-700 hover:text-[#8B3A62] transition-colors py-4">
                   <span>{menu.name}</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === menu.name ? 'rotate-180' : ''}`} />
