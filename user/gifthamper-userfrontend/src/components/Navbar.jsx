@@ -37,6 +37,8 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [mobileActiveDropdown, setMobileActiveDropdown] = useState(null);
+  
  
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1024);
@@ -234,18 +236,18 @@ export default function Navbar() {
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.2 }}
                      className={`absolute top-full z-[1000] 
-                        w-[95vw] sm:w-[520px] max-w-[95vw] sm:max-w-[520px] 
-                        bg-white rounded-xl shadow-2xl border border-gray-100 p-6
+                          w-[95vw] 
+                          ${menu.name === "Price Range" 
+                            ? "sm:w-[420px] sm:max-w-[420px]" 
+                            : menu.name === "Recipients" 
+                            ? "sm:w-[520px] sm:max-w-[520px]" 
+                            : "sm:w-[620px] sm:max-w-[620px]"} 
+                          max-w-[95vw] 
+                          bg-white rounded-xl shadow-2xl border border-gray-100 p-6
 
-                                            ${
-                          menu.name === "Gift Types"
-                            ? "right-0 lg:left-1/2 lg:-translate-x-1/2"
-                            : menu.name === "Price Range"
-                            ? "right-0 lg:left-1/2 lg:-translate-x-1/2"
-                            : "left-1/2 -translate-x-1/2"
-                        }
-                      `}
-                    >
+                          ${ menu.name === "Gift Types" ? "right-0 sm:right-0" : menu.name === "Price Range" ? "left-0 sm:right-0" : "left-1/2 -translate-x-1/2" }
+                                              `}
+                        >
                       <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Shop by {menu.name}</h3>
                       <div className="grid grid-cols-2 gap-3">
                         {menu.items.map((category) => (
@@ -283,14 +285,66 @@ export default function Navbar() {
             className="lg:hidden overflow-hidden border-t border-gray-100"
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4">
-              <Link to="/" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Home</Link>
-              <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Occasions</Link>
-              <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Recipients</Link>
-              <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Festivals</Link>
-              <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Gift Types</Link>
-              {/* <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Price Range</Link> */}
-              <Link to="/custom-hamper" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Build Custom Hamper</Link>
+              {[
+    { name: 'Occasions', items: occasionsCategories },
+    { name: 'Recipients', items: recipientsCategories },
+    { name: 'Festivals', items: festivalsCategories },
+    { name: 'Gift Types', items: giftTypeCategories },
+    { name: 'Price Range', items: priceRangeCategories }
+  ].map((menu) => (
+    
+    <div key={menu.name} className="border-b border-gray-100">
+      
+      {/* HEADER */}
+      <button
+        onClick={() =>
+          setMobileActiveDropdown(
+            mobileActiveDropdown === menu.name ? null : menu.name
+          )
+        }
+        className="w-full flex items-center justify-between py-3 px-2 text-gray-700 font-medium"
+      >
+        <span>{menu.name}</span>
+        <ChevronDown
+          className={`w-4 h-4 transition-transform ${
+            mobileActiveDropdown === menu.name ? 'rotate-180' : ''
+          }`}
+        />
+      </button>
 
+      {/* DROPDOWN */}
+      <AnimatePresence>
+        {mobileActiveDropdown === menu.name && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden"
+          >
+            <div className="grid grid-cols-2 gap-2 pb-3 px-2">
+
+              {menu.items.map((item) => (
+                <Link
+                  key={item.title}
+                  to={item.link}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="flex items-center space-x-3 p-2 rounded-lg hover:bg-[#FFF8F6]"
+                >
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-[#F7E3DC]">
+                    <item.icon className="w-4 h-4 text-[#8B3A62]" />
+                  </div>
+                  <span className="text-sm text-gray-700">
+                    {item.title}
+                  </span>
+                </Link>
+              ))}
+
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  ))}
              
               <button className="w-full flex items-center justify-center space-x-2 px-6 py-3 rounded-full text-white transition-all mt-4" style={{ backgroundColor: '#8B3A62' }}>
                 <User className="w-4 h-4" />
