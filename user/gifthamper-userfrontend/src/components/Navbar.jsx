@@ -207,7 +207,7 @@ export default function Navbar() {
               { name: 'Gift Types', items: giftTypeCategories },
               { name: 'Price Range', items: priceRangeCategories }
             ].map((menu) => (
-              <div key={menu.name} className="relative" onMouseEnter={() => !isMobile && setActiveDropdown(menu.name)} onMouseLeave={() => !isMobile && setActiveDropdown(null)}>
+              <div key={menu.name} className="relative" onMouseEnter={() => setActiveDropdown(menu.name)} onMouseLeave={() => setActiveDropdown(null)}>
                 <button 
                 onClick={() =>
                     isMobile &&
