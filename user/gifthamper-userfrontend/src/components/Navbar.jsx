@@ -52,10 +52,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-  const handleClickOutside = (e) => {
-    setActiveDropdown(null);
-  };
-
+  const handleClickOutside = () => setActiveDropdown(null);
   document.addEventListener("click", handleClickOutside);
   return () => document.removeEventListener("click", handleClickOutside);
 }, []);
@@ -109,7 +106,7 @@ export default function Navbar() {
 
 
   return (
-<nav className={`sticky top-0 z-50 bg-white overflow-visible relative transition-all ${isScrolled ? 'shadow-md' : 'border-b'}`}>
+<nav className={`sticky top-0 z-50 bg-white overflow-visible transition-all ${isScrolled ? 'shadow-md' : 'border-b'}`}>
       
       
       <div className="border-b border-gray-100">
@@ -197,9 +194,9 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      <div className="block">
+      <div className="hidden lg:block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center space-x-10 h-14 relative">
+          <div className="flex items-center justify-center space-x-10 h-14">
             <Link to="/" className="text-sm font-medium text-gray-700 hover:text-[#8B3A62] transition-colors">Home</Link>
 
             
@@ -212,12 +209,10 @@ export default function Navbar() {
             ].map((menu) => (
               <div key={menu.name} className="relative" onMouseEnter={() => !isMobile && setActiveDropdown(menu.name)} onMouseLeave={() => !isMobile && setActiveDropdown(null)}>
                 <button 
-                  onClick={(e) => {
-                    e.stopPropagation(); 
-                    if (isMobile) {
-                      setActiveDropdown(activeDropdown === menu.name ? null : menu.name);
-                    }
-                  }}
+                onClick={() =>
+                    isMobile &&
+                    setActiveDropdown(activeDropdown === menu.name ? null : menu.name)
+                  }
                   className="flex items-center space-x-1.5 text-sm font-medium text-gray-700 hover:text-[#8B3A62] transition-colors py-4">
                   <span>{menu.name}</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === menu.name ? 'rotate-180' : ''}`} />
@@ -231,7 +226,8 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full left-1/2 -translate-x-1/2 z-[999] w-[90vw] sm:w-[520px] max-h-[70vh] overflow-y-auto bg-white rounded-xl shadow-2xl border border-gray-100 p-6">
+                     className={`absolute top-full left-1/2 -translate-x-1/2 w-[90vw] sm:w-[520px] max-h-[70vh] overflow-y-auto scrollbar-thin bg-white rounded-xl shadow-2xl border border-gray-100 p-6`}
+                    >
                       <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Shop by {menu.name}</h3>
                       <div className="grid grid-cols-2 gap-3">
                         {menu.items.map((category) => (
@@ -274,7 +270,7 @@ export default function Navbar() {
               <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Recipients</Link>
               <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Festivals</Link>
               <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Gift Types</Link>
-              <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Price Range</Link>
+              {/* <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Price Range</Link> */}
               <Link to="/custom-hamper" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Build Custom Hamper</Link>
 
              
