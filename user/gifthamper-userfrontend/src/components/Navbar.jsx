@@ -109,7 +109,7 @@ export default function Navbar() {
 
 
   return (
-<nav className={`sticky top-0 z-50 bg-white overflow-visible transition-all ${isScrolled ? 'shadow-md' : 'border-b'}`}>
+<nav className={`sticky top-0 z-50 bg-white overflow-visible relative transition-all ${isScrolled ? 'shadow-md' : 'border-b'}`}>
       
       
       <div className="border-b border-gray-100">
@@ -199,7 +199,7 @@ export default function Navbar() {
 
       <div className="block">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center space-x-10 h-14">
+          <div className="flex items-center justify-center space-x-10 h-14 relative">
             <Link to="/" className="text-sm font-medium text-gray-700 hover:text-[#8B3A62] transition-colors">Home</Link>
 
             
@@ -231,8 +231,7 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.2 }}
-                     className={`absolute top-full left-1/2 -translate-x-1/2 w-[90vw] sm:w-[520px] max-h-[70vh] overflow-y-auto scrollbar-thin bg-white rounded-xl shadow-2xl border border-gray-100 p-6`}
-                    >
+                      className="absolute top-full left-1/2 -translate-x-1/2 z-[999] w-[90vw] sm:w-[520px] max-h-[70vh] overflow-y-auto bg-white rounded-xl shadow-2xl border border-gray-100 p-6">
                       <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Shop by {menu.name}</h3>
                       <div className="grid grid-cols-2 gap-3">
                         {menu.items.map((category) => (
