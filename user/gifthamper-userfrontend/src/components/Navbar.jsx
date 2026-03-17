@@ -175,9 +175,11 @@ export default function Navbar() {
       <AnimatePresence>
         {searchOpen && (
           <motion.div
+          onClick={(e) => e.stopPropagation()} 
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
             className="lg:hidden border-b border-gray-100 overflow-hidden"
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
