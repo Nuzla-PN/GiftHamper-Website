@@ -235,17 +235,10 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.2 }}
-                     className={`absolute top-full z-[1000] 
-                          w-[95vw] 
-                          ${menu.name === "Price Range" 
-                            ? "sm:w-[420px] sm:max-w-[420px]" 
-                            : menu.name === "Recipients" 
-                            ? "sm:w-[520px] sm:max-w-[520px]" 
-                            : "sm:w-[620px] sm:max-w-[620px]"} 
-                          max-w-[95vw] 
-                          bg-white rounded-xl shadow-2xl border border-gray-100 p-6
+                     className={`absolute top-full z-[1000] w-[95vw] sm:w-[520px] max-w-[95vw] sm:max-w-[520px] bg-white rounded-xl shadow-2xl border border-gray-100 p-6
+                          
 
-                          ${ menu.name === "Gift Types" ? "right-0 sm:right-0" : menu.name === "Price Range" ? "left-0 sm:right-0" : "left-1/2 -translate-x-1/2" }
+                          ${ menu.name === "Gift Types" ? "right-0 sm:right-0" : menu.name === "Price Range" ? "right-0 sm:right-0" : "left-1/2 -translate-x-1/2" }
                                               `}
                         >
                       <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Shop by {menu.name}</h3>
