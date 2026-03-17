@@ -36,8 +36,15 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
-
+  const [isMobile, setIsMobile] = useState(false);
  
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
@@ -93,7 +100,7 @@ export default function Navbar() {
 
 
   return (
-    <nav className={`sticky top-0 z-50 bg-white transition-shadow duration-300 ${isScrolled ? 'shadow-md' : 'border-b border-gray-100'}`}>
+<nav className={`sticky top-0 z-50 bg-white overflow-visible transition-all ${isScrolled ? 'shadow-md' : 'border-b'}`}>
       
       
       <div className="border-b border-gray-100">
@@ -194,7 +201,7 @@ export default function Navbar() {
               { name: 'Gift Types', items: giftTypeCategories },
               { name: 'Price Range', items: priceRangeCategories }
             ].map((menu) => (
-              <div key={menu.name} className="relative" onMouseEnter={() => setActiveDropdown(menu.name)} onMouseLeave={() => setActiveDropdown(null)}>
+              <div key={menu.name} className="relative" onMouseEnter={() => !isMobile && setActiveDropdown(menu.name)} onMouseLeave={() => !isMobile && setActiveDropdown(null)}>
                 <button className="flex items-center space-x-1.5 text-sm font-medium text-gray-700 hover:text-[#8B3A62] transition-colors py-4">
                   <span>{menu.name}</span>
                   <ChevronDown className={`w-4 h-4 transition-transform ${activeDropdown === menu.name ? 'rotate-180' : ''}`} />
@@ -207,7 +214,7 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
                       transition={{ duration: 0.2 }}
-                      className={`absolute left-1/2 transform -translate-x-1/2 mt-0 w-[520px] bg-white rounded-xl shadow-2xl border border-gray-100 p-8`}
+                     className={`absolute top-full left-1/2 -translate-x-1/2 w-[90vw] sm:w-[520px] max-h-[70vh] overflow-y-auto scrollbar-thin bg-white rounded-xl shadow-2xl border border-gray-100 p-6`}
                     >
                       <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wide">Shop by {menu.name}</h3>
                       <div className="grid grid-cols-2 gap-3">
@@ -250,7 +257,8 @@ export default function Navbar() {
               <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Occasions</Link>
               <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Recipients</Link>
               <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Festivals</Link>
-              <Link to="/products?category=corporate" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Corporate Gifts</Link>
+              <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Gift Types</Link>
+              <Link to="/products" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Price Range</Link>
               <Link to="/custom-hamper" className="block py-3 text-gray-700 hover:text-[#8B3A62] transition-colors font-medium" onClick={() => setIsMenuOpen(false)}>Build Custom Hamper</Link>
 
              
