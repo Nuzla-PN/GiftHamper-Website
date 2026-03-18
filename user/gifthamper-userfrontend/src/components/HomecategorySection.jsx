@@ -3,6 +3,10 @@ import {
   Cake, Heart, Sparkles, Baby, GraduationCap, Home,
   Users, Briefcase, Crown, Gift, ArrowRight
 } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import { motion } from "framer-motion";
 import CategoryCard from "./CategoryCard.jsx";
 import ProductCard from "./ProductCard.jsx";
@@ -13,25 +17,34 @@ import SellerCard from "./SellerCard.jsx";
 export default function HomeSections() {
 // const [filters, setFilters] = useState({});
 //  const [view, setView] = useState("grid-3");
+
   const occasions = [
-    { title: "Birthday", icon: Cake },
-    { title: "Anniversary", icon: Heart },
-    { title: "Wedding", icon: Sparkles },
-    { title: "Baby Shower", icon: Baby },
-    { title: "Graduation", icon: GraduationCap },
-    { title: "Housewarming", icon: Home },
+    { id :'1',title: "Birthday", icon: Cake,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+    { id :'2',title: "Anniversary", icon: Heart,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+    { id :'3',title: "Wedding", icon: Sparkles,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+    { id :'4',title: "Baby Shower", icon: Baby,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+    { id :'5',title: "Graduation", icon: GraduationCap,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+    { id :'6',title: "Housewarming", icon: Home,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
   ];
 
   const recipients = [
-    { title: "For Him", icon: Users },
-    { title: "For Her", icon: Users },
-    { title: "For Kids", icon: Baby },
-    { title: "For Parents", icon: Users },
-    { title: "For Couples", icon: Heart },
-    { title: "Corporate", icon: Briefcase },
+    { id:'1',title: "For Him", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+    { id:'2',title: "For Her", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+    { id:'3',title: "For Kids", icon: Baby,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+    { id:'4',title: "For Parents", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'},
+    { id:'5',title: "For Couples", icon: Heart,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+    { id:'6',title: "Corporate", icon: Briefcase,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
   ];
 
   const products = [1, 2, 3, 4];
+  const festivals = [
+    { id:'1',title: "Christmas", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+    { id:'2',title: "New year", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+    { id:'3',title: "Mothers Day", icon: Baby,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+    { id:'4',title: "Diwali", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'},
+    { id:'5',title: "Valentines Day", icon: Heart,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+    { id:'6',title: "Fathers Day", icon: Briefcase,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+  ];
   const sellers = [
     { id: '1', name: 'jjkjkj', rating: 5, reviews: 450, productsCount: 85 },
     { id: '2', name: 'bjkjhkj', rating: 5, reviews: 320, productsCount: 42 },
@@ -52,9 +65,9 @@ export default function HomeSections() {
         transition={{ duration: 0.6 }}
         className="mt-16 sm:mt-20 lg:mt-24 px-4 sm:px-6 lg:px-8"
         >
-        
-        <div className="text-center mb-10 sm:mb-12 lg:mb-14 max-w-2xl mx-auto">
-            
+        <div className="relative mb-10 sm:mb-12 lg:mb-14">
+        <div className="text-center max-w-2xl mx-auto">
+             
             <h2
             className="text-2xl sm:text-3xl lg:text-4xl font-semibold mb-3 text-[#8B3A62]"
             style={{ fontFamily: "var(--font-heading)" }}
@@ -65,9 +78,25 @@ export default function HomeSections() {
             <p className="text-gray-600 text-sm sm:text-base lg:text-lg leading-relaxed">
             Find the perfect gift for every celebration
             </p>
-
+                        {/* desktop */}
+            <Link
+            to="/products?category=occasions"
+            className="mt-4 flex sm:hidden justify-center items-center text-[#8B3A62] font-medium text-sm hover:underline"
+            >
+            View All
+            <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
         </div>
-
+                         {/* mobile */}
+            <Link
+                to="/products?category=occasions"
+                className="hidden sm:flex items-center absolute right-4 top-1/2 -translate-y-1/2 text-[#8B3A62] font-medium text-sm hover:underline"
+            >
+                View All
+                <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+        </div>
+                {/* grid */}
         
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-5 lg:gap-6">
             
@@ -87,11 +116,11 @@ export default function HomeSections() {
                 <CategoryCard
                 title={occasion.title}
                 icon={occasion.icon}
+                image={occasion.image}
+                href={`products?occasion=${occasion.title}`}
                 />
             </motion.div>
-
             ))}
-
         </div>
         </motion.section>
 
@@ -104,13 +133,34 @@ export default function HomeSections() {
             transition={{ duration: 0.6 }}
             className="mt-20"
             >
-            <div className="text-center mb-12">
+            
+            <div className="relative mb-10 sm:mb-12 lg:mb-14">
+            <div className="text-center max-w-2xl mx-auto">
                 <h2 className="text-3xl sm:text-4xl mb-4 text-[#8B3A62] font-semibold">
                 Shop by Recipient
                 </h2>
                 <p className="text-gray-600 text-base sm:text-lg">
                 Curated gifts for everyone you care about
                 </p>
+
+                            {/* desktop */}
+            <Link
+            to="/products?category=recipients"
+            className="mt-4 flex sm:hidden justify-center items-center text-[#8B3A62] font-medium text-sm hover:underline"
+            >
+            View All
+            <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
+            </div>
+            
+                         {/* mobile */}
+            <Link
+                to="/products?category=recipients"
+                className="hidden sm:flex items-center absolute right-4 top-1/2 -translate-y-1/2 text-[#8B3A62] font-medium text-sm hover:underline"
+            >
+                View All
+                <ArrowRight className="ml-2 w-4 h-4" />
+            </Link>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -121,7 +171,7 @@ export default function HomeSections() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                 >
-                    <CategoryCard title={item.title} icon={item.icon} />
+                    <CategoryCard title={item.title} icon={item.icon} image={item.image} />
                 </motion.div>
                 ))}
             </div>
@@ -141,10 +191,12 @@ export default function HomeSections() {
             <h2 className="text-3xl sm:text-4xl text-[#8B3A62] font-semibold">
             Featured Hampers
             </h2>
-
-            <button className="text-[#8B3A62] font-medium hover:underline">
-            View All →
-            </button>
+            
+            <Link to ="/products?category=featured"
+            className="mt-4 flex sm:justify-center items-center text-[#8B3A62] font-medium text-sm hover:underline">
+            View All 
+            <ArrowRight className="ml-2-w-4 h-4"/>
+            </Link>
         </div>
          {/* <div className="px-4 sm:px-6 lg:px-8 mt-8">
         <ProductToolbar setView={setView} />
@@ -168,7 +220,7 @@ export default function HomeSections() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
             >
-                {/* <ProductCard product={product} /> */}
+                 <ProductCard product={product} /> 
             </motion.div>
             ))}
         </div>
@@ -183,6 +235,7 @@ export default function HomeSections() {
         transition={{ duration: 0.6 }}
         className="mt-20 bg-[#FFF8F6] py-12 px-4 sm:px-8 rounded-2xl"
         >
+            
         <div className="text-center mb-10">
             <h2 className="text-3xl sm:text-4xl text-[#8B3A62] font-semibold">
             Festival Specials 
@@ -192,18 +245,39 @@ export default function HomeSections() {
             </p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {products.map((product, index) => (
-            <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+            <Swiper
+                modules={[Autoplay ]}
+               
+                spaceBetween={16}
+                slidesPerView={2}
+                className="px-2 sm:px-4" 
+                autoplay={{ delay: 3000, disableOnInteraction: false }}
+                breakpoints={{
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 3 },
+                1024: { slidesPerView: 4 },
+                }}
             >
-                {/* <ProductCard product={product} /> */}
-            </motion.div>
-            ))}
-        </div>
+                {festivals.map((item, index) => (
+                <SwiperSlide key={item.title}>
+                
+                <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                >
+                <CategoryCard
+                    title={item.title}
+                    icon={item.icon}
+                    image={item.image}
+                    href={`/products?festival=${item.title}`}
+                     className="h-48 sm:h-56 lg:h-64"
+                />
+                </motion.div>
+
+             </SwiperSlide>
+                ))}
+            </Swiper>
         </motion.section>
 
                                 {/*  TOP SELLERS */}

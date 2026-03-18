@@ -2,24 +2,27 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 export default function CategoryCard({
+  id,
   title,
   icon: Icon,
   href = "/products",
   image,
+  className = "",
 }) {
   return (
     <Link to={href} className="block">
       <motion.div
         whileHover={{ scale: 1.04 }}
         whileTap={{ scale: 0.97 }}
-        className="
-          relative rounded-xl sm:rounded-2xl 
-          shadow-md hover:shadow-xl 
-          overflow-hidden cursor-pointer 
-          transition-all duration-300 
-          h-36 sm:h-44 lg:h-48 
-          group bg-[#F7E3DC]
-        "
+        className={`
+        relative rounded-xl sm:rounded-2xl 
+        shadow-md hover:shadow-xl 
+        overflow-hidden cursor-pointer 
+        transition-all duration-300 
+        h-36 sm:h-44 lg:h-48   // default height
+        ${className}           
+        group bg-[#F7E3DC]
+      `}
       >
         
         {image ? (
@@ -39,10 +42,31 @@ export default function CategoryCard({
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
            
-            <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 lg:p-5">
-              <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-white">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+  
+              {Icon && (
+                  <motion.div
+                    className="mb-1 sm:mb-2"
+                    
+                    whileHover={{
+                      scale: 1.2,
+                      y: -3,
+                    }}
+
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 12,
+                    }}
+                  >
+                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
+                  </motion.div>
+                )}
+
+              <h3 className="text-xs sm:text-sm lg:text-base font-medium text-center px-2">
                 {title}
               </h3>
+
             </div>
           </div>
         ) : (
