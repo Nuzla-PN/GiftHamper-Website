@@ -69,10 +69,9 @@ export default function ProductCard({
           <div
             className="
               absolute bottom-0 left-0 right-0 
-
-              translate-y-0 sm:translate-y-full
-              sm:group-hover:translate-y-0
-
+              translate-y-0                
+              lg:translate-y-full       
+              lg:group-hover:translate-y-0
               transition-transform duration-300
             "
           >
