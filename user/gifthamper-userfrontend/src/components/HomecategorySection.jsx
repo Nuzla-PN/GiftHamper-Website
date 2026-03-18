@@ -36,7 +36,13 @@ export default function HomeSections() {
     { id:'6',title: "Corporate", icon: Briefcase,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
   ];
 
-  const products = [1, 2, 3, 4];
+  const products = [
+    { id:'1',title: "Product Name", sellerName:"Seller Name",image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'},
+    { id:'2',title: "Product Name", sellerName:"Seller Name" },
+    { id:'4',title: "Product Name", sellerName:"Seller Name"},
+    { id:'5',title: "Product Name", sellerName:"Seller Name" },
+    { id:'6',title: "Product Name", sellerName:"Seller Name" },
+  ];
   const festivals = [
     { id:'1',title: "Christmas", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
     { id:'2',title: "New year", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
@@ -202,12 +208,12 @@ export default function HomeSections() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map((product, index) => (
             <motion.div
-                key={index}
+                key={product.title}
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
             >
-                 <ProductCard product={product} /> 
+                 <ProductCard title={product.title} sellerName={product.sellerName} image={product.image} /> 
             </motion.div>
             ))}
         </div>
