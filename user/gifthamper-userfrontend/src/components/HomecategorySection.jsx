@@ -6,9 +6,13 @@ import {
 import { motion } from "framer-motion";
 import CategoryCard from "./CategoryCard.jsx";
 import ProductCard from "./ProductCard.jsx";
+import { useState } from "react";
+import SellerCard from "./SellerCard.jsx";
+
 
 export default function HomeSections() {
-
+// const [filters, setFilters] = useState({});
+//  const [view, setView] = useState("grid-3");
   const occasions = [
     { title: "Birthday", icon: Cake },
     { title: "Anniversary", icon: Heart },
@@ -28,6 +32,12 @@ export default function HomeSections() {
   ];
 
   const products = [1, 2, 3, 4];
+  const sellers = [
+    { id: '1', name: 'jjkjkj', rating: 5, reviews: 450, productsCount: 85 },
+    { id: '2', name: 'bjkjhkj', rating: 5, reviews: 320, productsCount: 42 },
+    { id: '3', name: 'ft5ghyh.', rating: 5, reviews: 510, productsCount: 128 },
+    { id: '4', name: 'yhuju', rating: 5, reviews: 680, productsCount: 156 },
+  ];    //static data make dynamic later(ie backend)
 
  
   return (
@@ -74,10 +84,10 @@ export default function HomeSections() {
                 ease: "easeOut",
                 }}
             >
-                {/* <CategoryCard
+                <CategoryCard
                 title={occasion.title}
                 icon={occasion.icon}
-                /> */}
+                />
             </motion.div>
 
             ))}
@@ -111,12 +121,13 @@ export default function HomeSections() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                 >
-                    {/* <CategoryCard title={item.title} icon={item.icon} /> */}
+                    <CategoryCard title={item.title} icon={item.icon} />
                 </motion.div>
                 ))}
             </div>
     </motion.section>
 
+     
                          {/*  FEATURED HAMPERS */}
       <motion.section
         data-section="featured"
@@ -125,6 +136,7 @@ export default function HomeSections() {
         transition={{ duration: 0.6 }}
         className="mt-20"
         >
+            
         <div className="flex justify-between items-center mb-10">
             <h2 className="text-3xl sm:text-4xl text-[#8B3A62] font-semibold">
             Featured Hampers
@@ -134,6 +146,19 @@ export default function HomeSections() {
             View All →
             </button>
         </div>
+         {/* <div className="px-4 sm:px-6 lg:px-8 mt-8">
+        <ProductToolbar setView={setView} />
+
+        <div className="flex gap-6 mt-6">
+          <div className="hidden lg:block w-[260px]">
+            <FilterSidebar onFilterChange={setFilters} />
+          </div>
+
+          <div className="flex-1">
+            <ProductGrid filters={filters} view={view} />
+          </div>
+        </div>
+      </div> */}
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map((product, index) => (
@@ -148,6 +173,7 @@ export default function HomeSections() {
             ))}
         </div>
     </motion.section>
+    
 
                         {/* FESTIVAL SPECIALS*/}
       <motion.section
@@ -199,16 +225,16 @@ export default function HomeSections() {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {/* {sellers.map((seller, index) => ( */}
+            {sellers.map((seller, index) => (
             <motion.div
-                // key={index}
+                key={seller.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                // transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.1 }}
             >
-                {/* <SellerCard seller={seller} /> */}
+                <SellerCard {...seller} />
             </motion.div>
-            {/* ))} */}
+             ))} 
         </div>
         </motion.section>
 
