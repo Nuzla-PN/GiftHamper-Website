@@ -13,19 +13,19 @@ export default function ProductCard({
   reviews = 0,
 }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
+  // const [isHovered, setIsHovered] = useState(false);
 
   return (
     <motion.div
       whileHover={{ y: -6 }}
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
+      // onHoverStart={() => setIsHovered(true)}
+      // onHoverEnd={() => setIsHovered(false)}
       className="
         bg-white rounded-xl sm:rounded-2xl 
         shadow-md hover:shadow-xl 
         overflow-hidden 
         transition-all duration-300 
-        group
+        group relative
       "
     >
       {/* IMAGE SECTION */}
@@ -66,28 +66,31 @@ export default function ProductCard({
           </button>
 
           {/* Add to Cart */}
-          <motion.button
-            initial={{ y: 80 }}
-            animate={{ y: isHovered ? 0 : 80 }}
-            transition={{ duration: 0.3 }}
-            onClick={(e) => e.preventDefault()}
+          <div
             className="
               absolute bottom-0 left-0 right-0 
-              text-white py-2 sm:py-3 
-              flex items-center justify-center gap-2 
-              text-sm sm:text-base 
-              font-medium 
-              bg-[#8B3A62] 
-              hover:opacity-90
-              translate-y-0 sm:translate-y-[100%]   
-              sm:group-hover:translate-y-0  
+
+              translate-y-0 sm:translate-y-full
+              sm:group-hover:translate-y-0
+
+              transition-transform duration-300
             "
           >
-            <button className="sm:hidden absolute bottom-3 right-3 bg-[#8B3A62] text-white p-2 rounded-full shadow-lg">
-  <ShoppingCart className="w-4 h-4" />
-</button>
-            Add to Cart
-          </motion.button>
+            <button
+              onClick={(e) => e.preventDefault()}
+              className="
+                w-full bg-[#8B3A62] text-white 
+                py-2 sm:py-3 
+                flex items-center justify-center gap-2 
+                text-sm sm:text-base 
+                font-medium 
+                hover:opacity-90
+              "
+            >
+              <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
+              Add to Cart
+            </button>
+          </div>
 
         </div>
       </Link>
