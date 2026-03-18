@@ -79,9 +79,13 @@ export default function ProductCard({
               font-medium 
               bg-[#8B3A62] 
               hover:opacity-90
+              translate-y-0 sm:translate-y-[100%]   
+              sm:group-hover:translate-y-0  
             "
           >
-            <ShoppingCart className="w-4 h-4 sm:w-5 sm:h-5" />
+            <button className="sm:hidden absolute bottom-3 right-3 bg-[#8B3A62] text-white p-2 rounded-full shadow-lg">
+  <ShoppingCart className="w-4 h-4" />
+</button>
             Add to Cart
           </motion.button>
 

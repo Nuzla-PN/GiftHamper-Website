@@ -198,20 +198,7 @@ export default function HomeSections() {
             <ArrowRight className="ml-2-w-4 h-4"/>
             </Link>
         </div>
-         {/* <div className="px-4 sm:px-6 lg:px-8 mt-8">
-        <ProductToolbar setView={setView} />
-
-        <div className="flex gap-6 mt-6">
-          <div className="hidden lg:block w-[260px]">
-            <FilterSidebar onFilterChange={setFilters} />
-          </div>
-
-          <div className="flex-1">
-            <ProductGrid filters={filters} view={view} />
-          </div>
-        </div>
-      </div> */}
-
+         
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map((product, index) => (
             <motion.div
