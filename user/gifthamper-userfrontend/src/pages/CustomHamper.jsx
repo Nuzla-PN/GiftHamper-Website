@@ -431,28 +431,28 @@ export default function StepProgress() {
         </div>
 
         {/* STEP PROGRESS */}
-        <div className="flex justify-center mb-10 flex-wrap gap-4">
+        <div className="flex items-center justify-start md:justify-center min-w-max gap-4 px-2">
           {steps.map((step, index) => (
             <div key={step.number} className="flex items-center">
-              <div className="flex flex-col items-center">
+              <div className="flex flex-col items-center min-w-[80px]">
                 <div
-                  className={`w-14 h-14 rounded-full flex items-center justify-center ${
+                  className={`w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center ${
                     currentStep >= step.number
                       ? "bg-[#8B3A62] text-white"
                       : "bg-gray-200"
                   }`}
                 >
                   {currentStep > step.number ? (
-                    <Check />
+                    <Check className="w-4 h-4 md:w-5 md:h-5"/>
                   ) : (
-                    <step.icon />
+                    <step.icon className="w-4 h-4 md:w-5 md:h-5" />
                   )}
                 </div>
-                <span className="text-sm mt-1">{step.title}</span>
+                <span className="text-xs md:text-sm mt-1 text-center">{step.title}</span>
               </div>
 
               {index < steps.length - 1 && (
-                <div className="w-10 h-1 bg-gray-300 mx-2" />
+                <div className="w-6 md:w-10 h-1 bg-gray-300 mx-1 md:mx-2" />
               )}
             </div>
           ))}
@@ -519,7 +519,7 @@ export default function StepProgress() {
             
             {currentStep === 2 && (
               <div>
-              <div className="text-center mb-8">
+              <div className="text-center mb-8 mt-8">
                 <h2 className="text-3xl text-[#8B3A62] mb-2">
                   Select Your Items
                 </h2>
@@ -655,7 +655,7 @@ export default function StepProgress() {
               />
             )} */}
             {currentStep === 3 && (
-              <div className="max-w-3xl mx-auto">
+              <div className="max-w-3xl mx-auto mt-8">
                 <h2 className="text-3xl text-center mb-8 text-[#8B3A62]">
                   Add a Personal Message
                 </h2>
