@@ -37,11 +37,11 @@ export default function HomeSections() {
   ];
 
   const products = [
-    { id:'1',title: "Product Name", sellerName:"Seller Name",image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'},
-    { id:'2',title: "Product Name", sellerName:"Seller Name" },
-    { id:'4',title: "Product Name", sellerName:"Seller Name"},
-    { id:'5',title: "Product Name", sellerName:"Seller Name" },
-    { id:'6',title: "Product Name", sellerName:"Seller Name" },
+    { id:'1',title: "Product Name", sellerName:"Seller Shop",image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400',price:2000,rating: 4, reviews: 450},
+    { id:'2',title: "Product Name", sellerName:"Seller Shop" },
+    { id:'4',title: "Product Name", sellerName:"Seller Shop"},
+    { id:'5',title: "Product Name", sellerName:"Seller Shop" },
+    { id:'6',title: "Product Name", sellerName:"Seller Shop" },
   ];
   const festivals = [
     { id:'1',title: "Christmas", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
@@ -177,7 +177,7 @@ export default function HomeSections() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                 >
-                    <CategoryCard title={item.title} icon={item.icon} image={item.image} />
+                    <CategoryCard {...item} />
                 </motion.div>
                 ))}
             </div>
@@ -213,7 +213,7 @@ export default function HomeSections() {
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
             >
-                 <ProductCard title={product.title} sellerName={product.sellerName} image={product.image} /> 
+                 <ProductCard {...product}/> 
             </motion.div>
             ))}
         </div>
@@ -325,9 +325,11 @@ export default function HomeSections() {
             </p>
             </div>
 
-            <button className="bg-white text-[#8B3A62] px-6 py-3 rounded-full font-medium hover:scale-105 transition">
+            <Link to="/custom-hamper"
+            className="bg-white text-[#8B3A62] px-6 py-3 rounded-full font-medium hover:scale-105 transition"
+            >
             Start Building
-            </button>
+            </Link>
 
         </div>
         </motion.section> 
