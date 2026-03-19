@@ -365,6 +365,7 @@ export default function StepProgress() {
       title: "Product Name",
       sellerName: "Seller Shop",
       image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
+      
       price: 1000,
       rating: 4.5,
       reviews: 120,
@@ -375,7 +376,8 @@ export default function StepProgress() {
       id: "2",
       title: "Product Name",
       sellerName: "Seller shop",
-      image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400",
+      image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
+      // image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400",
       price: 2000,
       rating: 4.8,
       reviews: 80,

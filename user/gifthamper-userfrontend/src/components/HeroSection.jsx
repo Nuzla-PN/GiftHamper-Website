@@ -6,6 +6,7 @@ import { ChevronDown } from "lucide-react";
 import "swiper/css";
 
 import "swiper/css/pagination";
+import { Link } from "react-router-dom";
 
 export default function HeroSection() {
 
@@ -87,9 +88,11 @@ export default function HeroSection() {
                         Shop Now
                       </button>
 
+                      <Link to="/custom-hamper">
                       <button className="bg-white text-black px-6 py-3 rounded-full text-sm md:text-base hover:bg-gray-200 transition shadow-lg">
                         Build Custom Hamper
                       </button>
+                      </Link>
 
                     </div>
 
