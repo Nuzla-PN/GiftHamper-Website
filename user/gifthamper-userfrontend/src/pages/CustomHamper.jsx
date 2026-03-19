@@ -431,7 +431,8 @@ export default function StepProgress() {
         </div>
 
         {/* STEP PROGRESS */}
-        <div className="flex items-center justify-start md:justify-center min-w-max gap-4 px-2">
+        <div className="mb-10 overflow-x-auto">
+        <div className="flex items-center justify-start md:justify-center w-full gap-4 px-2">
           {steps.map((step, index) => (
             <div key={step.number} className="flex items-center">
               <div className="flex flex-col items-center min-w-[80px]">
@@ -456,6 +457,7 @@ export default function StepProgress() {
               )}
             </div>
           ))}
+        </div>
         </div>
 
         {/* STEP CONTENT */}
