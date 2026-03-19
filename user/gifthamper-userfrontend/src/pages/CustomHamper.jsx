@@ -697,8 +697,8 @@ export default function StepProgress() {
 
                       <button
                         onClick={() => {
-                          setMainCategory("All");
-                          setSubCategory("All");
+                          setTempFilters({});
+                          setAppliedFilters({});
                           setPriceRange([0, 5000]);
                         }}
                         className="flex-1 border border-gray-300 py-2 rounded text-sm"
@@ -708,9 +708,8 @@ export default function StepProgress() {
 
                       <button
                        onClick={() => {
-                          setTempFilters({});
-                          setAppliedFilters({});
-                          setPriceRange([0, 5000]);
+                          setAppliedFilters(tempFilters); 
+                          setShowFilters(false);//closes side bar
                         }}
                         className="flex-1 bg-[#8B3A62] text-white py-2 rounded text-sm"
                       >
