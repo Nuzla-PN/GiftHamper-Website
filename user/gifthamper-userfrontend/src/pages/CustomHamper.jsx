@@ -455,7 +455,7 @@ export default function StepProgress() {
           >
 
             {/* STEP ITEM */}
-            <div className="flex flex-col items-center w-20 mt-5">
+            <div className="flex flex-col items-center w-20 mt-3">
 
               {/* CIRCLE */}
               <div
