@@ -289,7 +289,7 @@
 //   );
 // }
 
-import { useState } from "react";
+import { useState,useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Check,
@@ -400,6 +400,17 @@ export default function StepProgress() {
   return categoryMatch && priceMatch;
   });
   
+  const stepRefs = useRef([]);
+
+    useEffect(() => {
+      if (stepRefs.current[currentStep - 1]) {
+        stepRefs.current[currentStep - 1].scrollIntoView({
+          behavior: "smooth",
+          inline: "center",
+          block: "nearest",
+        });
+      }
+    }, [currentStep]);
 
   // ✅ SELECT ITEM
   const toggleItem = (id) => {
@@ -430,35 +441,55 @@ export default function StepProgress() {
           </p>
         </div>
 
+
         {/* STEP PROGRESS */}
+        
         <div className="mb-10 overflow-x-auto">
         <div className="flex items-center justify-start md:justify-center w-full gap-4 px-2">
-          {steps.map((step, index) => (
-            <div key={step.number} className="flex items-center">
-              <div className="flex flex-col items-center min-w-[80px]">
-                <div
-                  className={`w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center ${
-                    currentStep >= step.number
-                      ? "bg-[#8B3A62] text-white"
-                      : "bg-gray-200"
-                  }`}
-                >
-                  {currentStep > step.number ? (
-                    <Check className="w-4 h-4 md:w-5 md:h-5"/>
-                  ) : (
-                    <step.icon className="w-4 h-4 md:w-5 md:h-5" />
-                  )}
-                </div>
-                <span className="text-xs md:text-sm mt-1 text-center">{step.title}</span>
+
+        {steps.map((step, index) => (
+          <div
+            key={step.number}
+            ref={(el) => (stepRefs.current[index] = el)}
+            className="flex items-center flex-shrink-0"
+          >
+
+            {/* STEP ITEM */}
+            <div className="flex flex-col items-center w-20">
+
+              {/* CIRCLE */}
+              <div
+                className={`w-10 h-10 md:w-14 md:h-14 rounded-full flex items-center justify-center transition-all duration-300 ${
+                  currentStep >= step.number
+                    ? "bg-[#8B3A62] text-white"
+                    : "bg-gray-200"
+                } ${
+                  currentStep === step.number
+                    ? "scale-110 shadow-lg"
+                    : ""
+                }`}
+              >
+                {currentStep > step.number ? (
+                  <Check className="w-4 h-4 md:w-5 md:h-5" />
+                ) : (
+                  <step.icon className="w-4 h-4 md:w-5 md:h-5" />
+                )}
               </div>
 
-              {index < steps.length - 1 && (
-                <div className="w-6 md:w-10 h-1 bg-gray-300 mx-1 md:mx-2" />
-              )}
+              {/* TEXT */}
+              <span className="text-xs md:text-sm mt-1 text-center">
+                {step.title}
+              </span>
             </div>
-          ))}
+
+            {/* LINE */}
+            {index < steps.length - 1 && (
+              <div className="w-6 md:w-10 h-1 bg-gray-300 mx-1 md:mx-2" />
+            )}
+          </div>
+        ))}
         </div>
-        </div>
+      </div>
 
         {/* STEP CONTENT */}
   <AnimatePresence mode="wait">
