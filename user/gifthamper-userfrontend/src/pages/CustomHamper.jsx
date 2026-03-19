@@ -338,7 +338,7 @@ export default function StepProgress() {
       size: '12" x 8"',
       capacity: "6-10 items",
       price: 300,
-      // image: "https://images.unsplash.com/photo-1759563871371-eb0ec31824a6?w=400",
+      image: "https://images.unsplash.com/photo-1759563871371-eb0ec31824a6?w=400",
     },
     {
       id: "Large",
@@ -346,7 +346,7 @@ export default function StepProgress() {
       size: '16" x 8"',
       capacity: "15-20 items",
       price: 1000,
-      // image: "https://images.unsplash.com/photo-1759563871371-eb0ec31824a6?w=400",
+      image: "https://images.unsplash.com/photo-1759563871371-eb0ec31824a6?w=400",
     },
   ];
 
@@ -455,7 +455,7 @@ export default function StepProgress() {
           >
 
             {/* STEP ITEM */}
-            <div className="flex flex-col items-center w-20">
+            <div className="flex flex-col items-center w-20 mt-5">
 
               {/* CIRCLE */}
               <div
