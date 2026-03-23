@@ -1272,7 +1272,7 @@ const selectedItemsData = selectedItems
                 {/* OVERLAY (MOBILE) */}
                 {showFilters && (
                   <div
-                    className="fixed inset-0 bg-black bg-opacity-40 z-40 lg:hidden"
+                    className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
                     onClick={() => setShowFilters(false)}
                   />
                 )}      
@@ -1280,12 +1280,13 @@ const selectedItemsData = selectedItems
                 <div
                   className={`
                     fixed lg:sticky 
-                    top-16 lg:top-20 
-                    h-[calc(100%-4rem)] lg:h-fit
-                    w-72 bg-white z-40
-                    transform transition-transform duration-300
-                    ${showFilters ? "translate-x-0" : "-translate-x-full"}
-                    lg:translate-x-0 lg:block
+  top-0 lg:top-20 
+  h-full lg:h-fit
+  w-72 bg-white
+  z-50
+  transition-transform duration-300
+  ${showFilters ? "translate-x-0" : "-translate-x-full"}
+  lg:translate-x-0 lg:block
                   `}
                 >
                   <div className="h-full flex flex-col">
