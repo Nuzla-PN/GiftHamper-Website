@@ -1376,6 +1376,7 @@ const selectedItemsData = selectedItems
         </div>
       </div>
     </div>
+    
 
     {/* MAIN GRID */}
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -1848,92 +1849,96 @@ function OrderSummaryContent({
   calculateTotal,
 }) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-5 border">
+    <div className="bg-white rounded-2xl shadow-sm p-5 border space-y-5">
       
-      <h3 className="text-xl font-semibold mb-5 text-[#8B3A62]">
+      {/* TITLE */}
+      <h3 className="text-lg font-semibold text-gray-800 border-b pb-3">
         Order Summary
       </h3>
 
-      <div className="space-y-5 mb-6">
+      {/* BOX */}
+      <div className="pb-4 border-b">
+        <p className="text-sm font-semibold text-gray-700 mb-2">
+          Gift Box
+        </p>
 
-        {/* BOX */}
-        <div className="pb-4 border-b">
-          <p className="text-sm font-semibold text-gray-700 mb-2">
-            Gift Box
-          </p>
-
-          {selectedBoxData ? (
-            <div className="flex justify-between text-sm">
-              <span className="text-gray-600">
-                {selectedBoxData.name}
-              </span>
-              <span className="font-semibold text-[#8B3A62]">
-                ₹{selectedBoxData.price}
-              </span>
-            </div>
-          ) : (
-            <p className="text-gray-400 italic text-sm">
-              Not selected
-            </p>
-          )}
-        </div>
-
-        {/* ITEMS */}
-        <div className="pb-4 border-b">
-          <div className="flex justify-between mb-2">
-            <span className="text-sm font-semibold text-gray-700">
-              Items
+        {selectedBoxData ? (
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600 truncate max-w-[140px]">
+              {selectedBoxData.name}
             </span>
-
-            <span className="text-xs bg-[#F7E3DC] px-2 py-1 rounded text-[#8B3A62]">
-              {selectedItemsData.length} selected
+            <span className="font-semibold text-[#8B3A62]">
+              ₹{selectedBoxData.price}
             </span>
           </div>
+        ) : (
+          <p className="text-gray-400 italic text-sm">
+            Not selected
+          </p>
+        )}
+      </div>
 
-          {selectedItemsData.length > 0 ? (
-            <div className="space-y-2 max-h-40 overflow-y-auto">
-              {selectedItemsData.slice(0, 3).map((item) => (
-                <div key={item.id} className="flex justify-between text-sm">
-                  <span className="truncate">{item.title}</span>
-                  <span className="text-[#8B3A62] font-medium">
-                    ₹{item.price}
-                  </span>
-                </div>
-              ))}
-
-              {selectedItemsData.length > 3 && (
-                <p className="text-xs text-gray-400 italic">
-                  +{selectedItemsData.length - 3} more items
-                </p>
-              )}
-            </div>
-          ) : (
-            <p className="text-gray-400 italic text-sm">
-              No items selected
-            </p>
-          )}
-        </div>
-
-        {/* MESSAGE */}
-        <div className="pb-4 border-b flex justify-between">
+      {/* ITEMS */}
+      <div className="pb-4 border-b">
+        <div className="flex justify-between items-center mb-3">
           <span className="text-sm font-semibold text-gray-700">
-            Message
+            Items
           </span>
 
-          <span
-            className={`text-xs px-2 py-1 rounded ${
-              customMessage
-                ? "bg-green-100 text-green-700"
-                : "bg-gray-100 text-gray-500"
-            }`}
-          >
-            {customMessage ? "Added" : "Optional"}
+          <span className="text-xs bg-[#F7E3DC] px-2 py-1 rounded text-[#8B3A62]">
+            {selectedItemsData.length} selected
           </span>
         </div>
+
+        {selectedItemsData.length > 0 ? (
+          <div className="space-y-2 max-h-44 overflow-y-auto pr-1">
+            {selectedItemsData.slice(0, 3).map((item) => (
+              <div
+                key={item.id}
+                className="flex justify-between items-center text-sm"
+              >
+                <span className="truncate max-w-[140px] text-gray-600">
+                  {item.title}
+                </span>
+
+                <span className="text-[#8B3A62] font-medium">
+                  ₹{item.price}
+                </span>
+              </div>
+            ))}
+
+            {selectedItemsData.length > 3 && (
+              <p className="text-xs text-gray-400 italic">
+                +{selectedItemsData.length - 3} more items
+              </p>
+            )}
+          </div>
+        ) : (
+          <p className="text-gray-400 italic text-sm">
+            No items selected
+          </p>
+        )}
+      </div>
+
+      {/* MESSAGE */}
+      <div className="pb-4 border-b flex justify-between items-center">
+        <span className="text-sm font-semibold text-gray-700">
+          Message
+        </span>
+
+        <span
+          className={`text-xs px-2 py-1 rounded ${
+            customMessage
+              ? "bg-green-100 text-green-700"
+              : "bg-gray-100 text-gray-500"
+          }`}
+        >
+          {customMessage ? "Added" : "Optional"}
+        </span>
       </div>
 
       {/* TOTAL */}
-      <div className="pt-4 border-t">
+      <div className="pt-2">
         <div className="flex justify-between items-center mb-3">
           <span className="text-lg font-semibold text-[#8B3A62]">
             Total
@@ -1944,9 +1949,29 @@ function OrderSummaryContent({
           </span>
         </div>
 
+        {/* INFO BOX */}
         <div className="bg-[#FFF8F6] text-center text-xs text-gray-600 p-3 rounded-lg">
           Free shipping on orders above ₹999
         </div>
+
+        {/* CTA BUTTON (Optional but recommended) */}
+        <button onClick={() => {
+              if (selectedItemsData.length > 0) {
+                setCurrentStep(3);
+              
+              }
+            }}
+          disabled={selectedItemsData.length === 0}
+          className={`mt-4 w-full py-2 rounded-lg transition
+            ${
+              selectedItemsData.length > 0
+                ? "bg-[#8B3A62] text-white hover:opacity-90 cursor-pointer"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }
+          `}
+        >
+          Proceed to Checkout
+        </button>
       </div>
     </div>
   );
