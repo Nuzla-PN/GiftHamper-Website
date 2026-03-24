@@ -1294,34 +1294,60 @@ const selectedItemsData = selectedItems
         <div className="p-4 overflow-y-auto flex-1">
           {Object.entries(categoryMap).map(([category, subs]) => (
             <div key={category} className="mb-5">
-              <p className="font-medium mb-2">{category}</p>
+              <p className="font-medium text-gray-800 mb-2">{category}</p>
 
-              {subs.map((sub) => (
-                <label key={sub} className="flex gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={tempFilters[category]?.includes(sub) || false}
-                    onChange={() => handleFilterChange(category, sub)}
-                  />
-                  {sub}
-                </label>
-              ))}
+              <div className="space-y-1 ml-2">
+                {subs.map((sub) => (
+                  <label
+                    key={sub}
+                    className="flex items-center gap-2 text-sm cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={
+                        tempFilters[category]?.includes(sub) || false
+                      }
+                      onChange={() =>
+                        handleFilterChange(category, sub)
+                      }
+                      className="accent-[#8B3A62]"
+                    />
+                    <span
+                      className={`${
+                        tempFilters[category]?.includes(sub)
+                          ? "text-[#8B3A62] font-medium"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      {sub}
+                    </span>
+                  </label>
+                ))}
+              </div>
             </div>
           ))}
 
-          {/* PRICE */}
-          <div>
-            <h4 className="mb-2">Price</h4>
+          {/* PRICE FILTER */}
+          <div className="mb-6">
+            <h4 className="font-medium mb-3">Price Range</h4>
             <input
               type="range"
               min="0"
               max="5000"
+              step="100"
               value={priceRange[1]}
               onChange={(e) =>
-                setPriceRange([priceRange[0], Number(e.target.value)])
+                setPriceRange([
+                  priceRange[0],
+                  Number(e.target.value),
+                ])
               }
-              className="w-full"
+              className="w-full accent-[#8B3A62]"
             />
+            <div className="flex justify-between text-sm text-gray-600 mt-2">
+              <span>₹{priceRange[0]}</span>
+              <span>₹{priceRange[1]}</span>
+            </div>
           </div>
         </div>
 
@@ -1333,7 +1359,7 @@ const selectedItemsData = selectedItems
               setAppliedFilters({});
               setPriceRange([0, 5000]);
             }}
-            className="flex-1 border py-2 rounded"
+            className="flex-1 border border-gray-300 py-2 rounded text-sm"
           >
             Clear
           </button>
@@ -1343,7 +1369,7 @@ const selectedItemsData = selectedItems
               setAppliedFilters(tempFilters);
               setShowFilters(false);
             }}
-            className="flex-1 bg-[#8B3A62] text-white py-2 rounded"
+            className="flex-1 bg-[#8B3A62] text-white py-2 rounded text-sm"
           >
             Apply
           </button>
@@ -1351,43 +1377,68 @@ const selectedItemsData = selectedItems
       </div>
     </div>
 
-    {/* ✅ MAIN GRID */}
+    {/* MAIN GRID */}
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-      {/* ✅ DESKTOP SIDEBAR (THIS IS WHERE YOU ASKED) */}
+      {/* DESKTOP SIDEBAR */}
       <div className="hidden lg:block lg:col-span-1">
         <div className="sticky top-24 bg-white p-4 border rounded-xl">
-          
           {Object.entries(categoryMap).map(([category, subs]) => (
             <div key={category} className="mb-5">
-              <p className="font-medium mb-2">{category}</p>
+              <p className="font-medium text-gray-800 mb-2">{category}</p>
 
-              {subs.map((sub) => (
-                <label key={sub} className="flex gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={tempFilters[category]?.includes(sub) || false}
-                    onChange={() => handleFilterChange(category, sub)}
-                  />
-                  {sub}
-                </label>
-              ))}
+              <div className="space-y-1 ml-2">
+                {subs.map((sub) => (
+                  <label
+                    key={sub}
+                    className="flex items-center gap-2 text-sm cursor-pointer"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={
+                        tempFilters[category]?.includes(sub) || false
+                      }
+                      onChange={() =>
+                        handleFilterChange(category, sub)
+                      }
+                      className="accent-[#8B3A62]"
+                    />
+                    <span
+                      className={`${
+                        tempFilters[category]?.includes(sub)
+                          ? "text-[#8B3A62] font-medium"
+                          : "text-gray-600"
+                      }`}
+                    >
+                      {sub}
+                    </span>
+                  </label>
+                ))}
+              </div>
             </div>
           ))}
 
           {/* PRICE */}
-          <div>
-            <h4 className="mb-2">Price</h4>
+          <div className="mb-6">
+            <h4 className="font-medium mb-3">Price Range</h4>
             <input
               type="range"
               min="0"
               max="5000"
+              step="100"
               value={priceRange[1]}
               onChange={(e) =>
-                setPriceRange([priceRange[0], Number(e.target.value)])
+                setPriceRange([
+                  priceRange[0],
+                  Number(e.target.value),
+                ])
               }
-              className="w-full"
+              className="w-full accent-[#8B3A62]"
             />
+            <div className="flex justify-between text-sm text-gray-600 mt-2">
+              <span>₹{priceRange[0]}</span>
+              <span>₹{priceRange[1]}</span>
+            </div>
           </div>
 
           {/* ACTIONS */}
@@ -1398,14 +1449,14 @@ const selectedItemsData = selectedItems
                 setAppliedFilters({});
                 setPriceRange([0, 5000]);
               }}
-              className="flex-1 border py-2 rounded"
+              className="flex-1 border border-gray-300 py-2 rounded text-sm"
             >
               Clear
             </button>
 
             <button
               onClick={() => setAppliedFilters(tempFilters)}
-              className="flex-1 bg-[#8B3A62] text-white py-2 rounded"
+              className="flex-1 bg-[#8B3A62] text-white py-2 rounded text-sm"
             >
               Apply
             </button>
