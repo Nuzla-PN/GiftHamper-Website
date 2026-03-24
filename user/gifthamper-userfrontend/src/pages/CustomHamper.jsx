@@ -922,6 +922,7 @@ import {
 
 import ProductCard from "../components/ProductCard";
 import OrderSummaryContent from "../components/Ordersummarycard";
+import { useSelector } from "react-redux";
 
 export default function StepProgress() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -988,44 +989,7 @@ export default function StepProgress() {
     };
 
   // ✅ PRODUCTS (IMPORTANT: FULL DATA)
-  const products = [
-    {
-      id: "1",
-      title: "Product Name",
-      sellerName: "Seller Shop",
-      image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
-      
-      price: 1000,
-      rating: 4.5,
-      reviews: 120,
-      mainCategory: "Occasion",
-      subCategory: "Birthday"
-    },
-    {
-      id: "2",
-      title: "Product Name",
-      sellerName: "Seller shop",
-      image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
-      // image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400",
-      price: 2000,
-      rating: 4.8,
-      reviews: 80,
-      mainCategory: "GiftType",
-      subCategory: "Luxury",
-    },
-    {
-      id: "3",
-      title: "Product Name",
-      sellerName: "Seller Shop",
-      image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
-      
-      price: 1000,
-      rating: 4.5,
-      reviews: 120,
-      mainCategory: "Occasion",
-      subCategory: "Birthday"
-    },
-  ];
+  const products = useSelector((state) => state.products.items);
 
   // ✅ FILTER LOGIC
   const [tempFilters, setTempFilters] = useState({});
@@ -1472,7 +1436,7 @@ const selectedItemsData = selectedItems
             No products found
           </p>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 gap-6">
             {filteredProducts.map((item) => {
               const isSelected = selectedItems.includes(item.id);
 

@@ -12,6 +12,7 @@ import CategoryCard from "./CategoryCard.jsx";
 import ProductCard from "./ProductCard.jsx";
 import { useState } from "react";
 import SellerCard from "./SellerCard.jsx";
+import { useSelector } from "react-redux";
 
 
 export default function HomeSections() {
@@ -36,13 +37,8 @@ export default function HomeSections() {
     { id:'6',title: "Corporate", icon: Briefcase,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
   ];
 
-  const products = [
-    { id:'1',title: "Product Name", sellerName:"Seller Shop",image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400',price:2000,rating: 4, reviews: 450},
-    { id:'2',title: "Product Name", sellerName:"Seller Shop" },
-    { id:'4',title: "Product Name", sellerName:"Seller Shop"},
-    { id:'5',title: "Product Name", sellerName:"Seller Shop" },
-    { id:'6',title: "Product Name", sellerName:"Seller Shop" },
-  ];
+  const products = useSelector((state) => state.products.items);
+  
   const festivals = [
     { id:'1',title: "Christmas", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
     { id:'2',title: "New year", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
@@ -86,7 +82,8 @@ export default function HomeSections() {
             </p>
                         {/* desktop */}
             <Link
-            to="/products?category=occasions"
+            to= "/products?category=Occasion" 
+            // to ="/products"
             className="mt-4 flex sm:hidden justify-center items-center text-[#8B3A62] font-medium text-sm hover:underline"
             >
             View All
@@ -95,7 +92,8 @@ export default function HomeSections() {
         </div>
                          {/* mobile */}
             <Link
-                to="/products?category=occasions"
+                 to= "/products?category=Occasion" 
+                // to ="/products"
                 className="hidden sm:flex items-center absolute right-4 top-1/2 -translate-y-1/2 text-[#8B3A62] font-medium text-sm hover:underline"
             >
                 View All
@@ -123,7 +121,7 @@ export default function HomeSections() {
                 title={occasion.title}
                 icon={occasion.icon}
                 image={occasion.image}
-                href={`products?occasion=${occasion.title}`}
+                href={`/products?category=Occasion&sub=${occasion.title}`}
                 />
             </motion.div>
             ))}
@@ -151,7 +149,8 @@ export default function HomeSections() {
 
                             {/* desktop */}
             <Link
-            to="/products?category=recipients"
+            to="/products?category=Recipient"
+            // to ="/products"
             className="mt-4 flex sm:hidden justify-center items-center text-[#8B3A62] font-medium text-sm hover:underline"
             >
             View All
@@ -161,7 +160,8 @@ export default function HomeSections() {
             
                          {/* mobile */}
             <Link
-                to="/products?category=recipients"
+                to="/products?category=Recipient"
+                // to ="/products"
                 className="hidden sm:flex items-center absolute right-4 top-1/2 -translate-y-1/2 text-[#8B3A62] font-medium text-sm hover:underline"
             >
                 View All
@@ -177,7 +177,8 @@ export default function HomeSections() {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                 >
-                    <CategoryCard {...item} />
+                    <CategoryCard {...item} href={`/products?category=Recipient&sub=${item.title}`}/>
+                    
                 </motion.div>
                 ))}
             </div>
@@ -198,7 +199,9 @@ export default function HomeSections() {
             Featured Hampers
             </h2>
             
-            <Link to ="/products?category=featured"
+            <Link 
+            to ="/products?category=featured"
+            // to ="/products"
             className="mt-4 flex sm:justify-center items-center text-[#8B3A62] font-medium text-sm hover:underline">
             View All 
             <ArrowRight className="ml-2-w-4 h-4"/>
@@ -233,9 +236,17 @@ export default function HomeSections() {
             <h2 className="text-3xl sm:text-4xl text-[#8B3A62] font-semibold">
             Festival Specials 
             </h2>
+            
             <p className="text-gray-600 mt-2">
             Celebrate every festival with love
             </p>
+             <Link 
+            to ="/products?category=Festival"
+            // to ="/products"
+            className="mt-4 flex sm:justify-center items-center text-[#8B3A62] font-medium text-sm hover:underline">
+            View All 
+            <ArrowRight className="ml-2-w-4 h-4"/>
+            </Link>
         </div>
 
             <Swiper
@@ -263,7 +274,7 @@ export default function HomeSections() {
                     title={item.title}
                     icon={item.icon}
                     image={item.image}
-                    href={`/products?festival=${item.title}`}
+                    href={`/products?category=Festival&sub=${item.title}`}
                      className="h-48 sm:h-56 lg:h-64"
                 />
                 </motion.div>
