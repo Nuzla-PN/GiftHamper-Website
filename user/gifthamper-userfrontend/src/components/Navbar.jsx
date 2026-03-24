@@ -62,51 +62,52 @@ export default function Navbar() {
   return () => document.removeEventListener("click", handleClickOutside);
 }, []);
 
-  const occasionsCategories = [
-    { title: 'Birthday', icon: Cake, link: '/products?category=birthday' },
-    { title: 'Anniversary', icon: Heart, link: '/products?category=anniversary' },
-    { title: 'Wedding', icon: Sparkles, link: '/products?category=wedding' },
-    { title: 'Baby Shower', icon: Baby, link: '/products?category=baby-shower' },
-    { title: 'Graduation', icon: GraduationCap, link: '/products?category=graduation' },
-    { title: 'Housewarming', icon: HomeIcon, link: '/products?category=housewarming' },
-    { title: 'Engagement', icon: Heart, link: '/products?category=engagement' },
-    { title: 'Get Well Soon', icon: Flower2, link: '/products?category=get-well' },
+ const occasionsCategories = [
+    { title: "Birthday", icon: Cake, link: "/products?category=occasion&sub=birthday" },
+    { title: "Anniversary", icon: Heart, link: "/products?category=occasion&sub=anniversary" },
+    { title: "Wedding", icon: Sparkles, link: "/products?category=occasion&sub=wedding" },
+    { title: "Baby Shower", icon: Baby, link: "/products?category=occasion&sub=baby-shower" },
+    { title: "Graduation", icon: GraduationCap, link: "/products?category=occasion&sub=graduation" },
+    { title: "Housewarming", icon: HomeIcon, link: "/products?category=occasion&sub=housewarming" },
+    { title: "Engagement", icon: Heart, link: "/products?category=occasion&sub=engagement" },
+    { title: "Get Well Soon", icon: Flower2, link: "/products?category=occasion&sub=get-well" }
   ];
 
   const recipientsCategories = [
-    { title: 'Gifts for Him', icon: User, link: '/products?category=him' },
-    { title: 'Gifts for Her', icon: User, link: '/products?category=her' },
-    { title: 'Gifts for Kids', icon: Baby, link: '/products?category=kids' },
-    { title: 'Gifts for Parents', icon: Users, link: '/products?category=parents' },
-    { title: 'Gifts for Couples', icon: Heart, link: '/products?category=couples' },
-    { title: 'Corporate Gifts', icon: Briefcase, link: '/products?category=corporate' },
+    { title: "Gifts for Him", icon: User, link: "/products?category=recipient&sub=him" },
+    { title: "Gifts for Her", icon: User, link: "/products?category=recipient&sub=for her" },
+    { title: "Gifts for Kids", icon: Baby, link: "/products?category=recipient&sub=kids" },
+    { title: "Gifts for Parents", icon: Users, link: "/products?category=recipient&sub=parents" },
+    { title: "Gifts for Couples", icon: Heart, link: "/products?category=recipient&sub=couples" },
+    { title: "Corporate Gifts", icon: Briefcase, link: "/products?category=recipient&sub=corporate" }
   ];
 
   const festivalsCategories = [
-    { title: 'Christmas', icon: TreePine, link: '/products?category=christmas' },
-    { title: 'Diwali', icon: Zap, link: '/products?category=diwali' },
-    { title: 'New Year', icon: PartyPopper, link: '/products?category=new-year' },
-    { title: 'Valentine\'s Day', icon: Heart, link: '/products?category=valentines' },
-    { title: 'Mother\'s Day', icon: Heart, link: '/products?category=mothers-day' },
-    { title: 'Father\'s Day', icon: User, link: '/products?category=fathers-day' },
+    { title: "Christmas", icon: TreePine, link: "/products?category=festival&sub=christmas" },
+    { title: "Diwali", icon: Zap, link: "/products?category=festival&sub=diwali" },
+    { title: "New Year", icon: PartyPopper, link: "/products?category=festival&sub=new-year" },
+    { title: "Valentine's Day", icon: Heart, link: "/products?category=festival&sub=valentines" },
+    { title: "Mother's Day", icon: Heart, link: "/products?category=festival&sub=mothers-day" },
+    { title: "Father's Day", icon: User, link: "/products?category=festival&sub=fathers-day" }
   ];
+
   const giftTypeCategories = [
-    { title: 'Chocolate Hamper', icon: Cookie, link: '/products?type=chocolate' },
-    { title: 'Snack Hamper', icon: Cookie, link: '/products?type=snacks' },
-    { title: 'Dry Fruit Hamper', icon: Grape, link: '/products?type=dry-fruits' },
-    { title: 'Coffee & Tea Hamper', icon: Coffee, link: '/products?type=coffee-tea' },
-    { title: 'Self Care Hamper', icon: Sparkle, link: '/products?type=self-care' },
-    { title: 'Luxury Hamper', icon: Crown, link: '/products?type=luxury' },
-    { title: 'Personalized Hamper', icon: Type, link: '/products?type=personalized' },
-    { title: 'Wellness Hamper', icon: Leaf, link: '/products?type=wellness' },
+    { title: "Chocolate Hamper", icon: Cookie, link: "/products?type=chocolate" },
+    { title: "Snack Hamper", icon: Cookie, link: "/products?type=snacks" },
+    { title: "Dry Fruit Hamper", icon: Grape, link: "/products?type=dry-fruits" },
+    { title: "Coffee & Tea", icon: Coffee, link: "/products?type=coffee-tea" },
+    { title: "Self Care", icon: Sparkle, link: "/products?type=self-care" },
+    { title: "Luxury", icon: Crown, link: "/products?type=luxury" },
+    { title: "Personalized", icon: Type, link: "/products?type=personalized" },
+    { title: "Wellness", icon: Leaf, link: "/products?type=wellness" }
   ];
 
   const priceRangeCategories = [
-    { title: 'Under ₹500', subtitle: 'Budget Friendly', icon: IndianRupee, link: '/products?price=0-500' },
-    { title: '₹500 - ₹1,000', subtitle: 'Popular Range', icon: IndianRupee, link: '/products?price=500-1000' },
-    { title: '₹1,000 - ₹2,000', subtitle: 'Premium Gifts', icon: IndianRupee, link: '/products?price=1000-2000' },
-    { title: '₹2,000 - ₹5,000', subtitle: 'Luxury Range', icon: Crown, link: '/products?price=2000-5000' },
-    { title: 'Above ₹5,000', subtitle: 'Ultra Luxury', icon: Crown, link: '/products?price=5000-plus' },
+    { title: "Under ₹500", icon: IndianRupee, link: "/products?price=0-500" },
+    { title: "₹500 - ₹1,000", icon: IndianRupee, link: "/products?price=500-1000" },
+    { title: "₹1,000 - ₹2,000", icon: IndianRupee, link: "/products?price=1000-2000" },
+    { title: "₹2,000 - ₹5,000", icon: Crown, link: "/products?price=2000-5000" },
+    { title: "Above ₹5,000", icon: Crown, link: "/products?price=5000-plus" }
   ];
 
 

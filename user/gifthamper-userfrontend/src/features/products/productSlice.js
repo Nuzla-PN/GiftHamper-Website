@@ -22,7 +22,7 @@ const initialState = {
       rating: 4.2,
       reviews: 80,
       mainCategory: "Recipient",
-      subCategory: "Her",
+      subCategory: "For Her",
     },
     {
       id: "3",

@@ -160,6 +160,14 @@ import { ChevronDown } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
+const formatTitle = (text) => {
+  if (!text) return "";
+
+  return text
+    .split("-")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+};
 export default function ProductListing() {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -196,9 +204,9 @@ export default function ProductListing() {
       <div className="mb-6">
         <h1 className="text-2xl sm:text-3xl lg:text-4xl text-[#8B3A62] mb-2">
           {subCategory
-            ? `${subCategory} Hampers`
+            ? `${formatTitle(subCategory)} Hampers`
             : selectedCategory
-            ? `${selectedCategory} Hampers`
+            ? `${formatTitle(selectedCategory)} Hampers`
             : "All Gift Hampers"}
         </h1>
 
