@@ -983,7 +983,7 @@ export default function StepProgress() {
   // ✅ CATEGORY MAP
   const categoryMap = {
     Occasion: ["Birthday", "Anniversary", "Wedding","Baby shower","Graduation","House warming","Engagement","Get Well Soon"],
-    Recipients: ["Him", "Her", "Kids","parents","couples","corporate gifts"],
+    Recipients: ["For Him", "For Her", "Kids","parents","couples","corporate gifts"],
     Festival: ["Christmas", "Diwali","New Year","Valentines Day","Mothers Day","Fathers Day"],
     GiftType: ["Luxury", "Handmade","Chocolate Hamper","Snack Hamper","Dry Fruits Hamper","Self Care Hamper","coffee & Tea Hamper"],
     };
@@ -1012,12 +1012,13 @@ export default function StepProgress() {
     }
   });
 };
-  const filteredProducts = products.filter((p) => {
-  const selectedValues = Object.values(appliedFilters).flat();
 
+  const selectedValues = Object.values(appliedFilters).flat().map((v) => v.toLowerCase());
+  const filteredProducts = products.filter((p) => {
+  const productSub = p.subCategory?.toLowerCase();
   const categoryMatch =
     selectedValues.length === 0 ||
-    selectedValues.includes(p.subCategory);
+    selectedValues.includes(productSub);
 
   const priceMatch =
     p.price >= priceRange[0] && p.price <= priceRange[1];
@@ -1348,9 +1349,14 @@ const selectedItemsData = selectedItems
       {/* DESKTOP SIDEBAR */}
       <div className="hidden lg:block lg:col-span-1">
         <div className="sticky top-24 bg-white p-4 border rounded-xl">
+          <h2 className="text-xl font-semibold text-[#8B3A62]">
+                Filters
+              </h2>
           {Object.entries(categoryMap).map(([category, subs]) => (
+            
             <div key={category} className="mb-5">
-              <p className="font-medium text-gray-800 mb-2">{category}</p>
+              
+              <p className="font-medium text-gray-800 mb-2 mt-5">{category}</p>
 
               <div className="space-y-1 ml-2">
                 {subs.map((sub) => (

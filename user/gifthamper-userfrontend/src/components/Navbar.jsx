@@ -63,32 +63,32 @@ export default function Navbar() {
 }, []);
 
  const occasionsCategories = [
-    { title: "Birthday", icon: Cake, link: "/products?category=occasion&sub=birthday" },
-    { title: "Anniversary", icon: Heart, link: "/products?category=occasion&sub=anniversary" },
-    { title: "Wedding", icon: Sparkles, link: "/products?category=occasion&sub=wedding" },
-    { title: "Baby Shower", icon: Baby, link: "/products?category=occasion&sub=baby-shower" },
-    { title: "Graduation", icon: GraduationCap, link: "/products?category=occasion&sub=graduation" },
-    { title: "Housewarming", icon: HomeIcon, link: "/products?category=occasion&sub=housewarming" },
-    { title: "Engagement", icon: Heart, link: "/products?category=occasion&sub=engagement" },
-    { title: "Get Well Soon", icon: Flower2, link: "/products?category=occasion&sub=get-well" }
+    { title: "Birthday", icon: Cake, link: "/products?category=Occasion&sub=birthday" },
+    { title: "Anniversary", icon: Heart, link: "/products?category=Occasion&sub=anniversary" },
+    { title: "Wedding", icon: Sparkles, link: "/products?category=Occasion&sub=wedding" },
+    { title: "Baby Shower", icon: Baby, link: "/products?category=Occasion&sub=baby-shower" },
+    { title: "Graduation", icon: GraduationCap, link: "/products?category=Occasion&sub=graduation" },
+    { title: "Housewarming", icon: HomeIcon, link: "/products?category=Occasion&sub=housewarming" },
+    { title: "Engagement", icon: Heart, link: "/products?category=Occasion&sub=engagement" },
+    { title: "Get Well Soon", icon: Flower2, link: "/products?category=Occasion&sub=get-well" }
   ];
 
   const recipientsCategories = [
-    { title: "Gifts for Him", icon: User, link: "/products?category=recipient&sub=him" },
-    { title: "Gifts for Her", icon: User, link: "/products?category=recipient&sub=for her" },
-    { title: "Gifts for Kids", icon: Baby, link: "/products?category=recipient&sub=kids" },
-    { title: "Gifts for Parents", icon: Users, link: "/products?category=recipient&sub=parents" },
-    { title: "Gifts for Couples", icon: Heart, link: "/products?category=recipient&sub=couples" },
-    { title: "Corporate Gifts", icon: Briefcase, link: "/products?category=recipient&sub=corporate" }
+    { title: "Gifts for Him", icon: User, link: "/products?category=Recipient&sub=For Him" },
+    { title: "Gifts for Her", icon: User, link: "/products?category=Recipient&sub=for her" },
+    { title: "Gifts for Kids", icon: Baby, link: "/products?category=Recipient&sub=kids" },
+    { title: "Gifts for Parents", icon: Users, link: "/products?category=Recipient&sub=parents" },
+    { title: "Gifts for Couples", icon: Heart, link: "/products?category=Recipient&sub=couples" },
+    { title: "Corporate Gifts", icon: Briefcase, link: "/products?category=Recipient&sub=corporate" }
   ];
 
   const festivalsCategories = [
-    { title: "Christmas", icon: TreePine, link: "/products?category=festival&sub=christmas" },
-    { title: "Diwali", icon: Zap, link: "/products?category=festival&sub=diwali" },
-    { title: "New Year", icon: PartyPopper, link: "/products?category=festival&sub=new-year" },
-    { title: "Valentine's Day", icon: Heart, link: "/products?category=festival&sub=valentines" },
-    { title: "Mother's Day", icon: Heart, link: "/products?category=festival&sub=mothers-day" },
-    { title: "Father's Day", icon: User, link: "/products?category=festival&sub=fathers-day" }
+    { title: "Christmas", icon: TreePine, link: "/products?category=Festival&sub=christmas" },
+    { title: "Diwali", icon: Zap, link: "/products?category=Festival&sub=diwali" },
+    { title: "New Year", icon: PartyPopper, link: "/products?category=Festival&sub=new-year" },
+    { title: "Valentine's Day", icon: Heart, link: "/products?category=Festival&sub=valentines" },
+    { title: "Mother's Day", icon: Heart, link: "/products?category=Festival&sub=mothers-day" },
+    { title: "Father's Day", icon: User, link: "/products?category=Festival&sub=fathers-day" }
   ];
 
   const giftTypeCategories = [

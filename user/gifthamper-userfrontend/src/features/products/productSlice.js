@@ -32,8 +32,8 @@ const initialState = {
       price: 1800,
       rating: 4,
       reviews: 60,
-      mainCategory: "Festival",
-      subCategory: "Diwali",
+      mainCategory: "Recipient",
+      subCategory: "for Him",
     },
     {
       id: "4",

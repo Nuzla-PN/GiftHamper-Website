@@ -21,11 +21,11 @@ export default function HomeSections() {
 
   const occasions = [
     { id :'1',title: "Birthday", icon: Cake,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-    { id :'2',title: "Anniversary", icon: Heart,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-    { id :'3',title: "Wedding", icon: Sparkles,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-    { id :'4',title: "Baby Shower", icon: Baby,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-    { id :'5',title: "Graduation", icon: GraduationCap,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-    { id :'6',title: "Housewarming", icon: Home,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+    { id :'2',title: "Anniversary", icon: Heart, image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400' },
+    { id :'3',title: "Wedding", icon: Sparkles,image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400' },
+    { id :'4',title: "Baby Shower", icon: Baby,image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400' },
+    { id :'5',title: "Graduation", icon: GraduationCap,image: 'https://images.unsplash.com/photo-1623461487986-9400110de28e?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+    { id :'6',title: "Housewarming", icon: Home,image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400' },
   ];
 
   const recipients = [
@@ -211,7 +211,7 @@ export default function HomeSections() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             {products.map((product, index) => (
             <motion.div
-                key={product.title}
+                key={product.id}
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
