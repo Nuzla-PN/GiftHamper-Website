@@ -13,40 +13,63 @@ import ProductCard from "./ProductCard.jsx";
 import { useState } from "react";
 import SellerCard from "./SellerCard.jsx";
 import { useSelector } from "react-redux";
+import { categoryConfig, priceConfig } from "../data/dataConfig.js";
 
 
 export default function HomeSections() {
 // const [filters, setFilters] = useState({});
 //  const [view, setView] = useState("grid-3");
 
-  const occasions = [
-    { id :'1',title: "Birthday", icon: Cake,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-    { id :'2',title: "Anniversary", icon: Heart, image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400' },
-    { id :'3',title: "Wedding", icon: Sparkles,image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400' },
-    { id :'4',title: "Baby Shower", icon: Baby,image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400' },
-    { id :'5',title: "Graduation", icon: GraduationCap,image: 'https://images.unsplash.com/photo-1623461487986-9400110de28e?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
-    { id :'6',title: "Housewarming", icon: Home,image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400' },
-  ];
+//--THIS WAS HARDCODED DATA-------
+//   const occasions = [
+//     { id :'1',title: "Birthday", icon: Cake,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+//     { id :'2',title: "Anniversary", icon: Heart, image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400' },
+//     { id :'3',title: "Wedding", icon: Sparkles,image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400' },
+//     { id :'4',title: "Baby Shower", icon: Baby,image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400' },
+//     { id :'5',title: "Graduation", icon: GraduationCap,image: 'https://images.unsplash.com/photo-1623461487986-9400110de28e?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' },
+//     { id :'6',title: "Housewarming", icon: Home,image: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400' },
+//   ];
 
-  const recipients = [
-    { id:'1',title: "For Him", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
-    { id:'2',title: "For Her", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
-    { id:'3',title: "For Kids", icon: Baby,image: 'https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=400'   },
-    { id:'4',title: "For Parents", icon: Users, image: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400'},
-    { id:'5',title: "For Couples", icon: Heart,image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400' },
-    { id:'6',title: "Corporate", icon: Briefcase,image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400' },
-  ];
+//   const recipients = [
+//     { id:'1',title: "For Him", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+//     { id:'2',title: "For Her", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+//     { id:'3',title: "For Kids", icon: Baby,image: 'https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=400'   },
+//     { id:'4',title: "For Parents", icon: Users, image: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400'},
+//     { id:'5',title: "For Couples", icon: Heart,image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400' },
+//     { id:'6',title: "Corporate", icon: Briefcase,image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400' },
+//   ];
+  
+//   const festivals = [
+//     { id:'1',title: "Christmas", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+//     { id:'2',title: "New year", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+//     { id:'3',title: "Mothers Day", icon: Baby,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
+//     { id:'4',title: "Diwali", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'},
+//     { id:'5',title: "Valentines Day", icon: Heart,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+//     { id:'6',title: "Fathers Day", icon: Briefcase,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+//   ];
+
+const occasions = categoryConfig.Occasion.items.map((item) => ({
+  ...item,
+  link: `/products?category=Occasion&sub=${item.id}`,
+}));
+
+const recipients = categoryConfig.Recipient.items.map((item)=>({
+    ...item,
+    link: `/products?category=Recipient&sub=${item.id}`,
+}));
+
+const festivals = categoryConfig.Festival.items.map((item)=>({
+    ...item,
+    link:`/products?category=Festival$sub=${item.id}`,
+}));
+
+// const priceRanges = priceConfig.map((item)=>({ // not using it now in home section used only in navbar now
+//     ...item,
+//     link:`products?price=${item.value}`, 
+// }));
 
   const products = useSelector((state) => state.products.items);
-  
-  const festivals = [
-    { id:'1',title: "Christmas", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
-    { id:'2',title: "New year", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
-    { id:'3',title: "Mothers Day", icon: Baby,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
-    { id:'4',title: "Diwali", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'},
-    { id:'5',title: "Valentines Day", icon: Heart,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-    { id:'6',title: "Fathers Day", icon: Briefcase,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-  ];
+
   const sellers = [
     { id: '1', name: 'jjkjkj', rating: 5, reviews: 450, productsCount: 85 },
     { id: '2', name: 'bjkjhkj', rating: 5, reviews: 320, productsCount: 42 },
@@ -107,7 +130,7 @@ export default function HomeSections() {
             {occasions.map((occasion, index) => (
             
             <motion.div
-                key={occasion.title}
+                key={occasion.id}
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -121,7 +144,7 @@ export default function HomeSections() {
                 title={occasion.title}
                 icon={occasion.icon}
                 image={occasion.image}
-                href={`/products?category=Occasion&sub=${occasion.title}`}
+                href={`/products?category=Occasion&sub=${occasion.id}`}
                 />
             </motion.div>
             ))}
@@ -172,12 +195,12 @@ export default function HomeSections() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {recipients.map((item, index) => (
                 <motion.div
-                    key={item.title}
+                    key={item.id}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 }}
                 >
-                    <CategoryCard {...item} href={`/products?category=Recipient&sub=${item.title}`}/>
+                    <CategoryCard {...item} href={`/products?category=Recipient&sub=${item.id}`}/>
                     
                 </motion.div>
                 ))}
@@ -200,23 +223,27 @@ export default function HomeSections() {
             </h2>
             
             <Link 
-            to ="/products?category=featured"
+            to="/products?featured=true"
+            // to ="/products?category=featured"
             // to ="/products"
             className="mt-4 flex sm:justify-center items-center text-[#8B3A62] font-medium text-sm hover:underline">
             View All 
-            <ArrowRight className="ml-2-w-4 h-4"/>
+            <ArrowRight className="ml-2 w-4 h-4"/>
             </Link>
         </div>
          
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {products.map((product, index) => (
+            {products
+            .filter((p) => p.isFeatured)  
+            .slice(0, 8)
+            .map((product, index) => (
             <motion.div
                 key={product.id}
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 transition={{ delay: index * 0.1 }}
             >
-                 <ProductCard {...product}/> 
+                 <ProductCard {...product} href={`/products/${product.id}`}/> 
             </motion.div>
             ))}
         </div>
@@ -245,7 +272,7 @@ export default function HomeSections() {
             // to ="/products"
             className="mt-4 flex sm:justify-center items-center text-[#8B3A62] font-medium text-sm hover:underline">
             View All 
-            <ArrowRight className="ml-2-w-4 h-4"/>
+            <ArrowRight className="ml-2 w-4 h-4"/>
             </Link>
         </div>
 

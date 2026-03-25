@@ -30,6 +30,7 @@ import {
   IndianRupee
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { categoryConfig, priceConfig } from '../data/dataConfig';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,54 +63,85 @@ export default function Navbar() {
   return () => document.removeEventListener("click", handleClickOutside);
 }, []);
 
- const occasionsCategories = [
-    { title: "Birthday", icon: Cake, link: "/products?category=Occasion&sub=birthday" },
-    { title: "Anniversary", icon: Heart, link: "/products?category=Occasion&sub=anniversary" },
-    { title: "Wedding", icon: Sparkles, link: "/products?category=Occasion&sub=wedding" },
-    { title: "Baby Shower", icon: Baby, link: "/products?category=Occasion&sub=baby-shower" },
-    { title: "Graduation", icon: GraduationCap, link: "/products?category=Occasion&sub=graduation" },
-    { title: "Housewarming", icon: HomeIcon, link: "/products?category=Occasion&sub=housewarming" },
-    { title: "Engagement", icon: Heart, link: "/products?category=Occasion&sub=engagement" },
-    { title: "Get Well Soon", icon: Flower2, link: "/products?category=Occasion&sub=get-well" }
-  ];
+//THIS IS HARDCODED DATA---------------------
 
-  const recipientsCategories = [
-    { title: "Gifts for Him", icon: User, link: "/products?category=Recipient&sub=For Him" },
-    { title: "Gifts for Her", icon: User, link: "/products?category=Recipient&sub=for her" },
-    { title: "Gifts for Kids", icon: Baby, link: "/products?category=Recipient&sub=kids" },
-    { title: "Gifts for Parents", icon: Users, link: "/products?category=Recipient&sub=parents" },
-    { title: "Gifts for Couples", icon: Heart, link: "/products?category=Recipient&sub=couples" },
-    { title: "Corporate Gifts", icon: Briefcase, link: "/products?category=Recipient&sub=corporate" }
-  ];
+//  const occasionsCategories = [
+//     { title: "Birthday", icon: Cake, link: "/products?category=Occasion&sub=birthday" },
+//     { title: "Anniversary", icon: Heart, link: "/products?category=Occasion&sub=anniversary" },
+//     { title: "Wedding", icon: Sparkles, link: "/products?category=Occasion&sub=wedding" },
+//     { title: "Baby Shower", icon: Baby, link: "/products?category=Occasion&sub=baby-shower" },
+//     { title: "Graduation", icon: GraduationCap, link: "/products?category=Occasion&sub=graduation" },
+//     { title: "Housewarming", icon: HomeIcon, link: "/products?category=Occasion&sub=housewarming" },
+//     { title: "Engagement", icon: Heart, link: "/products?category=Occasion&sub=engagement" },
+//     { title: "Get Well Soon", icon: Flower2, link: "/products?category=Occasion&sub=get-well" }
+//   ];
 
-  const festivalsCategories = [
-    { title: "Christmas", icon: TreePine, link: "/products?category=Festival&sub=christmas" },
-    { title: "Diwali", icon: Zap, link: "/products?category=Festival&sub=diwali" },
-    { title: "New Year", icon: PartyPopper, link: "/products?category=Festival&sub=new-year" },
-    { title: "Valentine's Day", icon: Heart, link: "/products?category=Festival&sub=valentines" },
-    { title: "Mother's Day", icon: Heart, link: "/products?category=Festival&sub=mothers-day" },
-    { title: "Father's Day", icon: User, link: "/products?category=Festival&sub=fathers-day" }
-  ];
+//   const recipientsCategories = [
+//     { title: "Gifts for Him", icon: User, link: "/products?category=Recipient&sub=For Him" },
+//     { title: "Gifts for Her", icon: User, link: "/products?category=Recipient&sub=for her" },
+//     { title: "Gifts for Kids", icon: Baby, link: "/products?category=Recipient&sub=kids" },
+//     { title: "Gifts for Parents", icon: Users, link: "/products?category=Recipient&sub=parents" },
+//     { title: "Gifts for Couples", icon: Heart, link: "/products?category=Recipient&sub=couples" },
+//     { title: "Corporate Gifts", icon: Briefcase, link: "/products?category=Recipient&sub=corporate" }
+//   ];
 
-  const giftTypeCategories = [
-    { title: "Chocolate Hamper", icon: Cookie, link: "/products?type=chocolate" },
-    { title: "Snack Hamper", icon: Cookie, link: "/products?type=snacks" },
-    { title: "Dry Fruit Hamper", icon: Grape, link: "/products?type=dry-fruits" },
-    { title: "Coffee & Tea", icon: Coffee, link: "/products?type=coffee-tea" },
-    { title: "Self Care", icon: Sparkle, link: "/products?type=self-care" },
-    { title: "Luxury", icon: Crown, link: "/products?type=luxury" },
-    { title: "Personalized", icon: Type, link: "/products?type=personalized" },
-    { title: "Wellness", icon: Leaf, link: "/products?type=wellness" }
-  ];
+//   const festivalsCategories = [
+//     { title: "Christmas", icon: TreePine, link: "/products?category=Festival&sub=christmas" },
+//     { title: "Diwali", icon: Zap, link: "/products?category=Festival&sub=diwali" },
+//     { title: "New Year", icon: PartyPopper, link: "/products?category=Festival&sub=new-year" },
+//     { title: "Valentine's Day", icon: Heart, link: "/products?category=Festival&sub=valentines" },
+//     { title: "Mother's Day", icon: Heart, link: "/products?category=Festival&sub=mothers-day" },
+//     { title: "Father's Day", icon: User, link: "/products?category=Festival&sub=fathers-day" }
+//   ];
 
-  const priceRangeCategories = [
-    { title: "Under ₹500", icon: IndianRupee, link: "/products?price=0-500" },
-    { title: "₹500 - ₹1,000", icon: IndianRupee, link: "/products?price=500-1000" },
-    { title: "₹1,000 - ₹2,000", icon: IndianRupee, link: "/products?price=1000-2000" },
-    { title: "₹2,000 - ₹5,000", icon: Crown, link: "/products?price=2000-5000" },
-    { title: "Above ₹5,000", icon: Crown, link: "/products?price=5000-plus" }
-  ];
+//   const giftTypeCategories = [
+//     { title: "Chocolate Hamper", icon: Cookie, link: "/products?type=chocolate" },
+//     { title: "Snack Hamper", icon: Cookie, link: "/products?type=snacks" },
+//     { title: "Dry Fruit Hamper", icon: Grape, link: "/products?type=dry-fruits" },
+//     { title: "Coffee & Tea", icon: Coffee, link: "/products?type=coffee-tea" },
+//     { title: "Self Care", icon: Sparkle, link: "/products?type=self-care" },
+//     { title: "Luxury", icon: Crown, link: "/products?type=luxury" },
+//     { title: "Personalized", icon: Type, link: "/products?type=personalized" },
+//     { title: "Wellness", icon: Leaf, link: "/products?type=wellness" }
+//   ];
 
+//   const priceRangeCategories = [
+//     { title: "Under ₹500", icon: IndianRupee, link: "/products?price=0-500" },
+//     { title: "₹500 - ₹1,000", icon: IndianRupee, link: "/products?price=500-1000" },
+//     { title: "₹1,000 - ₹2,000", icon: IndianRupee, link: "/products?price=1000-2000" },
+//     { title: "₹2,000 - ₹5,000", icon: Crown, link: "/products?price=2000-5000" },
+//     { title: "Above ₹5,000", icon: Crown, link: "/products?price=5000-plus" }
+//   ];
+
+const occasionsCategories = categoryConfig.Occasion.items.map((item) => ({
+  title: item.title,
+  icon: item.icon,
+  link: `/products?category=Occasion&sub=${item.id}`,
+}));
+
+const recipientsCategories = categoryConfig.Recipient.items.map((item)=>({
+  title: item.title,
+  icon:item.icon,
+  link: `/products?category=Recipient&sub=${item.id}`,
+}));
+
+const festivalsCategories = categoryConfig.Festival.items.map((item) => ({
+  title: item.title,
+  icon: item.icon,
+  link: `/products?category=Festival&sub=${item.id}`,
+}));
+
+const giftTypeCategories = categoryConfig.GiftType.items.map((item) => ({
+  title: item.title,
+  icon: item.icon,
+  link: `/products?type=${item.id}`,
+}));
+
+const priceRangeCategories = priceConfig.map((item) => ({
+  title: item.title,
+  icon: item.icon,
+  link: `/products?price=${item.value}`,
+}));
 
   return (
 <nav className={`sticky top-0 z-50 bg-white overflow-visible transition-all ${isScrolled ? 'shadow-md' : 'border-b'}`}>

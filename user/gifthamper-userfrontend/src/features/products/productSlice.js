@@ -12,6 +12,7 @@ const initialState = {
       reviews: 120,
       mainCategory: "Occasion",
       subCategory: "Birthday",
+       isFeatured: true,
     },
     {
       id: "2",
@@ -23,6 +24,7 @@ const initialState = {
       reviews: 80,
       mainCategory: "Recipient",
       subCategory: "For Her",
+       isFeatured: true,
     },
     {
       id: "3",
@@ -34,6 +36,7 @@ const initialState = {
       reviews: 60,
       mainCategory: "Recipient",
       subCategory: "for Him",
+       isFeatured: true,
     },
     {
       id: "4",
@@ -45,6 +48,7 @@ const initialState = {
       reviews: 60,
       mainCategory: "Festival",
       subCategory: "Diwali",
+       isFeatured: true,
     },
     {
       id: "5",
@@ -56,6 +60,7 @@ const initialState = {
       reviews: 60,
       mainCategory: "Festival",
       subCategory: "Diwali",
+       isFeatured: true,
     },
     {
       id: "6",
@@ -67,6 +72,7 @@ const initialState = {
       reviews: 60,
       mainCategory: "Festival",
       subCategory: "Diwali",
+       isFeatured: true,
     },
     {
       id: "7",
@@ -78,6 +84,7 @@ const initialState = {
       reviews: 60,
       mainCategory: "Festival",
       subCategory: "Handmade",
+       isFeatured: true,
     },
     {
       id: "8",
@@ -89,6 +96,7 @@ const initialState = {
       reviews: 60,
       mainCategory: "Festival",
       subCategory: "New Year",
+       isFeatured: false,
     },
   ],
 };

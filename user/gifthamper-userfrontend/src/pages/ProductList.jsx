@@ -307,7 +307,7 @@ import { motion } from "framer-motion";
 import ProductCard from "../components/ProductCard";
 import { ChevronDown } from "lucide-react";
 import { useSelector } from "react-redux";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useSearchParams } from "react-router-dom";
 import FilterSidebar from "../components/Filtersidebar";
 
 const formatTitle = (text) => {
@@ -327,6 +327,13 @@ export default function ProductListing() {
 
   const products = useSelector((state) => state.products.items);
 
+  const [searchParams] = useSearchParams();
+  const isFeatured = searchParams.get("featured") === "true";
+  let filteredProd = products;
+  if (isFeatured) {
+  filteredProd = filteredProd.filter((p) => p.isFeatured);
+  }
+  
   // 🔥 STATES
   const [showFilters, setShowFilters] = useState(false);
   const [tempFilters, setTempFilters] = useState({});
