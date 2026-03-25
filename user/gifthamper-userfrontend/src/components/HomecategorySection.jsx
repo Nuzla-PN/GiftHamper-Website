@@ -31,10 +31,10 @@ export default function HomeSections() {
   const recipients = [
     { id:'1',title: "For Him", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
     { id:'2',title: "For Her", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
-    { id:'3',title: "For Kids", icon: Baby,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'  },
-    { id:'4',title: "For Parents", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'},
-    { id:'5',title: "For Couples", icon: Heart,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-    { id:'6',title: "Corporate", icon: Briefcase,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
+    { id:'3',title: "For Kids", icon: Baby,image: 'https://images.unsplash.com/photo-1545558014-8692077e9b5c?w=400'   },
+    { id:'4',title: "For Parents", icon: Users, image: 'https://images.unsplash.com/photo-1511895426328-dc8714191300?w=400'},
+    { id:'5',title: "For Couples", icon: Heart,image: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400' },
+    { id:'6',title: "Corporate", icon: Briefcase,image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=400' },
   ];
 
   const products = useSelector((state) => state.products.items);
