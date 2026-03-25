@@ -6,13 +6,35 @@ const initialState = {
       id: "1",
       title: "Chocolate Delight Hamper",
       sellerName: "Sweet Treats",
- image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
+      sellerRating: 4.7,
+      sellerReviews: 210,
+
+      stock: 10,
+
+      image: ["https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
+              "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
+              "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
+              ],
       price: 2000,
-      rating: 4.5,
+      originalPrice: 2500,
+
+      rating: 4,
       reviews: 120,
+
+      description:
+        "A delightful chocolate hamper filled with premium chocolates, perfect for gifting on birthdays and special occasions.",
+
+      features: [
+        "Premium imported chocolates",
+        "Beautiful gift packaging",
+        "Custom message card included",
+      ],
+
+      tags: ["Chocolate", "Birthday", "Gift Hamper"],
+
       mainCategory: "Occasion",
       subCategory: "Birthday",
-       isFeatured: true,
+      isFeatured: true,
     },
     {
       id: "2",
