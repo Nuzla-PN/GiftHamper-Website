@@ -13,6 +13,8 @@ import {
   Shield,
   MessageCircle,
   ChevronRight,
+  Tag,
+  MapPin,
 } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 
@@ -74,6 +76,27 @@ export default function ProductDetails() {
     }
   };
   
+    const getDeliveryDate = () => {
+      const date = new Date();
+      date.setDate(date.getDate() + 3);
+      return date.toDateString();
+    };
+
+    const availableCoupons = [
+      {
+        id: 1,
+        code: "SAVE10",
+        discount: "10% OFF",
+        description: "Get 10% off on orders above ₹999",
+      },
+      {
+        id: 2,
+        code: "FREESHIP",
+        discount: "Free Delivery",
+        description: "Free shipping on this product",
+      },
+    ];
+
   // fallback (avoid crash)
   if (!product) {
     return (
@@ -245,7 +268,7 @@ relatedProducts = relatedProducts.slice(0, 4);
             </span>
           </div>
 
-          {/* 🛒 Buttons */}
+          {/*  Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <button className="flex-1 bg-[#8B3A62] text-white py-3 rounded-full flex items-center justify-center gap-2">
               <ShoppingCart />
@@ -257,7 +280,106 @@ relatedProducts = relatedProducts.slice(0, 4);
             </button>
           </div>
 
-          {/* 🚚 Features */}
+          {/*  DELIVERY INFO */}
+          <div className="bg-[#F3F6FF] border border-blue-100 rounded-xl p-4 mb-5 flex items-start justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <Package className="w-5 h-5 text-[#8B3A62] mt-1" />
+              <div>
+                <p className="text-sm font-semibold text-gray-900">
+                  Delivery by {getDeliveryDate()}
+                </p>
+                <p className="text-xs text-gray-600">
+                  Free delivery on orders above ₹999
+                </p>
+              </div>
+            </div>
+
+            <button className="text-xs border px-3 py-1.5 rounded-md flex items-center gap-1 hover:border-[#8B3A62]">
+              <MapPin className="w-3 h-3" />
+              Change
+            </button>
+          </div>
+
+          {/*  COUPONS */}
+          <div className="border rounded-xl p-4 mb-5 bg-white">
+            <div className="flex items-center gap-2 mb-3">
+              <Tag className="w-5 h-5 text-green-600" />
+              <h3 className="font-semibold text-gray-800">
+                Available Offers ({availableCoupons.length})
+              </h3>
+            </div>
+
+            <div className="space-y-3">
+              {availableCoupons.map((coupon) => (
+                <div
+                  key={coupon.id}
+                  className="flex items-start justify-between gap-3 p-3 rounded-lg border bg-gradient-to-r from-green-50 to-gray-50"
+                >
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded">
+                        {coupon.discount}
+                      </span>
+
+                      <code className="text-xs bg-white px-2 py-0.5 border rounded">
+                        {coupon.code}
+                      </code>
+                    </div>
+
+                    <p className="text-xs text-gray-700">
+                      {coupon.description}
+                    </p>
+
+                    <p className="text-xs text-gray-500 mt-1">
+                      Inclusive of all taxes
+                    </p>
+                  </div>
+
+                  <button className="text-xs border px-3 py-1 rounded hover:border-[#8B3A62]">
+                    Apply
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            <button className="text-sm text-[#8B3A62] mt-2 hover:underline">
+              View all offers
+            </button>
+          </div>
+
+          {/*  VIEW SIMILAR */}
+          {relatedProducts.length > 0 && (
+            <button
+              onClick={() => {
+                const el = document.getElementById("similar-products");
+                el?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="w-full border py-3 rounded-lg flex items-center justify-center gap-2 mb-5 hover:border-[#8B3A62]"
+            >
+              <ChevronRight className="w-4 h-4" />
+              View Similar Products
+            </button>
+          )}
+
+          {/*  FEATURES CARD */}
+          {product.features?.length > 0 && (
+            <div className="border rounded-xl p-4 bg-white mb-5">
+              <h3 className="font-semibold mb-3 text-gray-800">
+                Key Features
+              </h3>
+
+              <ul className="space-y-2">
+                {product.features.map((feature, index) => (
+                  <li key={index} className="flex items-start gap-2 text-sm">
+                    <span className="w-2 h-2 bg-[#8B3A62] rounded-full mt-2"></span>
+                    <span className="text-gray-700">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/*  Features */}
           <div className="space-y-3 text-sm text-gray-600">
             <div className="flex gap-2 items-center">
               <Truck className="text-[#8B3A62]" /> Free Delivery
@@ -271,6 +393,8 @@ relatedProducts = relatedProducts.slice(0, 4);
           </div>
         </div>
       </div>
+
+
       {/* 🔹 Tabs Section */}
 <div className="mt-16">
   
