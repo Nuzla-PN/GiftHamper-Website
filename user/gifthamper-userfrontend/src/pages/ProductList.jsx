@@ -334,7 +334,7 @@ export default function ProductListing() {
   filteredProd = filteredProd.filter((p) => p.isFeatured);
   }
   
-  // 🔥 STATES
+  // STATES
   const [showFilters, setShowFilters] = useState(false);
   const [tempFilters, setTempFilters] = useState({});
   const [appliedFilters, setAppliedFilters] = useState({});
@@ -344,7 +344,7 @@ export default function ProductListing() {
 
   
 
-  // 🔥 CATEGORY MAP
+  //  CATEGORY MAP
   const categoryMap = {
     Occasion: ["Birthday", "Anniversary", "Wedding", "Baby shower","Graduation","Housewarming"],
     Recipient: ["For Him", "For Her", "For Kids", "For Parents","For Couples","Corporate Gifts"],

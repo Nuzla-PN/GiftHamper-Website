@@ -46,6 +46,33 @@ export default function ProductDetails() {
   const [activeTab, setActiveTab] = useState("description");
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchEndX, setTouchEndX] = useState(0);
+
+  const handleTouchStart = (e) => {
+  setTouchStartX(e.touches[0].clientX);
+  };
+
+  const handleTouchMove = (e) => {
+    setTouchEndX(e.touches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    const distance = touchStartX - touchEndX;
+
+    // swipe threshold
+    if (distance > 50) {
+      setSelectedImage((prev) =>
+        prev < product.image.length - 1 ? prev + 1 : prev
+      );
+    }
+
+    if (distance < -50) {
+      setSelectedImage((prev) =>
+        prev > 0 ? prev - 1 : prev
+      );
+    }
+  };
   
   // fallback (avoid crash)
   if (!product) {
@@ -63,7 +90,7 @@ export default function ProductDetails() {
     p.subCategory === product.subCategory
 );
 
-// 🔥 If no exact match → fallback
+// If no exact match → fallback
 if (relatedProducts.length === 0) {
   relatedProducts = products.filter(
     (p) =>
@@ -72,7 +99,7 @@ if (relatedProducts.length === 0) {
   );
 }
 
-// 🔥 Still empty → show featured
+//  Still empty → show featured
 if (relatedProducts.length === 0) {
   relatedProducts = products.filter(
     (p) =>
@@ -107,11 +134,15 @@ relatedProducts = relatedProducts.slice(0, 4);
         
         {/*  IMAGE SECTION */}
         <div>
-          <div className="relative rounded-xl overflow-hidden bg-gray-100">
+          <div className="relative rounded-xl overflow-hidden bg-gray-100"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <img
               src={product.image[selectedImage]}
               alt={product.title}
-              className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover"
+              className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover transition duration-300"
             />
 
             <button
@@ -565,8 +596,8 @@ relatedProducts = relatedProducts.slice(0, 4);
               ))}
             </div>
 
-            {/* Fade Effect */}
-            <div className="pointer-events-none absolute top-0 right-0 h-full w-3 bg-gradient-to-l from-white to-transparent" />
+            {/* Fade Effect
+            <div className="pointer-events-none absolute top-0 right-0 h-full w-3 bg-gradient-to-l from-white to-transparent" /> */}
           </div>
         </section>
       )}
@@ -621,8 +652,8 @@ relatedProducts = relatedProducts.slice(0, 4);
                   </div>
                 ))}
                 </div>
-                Fade Effect
-            <div className="pointer-events-none absolute top-0 right-0 h-full w-3 bg-gradient-to-l from-white to-transparent" />
+                {/* Fade Effect
+            <div className="pointer-events-none absolute top-0 right-0 h-full w-3 bg-gradient-to-l from-white to-transparent" /> */}
             </div>
             
           </div>
