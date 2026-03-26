@@ -116,3 +116,22 @@ export const priceConfig = [
   { title: "₹2,000 - ₹5,000", value: "2000-5000", icon: Crown },
   { title: "Above ₹5,000", value: "5000-plus", icon: Crown },
 ];
+
+export const couponsConfig = [
+  {
+    id:1,
+    code:"SAVEXX",
+    title:"xx % OFF",
+    type:"percentage",
+    minAmount:999,
+    description:" Get xx % OFF on orders aboove 999",
+  },
+  {
+    id:2,
+    code:"SAVEXX",
+    title:"xx % OFF",
+    type:"percentage",
+    minAmount:999,
+    description:" Get xx % OFF on orders aboove 999",
+  },
+];

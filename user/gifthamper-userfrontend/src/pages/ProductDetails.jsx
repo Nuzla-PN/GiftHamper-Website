@@ -17,6 +17,8 @@ import {
   MapPin,
 } from "lucide-react";
 import ProductCard from "../components/ProductCard";
+import { couponsConfig } from "../data/dataConfig";
+
 
 export default function ProductDetails() {
   const { id } = useParams();
@@ -76,26 +78,37 @@ export default function ProductDetails() {
     }
   };
   
-    const getDeliveryDate = () => {
-      const date = new Date();
-      date.setDate(date.getDate() + 3);
-      return date.toDateString();
-    };
+  //simple code not needed
+    // const getDeliveryDate = () => {
+    //   const date = new Date();
+    //   date.setDate(date.getDate() + 3);
+    // };
 
-    const availableCoupons = [
-      {
-        id: 1,
-        code: "SAVE10",
-        discount: "10% OFF",
-        description: "Get 10% off on orders above ₹999",
-      },
-      {
-        id: 2,
-        code: "FREESHIP",
-        discount: "Free Delivery",
-        description: "Free shipping on this product",
-      },
-    ];
+//efficent code needed
+    // const getDeliveryDate = () => {
+    //   const today = new Date();
+
+    //   const minDays = 2;
+    //   const maxDays = 4;
+
+    //   const startDate = new Date(today);
+    //   startDate.setDate(today.getDate() + minDays);
+
+    //   const endDate = new Date(today);
+    //   endDate.setDate(today.getDate() + maxDays);
+
+    //   const format = (date) =>
+    //     date.toLocaleDateString("en-IN", {
+    //       day: "numeric",
+    //       month: "short",
+    //     });
+
+    //   return `${format(startDate)} - ${format(endDate)}`;
+    // };
+
+    const availableCoupons = couponsConfig.filter(
+  (coupon) => product.price >= coupon.minAmount
+);
 
   // fallback (avoid crash)
   if (!product) {
@@ -286,7 +299,8 @@ relatedProducts = relatedProducts.slice(0, 4);
               <Package className="w-5 h-5 text-[#8B3A62] mt-1" />
               <div>
                 <p className="text-sm font-semibold text-gray-900">
-                  Delivery by {getDeliveryDate()}
+                  Delivery by 
+                   {/* Delivery by {getDeliveryDate()} */}
                 </p>
                 <p className="text-xs text-gray-600">
                   Free delivery on orders above ₹999
@@ -318,7 +332,7 @@ relatedProducts = relatedProducts.slice(0, 4);
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded">
-                        {coupon.discount}
+                        {coupon.title}
                       </span>
 
                       <code className="text-xs bg-white px-2 py-0.5 border rounded">
@@ -361,7 +375,7 @@ relatedProducts = relatedProducts.slice(0, 4);
             </button>
           )}
 
-          {/*  FEATURES CARD */}
+           {/* FEATURES CARD
           {product.features?.length > 0 && (
             <div className="border rounded-xl p-4 bg-white mb-5">
               <h3 className="font-semibold mb-3 text-gray-800">
@@ -377,7 +391,7 @@ relatedProducts = relatedProducts.slice(0, 4);
                 ))}
               </ul>
             </div>
-          )}
+          )} */}
 
           {/*  Features */}
           <div className="space-y-3 text-sm text-gray-600">
@@ -506,7 +520,7 @@ relatedProducts = relatedProducts.slice(0, 4);
       </motion.div>
     )} */}
 
-    {/* 🔸 REVIEWS */}
+    {/*  REVIEWS */}
 {activeTab === "reviews" && (
   <motion.div
     initial={{ opacity: 0, y: 15 }}
@@ -548,7 +562,7 @@ relatedProducts = relatedProducts.slice(0, 4);
         </div>
       </div>
 
-      {/* 🔹 Reviews List */}
+      {/*  Reviews List */}
       {product.reviewsData?.length > 0 ? (
         <div className="space-y-5">
           {product.reviewsData.map((review) => (
@@ -595,7 +609,7 @@ relatedProducts = relatedProducts.slice(0, 4);
   </motion.div>
 )}
 
-    {/* 🔸 SELLER */}
+    {/*  SELLER */}
     {activeTab === "seller" && (
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -659,7 +673,7 @@ relatedProducts = relatedProducts.slice(0, 4);
   </div>
 </div>
 
-      {/* 🔹 RELATED PRODUCTS */}
+      {/*  RELATED PRODUCTS */}
       <div className="mt-16">
         <h2 className="text-2xl sm:text-3xl text-[#8B3A62] mb-6 font-semibold">
           Related Products
@@ -672,11 +686,11 @@ relatedProducts = relatedProducts.slice(0, 4);
         </div>
       </div>
 
-      {/* 🔹 Customers Also Bought */}
+      {/*  Customers Also Bought */}
       {relatedProducts.length > 0 && (
         <section className="mt-16">
           
-          {/* 🔹 Header */}
+          {/*  Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
               <h2 className="text-2xl sm:text-3xl font-semibold text-[#8B3A62]">
@@ -696,7 +710,7 @@ relatedProducts = relatedProducts.slice(0, 4);
             </Link>
           </div>
 
-          {/* 🔹 Desktop Grid */}
+          {/*  Desktop Grid */}
           <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {relatedProducts.map((item) => (
               <div
@@ -708,7 +722,7 @@ relatedProducts = relatedProducts.slice(0, 4);
             ))}
           </div>
 
-          {/* 🔹 Mobile Horizontal Scroll */}
+          {/*  Mobile Horizontal Scroll */}
           <div className="md:hidden relative">
             <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
               {relatedProducts.map((item) => (
@@ -729,7 +743,7 @@ relatedProducts = relatedProducts.slice(0, 4);
         </section>
       )}
 
-      {/* 🔹 RECENTLY VIEWED */}
+      {/*  RECENTLY VIEWED */}
         {recentlyViewed.length > 1 && (
           <div className="mt-20">
 
