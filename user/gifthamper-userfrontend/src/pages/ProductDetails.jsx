@@ -219,7 +219,7 @@ relatedProducts = relatedProducts.slice(0, 4);
 
         {/*  DETAILS */}
         <div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl text-[#8B3A62] font-semibold mb-3">
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl text-gray-900g font-semibold mb-3">
             {product.title}
           </h1>
 
