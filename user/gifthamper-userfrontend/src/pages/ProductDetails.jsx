@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useParams, Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -23,11 +23,30 @@ export default function ProductDetails() {
 
   const product = products.find((p) => String(p.id) === String(id));
 
+  useEffect(() => {
+  if (!product) return;
+
+  let stored = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
+
+  // remove if already exists (avoid duplicates)
+  stored = stored.filter((item) => item.id !== product.id);
+
+  // add current product at beginning
+  stored.unshift(product);
+
+  // limit to 6 products
+  if (stored.length > 6) stored.pop();
+
+  localStorage.setItem("recentlyViewed", JSON.stringify(stored));
+  setRecentlyViewed(stored);
+}, [product]);
+
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeTab, setActiveTab] = useState("description");
   const [isWishlisted, setIsWishlisted] = useState(false);
-
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
+  
   // fallback (avoid crash)
   if (!product) {
     return (
@@ -497,60 +516,112 @@ relatedProducts = relatedProducts.slice(0, 4);
 
       {/* 🔹 Customers Also Bought */}
       {relatedProducts.length > 0 && (
-  <section className="mt-16">
-    
-    {/* 🔹 Header */}
-    <div className="flex items-center justify-between mb-6">
-      <div>
-        <h2 className="text-2xl sm:text-3xl font-semibold text-[#8B3A62]">
-          Customers Also Bought
-        </h2>
-        <p className="text-gray-500 text-sm sm:text-base">
-          Products frequently bought together
-        </p>
-      </div>
+        <section className="mt-16">
+          
+          {/* 🔹 Header */}
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-semibold text-[#8B3A62]">
+                Customers Also Bought
+              </h2>
+              <p className="text-gray-500 text-sm sm:text-base">
+                Products frequently bought together
+              </p>
+            </div>
 
-      <Link
-        to="/products"
-        className="hidden sm:flex items-center gap-1 text-sm font-medium text-[#8B3A62] hover:underline"
-      >
-        View All
-        <ChevronRight className="w-4 h-4" />
-      </Link>
-    </div>
+            <Link
+              to="/products"
+              className="hidden sm:flex items-center gap-1 text-sm font-medium text-[#8B3A62] hover:underline"
+            >
+              View All
+              <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
 
-    {/* 🔹 Desktop Grid */}
-    <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      {relatedProducts.map((item) => (
-        <div
-          key={item.id}
-          className="group transition-transform duration-300 hover:-translate-y-1"
-        >
-          <ProductCard {...item} />
-        </div>
-      ))}
-    </div>
+          {/* 🔹 Desktop Grid */}
+          <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {relatedProducts.map((item) => (
+              <div
+                key={item.id}
+                className="group transition-transform duration-300 hover:-translate-y-1"
+              >
+                <ProductCard {...item} />
+              </div>
+            ))}
+          </div>
 
-    {/* 🔹 Mobile Horizontal Scroll */}
-    <div className="md:hidden relative">
-      <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
-        {relatedProducts.map((item) => (
-          <div
-            key={item.id}
-            className="min-w-[260px] snap-start flex-shrink-0"
-          >
-            <div className="group transition-transform duration-300 hover:scale-[1.02]">
-              <ProductCard {...item} />
+          {/* 🔹 Mobile Horizontal Scroll */}
+          <div className="md:hidden relative">
+            <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+              {relatedProducts.map((item) => (
+                <div
+                  key={item.id}
+                  className="min-w-[260px] snap-start flex-shrink-0"
+                >
+                  <div className="group transition-transform duration-300 hover:scale-[1.02]">
+                    <ProductCard {...item} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Fade Effect*/}
+            <div className="pointer-events-none absolute top-0 right-0 h-full w-10 bg-gradient-to-l from-white to-transparent" />
+          </div>
+        </section>
+      )}
+
+      {/* 🔹 RECENTLY VIEWED */}
+        {recentlyViewed.length > 1 && (
+          <div className="mt-20">
+
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-semibold text-[#8B3A62]">
+                  Recently Viewed
+                </h2>
+                <p className="text-gray-500 text-sm">
+                  Your browsing history
+                </p>
+              </div>
+
+              {/* Clear Button */}
+              <button
+                onClick={() => {
+                  localStorage.removeItem("recentlyViewed");
+                  setRecentlyViewed([]);
+                }}
+                className="hidden md:block text-sm text-gray-500 hover:text-red-500 transition"
+              >
+                Clear History
+              </button>
+            </div>
+
+            {/* Desktop Grid */}
+            <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {recentlyViewed
+                .filter((p) => p.id !== product.id) // remove current product
+                .map((item) => (
+                  <ProductCard key={item.id} {...item} />
+                ))}
+            </div>
+
+            {/* Mobile Scroll */}
+            <div className="md:hidden flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+              {recentlyViewed
+                .filter((p) => p.id !== product.id)
+                .map((item) => (
+                  <div
+                    key={item.id}
+                    className="min-w-[250px] snap-start"
+                  >
+                    <ProductCard {...item} />
+                  </div>
+                ))}
             </div>
           </div>
-        ))}
-      </div>
-
-      {/* Fade Effect (premium look) */}
-      <div className="pointer-events-none absolute top-0 right-0 h-full w-10 bg-gradient-to-l from-white to-transparent" />
-    </div>
-  </section>
-)}
+        )}
     </div>
   );
 }
