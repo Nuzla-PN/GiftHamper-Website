@@ -565,8 +565,8 @@ relatedProducts = relatedProducts.slice(0, 4);
               ))}
             </div>
 
-            {/* Fade Effect*/}
-            <div className="pointer-events-none absolute top-0 right-0 h-full w-10 bg-gradient-to-l from-white to-transparent" />
+            {/* Fade Effect */}
+            <div className="pointer-events-none absolute top-0 right-0 h-full w-3 bg-gradient-to-l from-white to-transparent" />
           </div>
         </section>
       )}
@@ -618,9 +618,13 @@ relatedProducts = relatedProducts.slice(0, 4);
                   >
                     <ProductCard {...item} />
                   </div>
+                  
                 ))}
             </div>
+            {/* Fade Effect */}
+            <div className="pointer-events-none absolute top-0 right-0 h-full w-3 bg-gradient-to-l from-white to-transparent" />
           </div>
+          
         )}
     </div>
   );
