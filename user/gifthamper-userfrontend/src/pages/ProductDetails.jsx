@@ -12,6 +12,7 @@ import {
   Truck,
   Shield,
   MessageCircle,
+  ChevronRight,
 } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 
@@ -36,14 +37,44 @@ export default function ProductDetails() {
     );
   }
 
-  const relatedProducts = products
-    .filter((p) => p.id !== product.id)
-    .slice(0, 4);
+ let relatedProducts = products.filter(
+  (p) =>
+    String(p.id) !== String(product.id) &&
+    p.mainCategory === product.mainCategory &&
+    p.subCategory === product.subCategory
+);
+
+// 🔥 If no exact match → fallback
+if (relatedProducts.length === 0) {
+  relatedProducts = products.filter(
+    (p) =>
+      String(p.id) !== String(product.id) &&
+      p.mainCategory === product.mainCategory
+  );
+}
+
+// 🔥 Still empty → show featured
+if (relatedProducts.length === 0) {
+  relatedProducts = products.filter(
+    (p) =>
+      String(p.id) !== String(product.id) &&
+      p.isFeatured
+  );
+}
+
+//if no main,sub and featured prdt show some random product
+if (relatedProducts.length === 0) {
+  relatedProducts = products.filter(
+    (p) => String(p.id) !== String(product.id)
+  );
+}
+
+relatedProducts = relatedProducts.slice(0, 4);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 sm:py-10">
       
-      {/* 🔹 Breadcrumb */}
+      {/*  Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6 flex flex-wrap gap-1">
         <Link to="/" className="hover:text-[#8B3A62]">Home</Link>
         <span>/</span>
@@ -52,14 +83,14 @@ export default function ProductDetails() {
         <span className="text-[#8B3A62]">{product.title}</span>
       </div>
 
-      {/* 🔹 MAIN GRID */}
+      {/*  MAIN GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
         
-        {/* 🖼 IMAGE SECTION */}
+        {/*  IMAGE SECTION */}
         <div>
           <div className="relative rounded-xl overflow-hidden bg-gray-100">
             <img
-              src={product.image}
+              src={product.image[selectedImage]}
               alt={product.title}
               className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover"
             />
@@ -74,16 +105,36 @@ export default function ProductDetails() {
                 }`}
               />
             </button>
+
+            
+          </div>
+
+          
+
+          <div className="flex gap-2 mt-4 overflow-x-auto">
+            {product.image.map((img, index) => (
+              <img
+                key={index}
+                src={img}
+                alt={`${product.title} ${index + 1}`}
+                className={`w-16 h-16 sm:w-20 sm:h-20 object-cover rounded cursor-pointer border-2 ${
+                  selectedImage === index
+                    ? "border-[#8B3A62]"
+                    : "border-gray-200"
+                }`}
+                onClick={() => setSelectedImage(index)}
+              />
+            ))}
           </div>
         </div>
 
-        {/* 🛒 DETAILS */}
+        {/*  DETAILS */}
         <div>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl text-[#8B3A62] font-semibold mb-3">
             {product.title}
           </h1>
 
-          {/* ⭐ Rating */}
+          {/*  Rating */}
           <div className="flex items-center gap-2 mb-4">
             {[...Array(5)].map((_, i) => (
               <Star
@@ -100,14 +151,14 @@ export default function ProductDetails() {
             </span>
           </div>
 
-          {/* 💰 Price */}
+          {/*  Price */}
           <div className="mb-4">
             <span className="text-2xl sm:text-3xl text-[#8B3A62] font-bold">
               ₹{product.price}
             </span>
           </div>
 
-          {/* 🧾 Seller */}
+          {/*  Seller */}
           <div className="bg-[#F7E3DC] p-4 rounded-lg mb-6 flex items-center gap-3">
             <Package className="text-[#8B3A62]" />
             <div>
@@ -118,7 +169,7 @@ export default function ProductDetails() {
             </div>
           </div>
 
-          {/* 🔢 Quantity */}
+          {/*  Quantity */}
           <div className="flex items-center gap-4 mb-6">
             <div className="flex border rounded-lg">
               <button
@@ -227,7 +278,7 @@ export default function ProductDetails() {
       </motion.div>
     )}
 
-    {/* 🔸 REVIEWS */}
+    {/* 🔸 REVIEWS
     {activeTab === "reviews" && (
       <motion.div
         initial={{ opacity: 0, y: 15 }}
@@ -276,7 +327,96 @@ export default function ProductDetails() {
           <p className="text-gray-500">No reviews yet.</p>
         )}
       </motion.div>
-    )}
+    )} */}
+
+    {/* 🔸 REVIEWS */}
+{activeTab === "reviews" && (
+  <motion.div
+    initial={{ opacity: 0, y: 15 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="mt-6"
+  >
+    <div className="bg-white rounded-xl shadow p-4 sm:p-6">
+      
+      <h3 className="text-xl sm:text-2xl font-semibold mb-6 text-[#0e0409]">
+        Customer Reviews
+      </h3>
+
+      
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+        
+        
+        <div className="text-3xl sm:text-4xl font-bold text-[#170910]">
+          {product.rating || 0}
+        </div>
+
+        
+        <div>
+          <div className="flex items-center gap-1 mb-1">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className={`w-5 h-5 ${
+                  i < Math.floor(product.rating)
+                    ? "fill-yellow-400 text-yellow-400"
+                    : "text-gray-300"
+                }`}
+              />
+            ))}
+          </div>
+
+          <p className="text-sm text-gray-600">
+            Based on {product.reviews || 0} reviews
+          </p>
+        </div>
+      </div>
+
+      {/* 🔹 Reviews List */}
+      {product.reviewsData?.length > 0 ? (
+        <div className="space-y-5">
+          {product.reviewsData.map((review) => (
+            <div key={review.id} className="border-t pt-4">
+              
+              {/* Rating + Title */}
+              <div className="flex items-center gap-2 mb-2">
+                <div className="flex">
+                  {[...Array(5)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className={`w-4 h-4 ${
+                        i < review.rating
+                          ? "fill-yellow-400 text-yellow-400"
+                          : "text-gray-300"
+                      }`}
+                    />
+                  ))}
+                </div>
+
+                <span className="font-semibold text-sm sm:text-base">
+                  {review.title || "Great product!"}
+                </span>
+              </div>
+
+              {/* Comment */}
+              <p className="text-sm sm:text-base text-gray-700 mb-2">
+                {review.comment}
+              </p>
+
+              {/* User + Date */}
+              <p className="text-xs text-gray-500">
+                - {review.name} | {review.date}
+              </p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-500 text-sm">
+          No reviews yet.
+        </p>
+      )}
+    </div>
+  </motion.div>
+)}
 
     {/* 🔸 SELLER */}
     {activeTab === "seller" && (
@@ -344,16 +484,73 @@ export default function ProductDetails() {
 
       {/* 🔹 RELATED PRODUCTS */}
       <div className="mt-16">
-        <h2 className="text-2xl sm:text-3xl text-[#8B3A62] mb-6">
+        <h2 className="text-2xl sm:text-3xl text-[#8B3A62] mb-6 font-semibold">
           Related Products
         </h2>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
           {relatedProducts.map((p) => (
             <ProductCard key={p.id} {...p} />
           ))}
         </div>
       </div>
+
+      {/* 🔹 Customers Also Bought */}
+      {relatedProducts.length > 0 && (
+  <section className="mt-16">
+    
+    {/* 🔹 Header */}
+    <div className="flex items-center justify-between mb-6">
+      <div>
+        <h2 className="text-2xl sm:text-3xl font-semibold text-[#8B3A62]">
+          Customers Also Bought
+        </h2>
+        <p className="text-gray-500 text-sm sm:text-base">
+          Products frequently bought together
+        </p>
+      </div>
+
+      <Link
+        to="/products"
+        className="hidden sm:flex items-center gap-1 text-sm font-medium text-[#8B3A62] hover:underline"
+      >
+        View All
+        <ChevronRight className="w-4 h-4" />
+      </Link>
+    </div>
+
+    {/* 🔹 Desktop Grid */}
+    <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      {relatedProducts.map((item) => (
+        <div
+          key={item.id}
+          className="group transition-transform duration-300 hover:-translate-y-1"
+        >
+          <ProductCard {...item} />
+        </div>
+      ))}
+    </div>
+
+    {/* 🔹 Mobile Horizontal Scroll */}
+    <div className="md:hidden relative">
+      <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+        {relatedProducts.map((item) => (
+          <div
+            key={item.id}
+            className="min-w-[260px] snap-start flex-shrink-0"
+          >
+            <div className="group transition-transform duration-300 hover:scale-[1.02]">
+              <ProductCard {...item} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Fade Effect (premium look) */}
+      <div className="pointer-events-none absolute top-0 right-0 h-full w-10 bg-gradient-to-l from-white to-transparent" />
+    </div>
+  </section>
+)}
     </div>
   );
 }
