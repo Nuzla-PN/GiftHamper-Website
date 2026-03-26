@@ -820,8 +820,8 @@ export default function ProductListing() {
         </div>
       </div>
 
-      {/* 🔥 MOBILE BOTTOM BAR */}
-      {!hideFilters && (
+      {/*  MOBILE BOTTOM BAR */}
+      {!hideFilters && !showFilters && !showSort && (
         <div className="fixed bottom-0 left-0 w-full bg-white border-t z-50 flex lg:hidden shadow-md">
           <button
             onClick={() => setShowSort(true)}
