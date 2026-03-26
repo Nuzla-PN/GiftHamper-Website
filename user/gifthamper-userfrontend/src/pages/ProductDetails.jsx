@@ -608,7 +608,8 @@ relatedProducts = relatedProducts.slice(0, 4);
             </div>
 
             {/* Mobile Scroll */}
-            <div className="md:hidden flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
+            <div className="md:hidden relative">
+            <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide">
               {recentlyViewed
                 .filter((p) => p.id !== product.id)
                 .map((item) => (
@@ -618,11 +619,12 @@ relatedProducts = relatedProducts.slice(0, 4);
                   >
                     <ProductCard {...item} />
                   </div>
-                  
                 ))}
-            </div>
-            {/* Fade Effect */}
+                </div>
+                Fade Effect
             <div className="pointer-events-none absolute top-0 right-0 h-full w-3 bg-gradient-to-l from-white to-transparent" />
+            </div>
+            
           </div>
           
         )}
