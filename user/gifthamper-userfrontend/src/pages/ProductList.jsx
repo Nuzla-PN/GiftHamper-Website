@@ -780,19 +780,45 @@ export default function ProductListing() {
         <div className={hideFilters ? "" : "lg:col-span-3"}>
 
           {/* DESKTOP SORT */}
-          <div className="hidden lg:flex justify-between mb-4">
-            <p>{filteredProducts.length} products</p>
+          <div className="hidden lg:flex items-center justify-between mb-6 border-b pb-4">
 
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="border px-2 py-1 rounded"
-            >
-              <option value="popular">Popular</option>
-              <option value="price-low">Low → High</option>
-              <option value="price-high">High → Low</option>
-              <option value="rating">Top Rated</option>
-            </select>
+            {/* LEFT: PRODUCT COUNT */}
+            <div>
+              <p className="text-sm text-gray-600">
+                Showing{" "}
+                <span className="font-semibold text-gray-900">
+                  {filteredProducts.length}
+                </span>{" "}
+                results
+              </p>
+            </div>
+
+            {/* RIGHT: SORT */}
+            <div className="flex items-center gap-3">
+
+              <span className="text-sm text-gray-600">
+                Sort by:
+              </span>
+
+              <div className="relative">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="appearance-none bg-white border border-gray-300 text-sm rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-[#8B3A62] focus:border-[#8B3A62] cursor-pointer hover:border-[#8B3A62] transition"
+                >
+                  <option value="popular">Popular</option>
+                  <option value="price-low">Price: Low → High</option>
+                  <option value="price-high">Price: High → Low</option>
+                  <option value="rating">Top Rated</option>
+                </select>
+
+                {/* CUSTOM DROPDOWN ICON */}
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 pointer-events-none">
+                  ▼
+                </span>
+              </div>
+
+            </div>
           </div>
 
           {/* MOBILE COUNT */}

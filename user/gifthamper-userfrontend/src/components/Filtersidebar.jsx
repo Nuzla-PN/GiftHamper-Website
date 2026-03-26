@@ -1,4 +1,4 @@
-//code 3 
+//------------------------------------------------code 3--------------------------------------------------// 
 import { Star, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -32,21 +32,21 @@ export default function FilterSidebar({
     <AnimatePresence>
       {isOpen && (
         <>
-          {/* 🔹 MOBILE OVERLAY */}
+          {/*  MOBILE OVERLAY */}
           <div
             className="fixed inset-0 bg-black/40 z-40 lg:hidden"
             onClick={onClose}
           />
 
-          {/* 🔹 SIDEBAR */}
+          {/*  SIDEBAR */}
           <motion.div
             initial={{ x: -300 }}
             animate={{ x: 0 }}
             exit={{ x: -300 }}
-            transition={{ duration: 0.3 }}
+            // transition={{ duration: 0.3 }}
             className="fixed lg:static top-0 left-0 h-full lg:h-auto w-72 lg:w-full bg-white z-50 shadow-lg lg:shadow-none p-5 overflow-y-auto pb-24"
           >
-            {/* 🔹 HEADER */}
+            {/*  HEADER */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-lg font-semibold text-[#8B3A62] tracking-tight">
                 Filters
@@ -56,7 +56,7 @@ export default function FilterSidebar({
               </button>
             </div>
 
-            {/* 🔹 CATEGORY */}
+            {/*  CATEGORY */}
             {Object.entries(categoryMap).map(([cat, subs]) => (
               <div key={cat} className="mb-6">
                 <h3 className="text-sm font-semibold mb-3 text-[#8B3A62] tracking-tight">
@@ -64,26 +64,61 @@ export default function FilterSidebar({
                 </h3>
 
                 {(subs || []).map((sub) => (
+                  // <label
+                  //   key={sub}
+                  //   className="flex items-center justify-between text-sm mb-2 cursor-pointer group"
+                  // >
+                  //   <span className="text-gray-700 group-hover:text-[#8B3A62] transition">
+                  //     {sub}
+                  //   </span>
+
+                  //   <input
+                  //     type="checkbox"
+                  //     checked={tempFilters[cat]?.includes(sub) || false}
+                  //     onChange={() => toggleCategory(cat, sub)}
+                  //     className="w-4 h-4 accent-[#8B3A62] cursor-pointer"
+                  //   />
+                  // </label>
                   <label
                     key={sub}
+                    onClick={() => toggleCategory(cat, sub)}
                     className="flex items-center justify-between text-sm mb-2 cursor-pointer group"
                   >
+                    {/* TEXT */}
                     <span className="text-gray-700 group-hover:text-[#8B3A62] transition">
                       {sub}
                     </span>
 
-                    <input
-                      type="checkbox"
-                      checked={tempFilters[cat]?.includes(sub) || false}
-                      onChange={() => toggleCategory(cat, sub)}
-                      className="w-4 h-4 accent-[#8B3A62] cursor-pointer"
-                    />
+                    {/* CUSTOM CHECKBOX */}
+                    <div
+                      className={`w-5 h-5 flex items-center justify-center rounded border transition-all duration-200
+                        ${
+                          tempFilters[cat]?.includes(sub)
+                            ? "bg-[#8B3A62] border-[#8B3A62]"
+                            : "border-gray-300"
+                        }
+                      `}
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        className={`w-3.5 h-3.5 text-white transition-all duration-200 ${
+                          tempFilters[cat]?.includes(sub)
+                            ? "opacity-100 scale-100"
+                            : "opacity-0 scale-75"
+                        }`}
+                      >
+                        <path
+                          fill="currentColor"
+                          d="M20.285 6.708l-11.4 11.4-5.17-5.17 1.414-1.414 3.756 3.756 9.986-9.986z"
+                        />
+                      </svg>
+                    </div>
                   </label>
                 ))}
               </div>
             ))}
 
-            {/* 🔹 PRICE */}
+            {/*  PRICE */}
             <div className="mb-6">
               <h3 className="text-sm font-semibold mb-3 text-[#8B3A62]">
                 Price
@@ -108,7 +143,7 @@ export default function FilterSidebar({
               </div>
             </div>
 
-            {/* 🔹 RATING */}
+            {/*  RATING */}
             <div className="mb-6">
               <h3 className="text-sm font-semibold mb-3 text-[#8B3A62]">
                 Rating
@@ -168,6 +203,8 @@ export default function FilterSidebar({
     </AnimatePresence>
   );
 }
+
+//code 1 black text theame
 
 // import { Star, X } from "lucide-react";
 // import { motion, AnimatePresence } from "framer-motion";
@@ -323,7 +360,7 @@ export default function FilterSidebar({
 //   );
 // }
 
-// code 2 nyka style 
+// ----------------------------------------------code 2 nyka style----------------------------------------------------- //
 
 // import { useState } from "react";
 // import { motion, AnimatePresence } from "framer-motion";
