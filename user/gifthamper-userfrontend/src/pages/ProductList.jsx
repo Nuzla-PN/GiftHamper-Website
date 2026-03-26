@@ -302,14 +302,284 @@
 
 //code 3
 
+// import { useState } from "react";
+// import { motion } from "framer-motion";
+// import ProductCard from "../components/ProductCard";
+// import { ChevronDown } from "lucide-react";
+// import { useSelector } from "react-redux";
+// import { useLocation, Link, useSearchParams } from "react-router-dom";
+// import FilterSidebar from "../components/Filtersidebar";
+
+// const formatTitle = (text) => {
+//   if (!text) return "";
+//   return text
+//     .split("-")
+//     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+//     .join(" ");
+// };
+
+// export default function ProductListing() {
+//   const location = useLocation();
+//   const params = new URLSearchParams(location.search);
+
+//   const selectedCategory = params.get("category");
+//   const subCategory = params.get("sub");
+
+//   const products = useSelector((state) => state.products.items);
+
+//   const [searchParams] = useSearchParams();
+//   const isFeatured = searchParams.get("featured") === "true";
+//   let filteredProd = products;
+//   if (isFeatured) {
+//   filteredProd = filteredProd.filter((p) => p.isFeatured);
+//   }
+  
+//   // STATES
+//   const [showFilters, setShowFilters] = useState(false);
+//   const [tempFilters, setTempFilters] = useState({});
+//   const [appliedFilters, setAppliedFilters] = useState({});
+//   const [priceRange, setPriceRange] = useState([0, 5000]);
+//   const [rating, setRating] = useState(0);
+//   const [sortBy, setSortBy] = useState("popular");
+
+  
+
+//   //  CATEGORY MAP
+//   const categoryMap = {
+//     Occasion: ["Birthday", "Anniversary", "Wedding", "Baby shower","Graduation","Housewarming"],
+//     Recipient: ["For Him", "For Her", "For Kids", "For Parents","For Couples","Corporate Gifts"],
+//     Festival: ["Christmas", "Diwali", "New Year","Mothers Day","Valentines Day","Fathers Day"],
+//     GiftType: ["Luxury", "Handmade", "Chocolate Hamper","Snack Hamper","Dry Fruit Hamper","Coffee & Tea","Self Care","Personalized","Wellness"],
+//   };
+
+//  // ✅ HIDE FILTERS IF SUBCATEGORY EXISTS
+//   const hideFilters = !!subCategory;
+//    // ✅ SHOW ONLY RELEVANT FILTERS
+//   const visibleFilters = selectedCategory
+//     ? { [selectedCategory]: categoryMap[selectedCategory],
+//     GiftType: categoryMap.GiftType|| [],
+//     }: categoryMap;
+
+//   //  HANDLE FILTER CHANGE
+//   const handleFilterChange = (category, value) => {
+//     setTempFilters((prev) => {
+//       const current = prev[category] || [];
+
+//       return {
+//         ...prev,
+//         [category]: current.includes(value)
+//           ? current.filter((v) => v !== value)
+//           : [...current, value],
+//       };
+//     });
+//   };
+
+//   //  FILTER LOGIC
+//   const selectedValues = Object.values(appliedFilters)
+//     .flat()
+//     .map((v) => v.toLowerCase());
+
+//   let filteredProducts = products.filter((product) => {
+//     const productMain = product.mainCategory?.toLowerCase();
+//     const productSub = product.subCategory?.toLowerCase();
+
+//     // URL filter
+//     let urlMatch = true;
+
+//     if (selectedCategory && subCategory) {
+//       urlMatch =
+//         productMain === selectedCategory.toLowerCase() &&
+//         productSub === subCategory.toLowerCase();
+//     } else if (selectedCategory) {
+//       urlMatch = productMain === selectedCategory.toLowerCase();
+//     }
+
+//     // Sidebar filter
+//     const categoryMatch =
+//       selectedValues.length === 0 ||
+//       selectedValues.includes(productSub);
+
+//     const priceMatch =
+//       product.price >= priceRange[0] &&
+//       product.price <= priceRange[1];
+
+//     const ratingMatch =
+//       rating === 0 || product.rating >= rating;
+
+//     return urlMatch && categoryMatch && priceMatch && ratingMatch;
+//   });
+
+//   //  SORTING
+//   if (sortBy === "price-low") {
+//     filteredProducts.sort((a, b) => a.price - b.price);
+//   } else if (sortBy === "price-high") {
+//     filteredProducts.sort((a, b) => b.price - a.price);
+//   } else if (sortBy === "rating") {
+//     filteredProducts.sort((a, b) => b.rating - a.rating);
+//   }
+
+//   return (
+//     <div className="max-w-7xl mx-auto px-4 py-6">
+
+//       {/*  BREADCRUMB */}
+//       <div className="text-sm text-gray-500 mb-4">
+//         <Link to="/">Home</Link>
+
+//         {selectedCategory && (
+//           <>
+//             {" > "}
+//             <Link to={`/products?category=${selectedCategory}`}>
+//               {formatTitle(selectedCategory)}
+//             </Link>
+//           </>
+//         )}
+
+//         {subCategory && (
+//           <>
+//             {" > "}
+//             <span className="text-[#8B3A62] font-medium">
+//               {formatTitle(subCategory)}
+//             </span>
+//           </>
+//         )}
+//       </div>
+
+//       {/*  HEADER */}
+//       <div className="mb-6">
+//         <h1 className="text-3xl text-[#8B3A62] mb-2">
+//           {subCategory
+//             ? `${formatTitle(subCategory)} Hampers`
+//             : selectedCategory
+//             ? `${formatTitle(selectedCategory)} Hampers`
+//             : "All Gift Hampers"}
+//         </h1>
+
+//         <p className="text-gray-600">
+//           Explore our premium collection
+//         </p>
+//       </div>
+
+//       {/*  MOBILE FILTER BUTTON */}
+//       {!hideFilters && (
+//         <button
+//           onClick={() => setShowFilters(true)}
+//           className="lg:hidden bg-[#8B3A62] text-white px-4 py-2 rounded mb-4"
+//         >
+//           Filters
+//         </button>
+//       )}
+
+//       {/* MOBILE OVERLAY */}
+//       {!hideFilters && showFilters && (
+//         <div
+//           className="fixed inset-0 bg-black/40 z-40"
+//           onClick={() => setShowFilters(false)}
+//         />
+//       )}
+
+//       {/*  MOBILE SIDEBAR */}
+//       {!hideFilters && (
+//         <FilterSidebar
+//           isOpen={showFilters}
+//           onClose={() => setShowFilters(false)}
+//           categoryMap={visibleFilters}
+//           tempFilters={tempFilters}
+//           setTempFilters={setTempFilters}
+//           priceRange={priceRange}
+//           setPriceRange={setPriceRange}
+//           rating={rating}
+//           setRating={setRating}
+//           onApply={() => {
+//             setAppliedFilters(tempFilters);
+//             setShowFilters(false);
+//           }}
+//           onClear={() => {
+//             setTempFilters({});
+//             setAppliedFilters({});
+//             setPriceRange([0, 5000]);
+//             setRating(0);
+//           }}
+//         />
+//       )}
+
+//       {/*  MAIN GRID */}
+//       <div className={`grid ${hideFilters ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-4"} gap-6`}>
+//         {/* DESKTOP FILTER */}
+//         {!hideFilters && (
+//           <div className="hidden lg:block">
+//             <FilterSidebar
+//               isOpen={true}
+//               categoryMap={visibleFilters}
+//               tempFilters={tempFilters}
+//               setTempFilters={setTempFilters}
+//               priceRange={priceRange}
+//               setPriceRange={setPriceRange}
+//               rating={rating}
+//               setRating={setRating}
+//               onApply={() => setAppliedFilters(tempFilters)}
+//               onClear={() => {
+//                 setTempFilters({});
+//                 setAppliedFilters({});
+//                 setPriceRange([0, 5000]);
+//                 setRating(0);
+//               }}
+//             />
+//           </div>
+//         )}
+
+//         {/* PRODUCTS */}
+//         <div className={hideFilters ? "" : "lg:col-span-3"}>
+
+//           {/* TOOLBAR */}
+//           <div className="flex justify-between mb-4">
+//             <p>{filteredProducts.length} products</p>
+
+//             <select
+//               value={sortBy}
+//               onChange={(e) => setSortBy(e.target.value)}
+//               className="border px-2 py-1 rounded"
+//             >
+//               <option value="popular">Popular</option>
+//               <option value="price-low">Low → High</option>
+//               <option value="price-high">High → Low</option>
+//               <option value="rating">Top Rated</option>
+//             </select>
+//           </div>
+
+//           {/* GRID */}
+//           {filteredProducts.length === 0 ? (
+//             <p className="text-center mt-10">No products found</p>
+//           ) : (
+//             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+//               {filteredProducts.map((product, index) => (
+//                 <motion.div
+//                   key={product.id}
+//                   initial={{ opacity: 0, y: 20 }}
+//                   animate={{ opacity: 1, y: 0 }}
+//                   transition={{ delay: index * 0.05 }}
+//                 >
+//                   <ProductCard {...product} />
+//                 </motion.div>
+//               ))}
+//             </div>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
+//code 4
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import ProductCard from "../components/ProductCard";
-import { ChevronDown } from "lucide-react";
 import { useSelector } from "react-redux";
 import { useLocation, Link, useSearchParams } from "react-router-dom";
 import FilterSidebar from "../components/Filtersidebar";
+import { SlidersHorizontal, ArrowUpDown } from "lucide-react";
 
+// ✅ FORMAT TITLE
 const formatTitle = (text) => {
   if (!text) return "";
   return text
@@ -329,61 +599,50 @@ export default function ProductListing() {
 
   const [searchParams] = useSearchParams();
   const isFeatured = searchParams.get("featured") === "true";
+
   let filteredProd = products;
   if (isFeatured) {
-  filteredProd = filteredProd.filter((p) => p.isFeatured);
+    filteredProd = filteredProd.filter((p) => p.isFeatured);
   }
-  
-  // STATES
+
+  // ✅ STATES
   const [showFilters, setShowFilters] = useState(false);
+  const [showSort, setShowSort] = useState(false);
+
   const [tempFilters, setTempFilters] = useState({});
   const [appliedFilters, setAppliedFilters] = useState({});
   const [priceRange, setPriceRange] = useState([0, 5000]);
   const [rating, setRating] = useState(0);
   const [sortBy, setSortBy] = useState("popular");
 
-  
-
-  //  CATEGORY MAP
+  // ✅ CATEGORY MAP
   const categoryMap = {
-    Occasion: ["Birthday", "Anniversary", "Wedding", "Baby shower","Graduation","Housewarming"],
-    Recipient: ["For Him", "For Her", "For Kids", "For Parents","For Couples","Corporate Gifts"],
-    Festival: ["Christmas", "Diwali", "New Year","Mothers Day","Valentines Day","Fathers Day"],
-    GiftType: ["Luxury", "Handmade", "Chocolate Hamper","Snack Hamper","Dry Fruit Hamper","Coffee & Tea","Self Care","Personalized","Wellness"],
+    Occasion: ["Birthday", "Anniversary", "Wedding", "Baby shower", "Graduation", "Housewarming"],
+    Recipient: ["For Him", "For Her", "For Kids", "For Parents", "For Couples", "Corporate Gifts"],
+    Festival: ["Christmas", "Diwali", "New Year", "Mothers Day", "Valentines Day", "Fathers Day"],
+    GiftType: ["Luxury", "Handmade", "Chocolate Hamper", "Snack Hamper", "Dry Fruit Hamper", "Coffee & Tea", "Self Care", "Personalized", "Wellness"],
   };
 
- // ✅ HIDE FILTERS IF SUBCATEGORY EXISTS
+  // ✅ HIDE FILTERS IF SUBCATEGORY EXISTS
   const hideFilters = !!subCategory;
-   // ✅ SHOW ONLY RELEVANT FILTERS
+
+  // ✅ VISIBLE FILTERS
   const visibleFilters = selectedCategory
-    ? { [selectedCategory]: categoryMap[selectedCategory],
-    GiftType: categoryMap.GiftType|| [],
-    }: categoryMap;
+    ? {
+        [selectedCategory]: categoryMap[selectedCategory],
+        GiftType: categoryMap.GiftType || [],
+      }
+    : categoryMap;
 
-  // 🔥 HANDLE FILTER CHANGE
-  const handleFilterChange = (category, value) => {
-    setTempFilters((prev) => {
-      const current = prev[category] || [];
-
-      return {
-        ...prev,
-        [category]: current.includes(value)
-          ? current.filter((v) => v !== value)
-          : [...current, value],
-      };
-    });
-  };
-
-  // 🔥 FILTER LOGIC
+  // ✅ FILTER LOGIC
   const selectedValues = Object.values(appliedFilters)
     .flat()
     .map((v) => v.toLowerCase());
 
-  let filteredProducts = products.filter((product) => {
+  let filteredProducts = filteredProd.filter((product) => {
     const productMain = product.mainCategory?.toLowerCase();
     const productSub = product.subCategory?.toLowerCase();
 
-    // URL filter
     let urlMatch = true;
 
     if (selectedCategory && subCategory) {
@@ -394,7 +653,6 @@ export default function ProductListing() {
       urlMatch = productMain === selectedCategory.toLowerCase();
     }
 
-    // Sidebar filter
     const categoryMatch =
       selectedValues.length === 0 ||
       selectedValues.includes(productSub);
@@ -409,7 +667,7 @@ export default function ProductListing() {
     return urlMatch && categoryMatch && priceMatch && ratingMatch;
   });
 
-  // 🔥 SORTING
+  // ✅ SORTING
   if (sortBy === "price-low") {
     filteredProducts.sort((a, b) => a.price - b.price);
   } else if (sortBy === "price-high") {
@@ -419,9 +677,9 @@ export default function ProductListing() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="max-w-7xl mx-auto px-4 py-6 pb-24">
 
-      {/* 🔥 BREADCRUMB */}
+      {/* 🔹 BREADCRUMB */}
       <div className="text-sm text-gray-500 mb-4">
         <Link to="/">Home</Link>
 
@@ -444,9 +702,9 @@ export default function ProductListing() {
         )}
       </div>
 
-      {/* 🔥 HEADER */}
+      {/* 🔹 HEADER */}
       <div className="mb-6">
-        <h1 className="text-3xl text-[#8B3A62] mb-2">
+        <h1 className="text-2xl md:text-3xl text-[#8B3A62] mb-2">
           {subCategory
             ? `${formatTitle(subCategory)} Hampers`
             : selectedCategory
@@ -454,22 +712,12 @@ export default function ProductListing() {
             : "All Gift Hampers"}
         </h1>
 
-        <p className="text-gray-600">
+        <p className="text-gray-600 text-sm md:text-base">
           Explore our premium collection
         </p>
       </div>
 
-      {/* 🔥 MOBILE FILTER BUTTON */}
-      {!hideFilters && (
-        <button
-          onClick={() => setShowFilters(true)}
-          className="lg:hidden bg-[#8B3A62] text-white px-4 py-2 rounded mb-4"
-        >
-          Filters
-        </button>
-      )}
-
-      {/* 🔥 MOBILE OVERLAY */}
+      {/* 🔹 MOBILE FILTER OVERLAY */}
       {!hideFilters && showFilters && (
         <div
           className="fixed inset-0 bg-black/40 z-40"
@@ -477,7 +725,7 @@ export default function ProductListing() {
         />
       )}
 
-      {/* 🔥 MOBILE SIDEBAR */}
+      {/* 🔹 FILTER SIDEBAR */}
       {!hideFilters && (
         <FilterSidebar
           isOpen={showFilters}
@@ -502,8 +750,9 @@ export default function ProductListing() {
         />
       )}
 
-      {/* 🔥 MAIN GRID */}
+      {/* 🔹 MAIN GRID */}
       <div className={`grid ${hideFilters ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-4"} gap-6`}>
+
         {/* DESKTOP FILTER */}
         {!hideFilters && (
           <div className="hidden lg:block">
@@ -530,8 +779,8 @@ export default function ProductListing() {
         {/* PRODUCTS */}
         <div className={hideFilters ? "" : "lg:col-span-3"}>
 
-          {/* TOOLBAR */}
-          <div className="flex justify-between mb-4">
+          {/* DESKTOP SORT */}
+          <div className="hidden lg:flex justify-between mb-4">
             <p>{filteredProducts.length} products</p>
 
             <select
@@ -546,11 +795,16 @@ export default function ProductListing() {
             </select>
           </div>
 
+          {/* MOBILE COUNT */}
+          <p className="lg:hidden mb-3 text-sm text-gray-600">
+            {filteredProducts.length} products
+          </p>
+
           {/* GRID */}
           {filteredProducts.length === 0 ? (
             <p className="text-center mt-10">No products found</p>
           ) : (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {filteredProducts.map((product, index) => (
                 <motion.div
                   key={product.id}
@@ -565,6 +819,61 @@ export default function ProductListing() {
           )}
         </div>
       </div>
+
+      {/* 🔥 MOBILE BOTTOM BAR */}
+      {!hideFilters && (
+        <div className="fixed bottom-0 left-0 w-full bg-white border-t z-50 flex lg:hidden shadow-md">
+          <button
+            onClick={() => setShowSort(true)}
+            className="w-1/2 py-3 flex items-center justify-center gap-2 font-medium"
+          >
+            <ArrowUpDown size={18} /> Sort
+          </button>
+
+          <button
+            onClick={() => setShowFilters(true)}
+            className="w-1/2 py-3 flex items-center justify-center gap-2 border-l font-medium"
+          >
+            <SlidersHorizontal size={18} /> Filter
+          </button>
+        </div>
+      )}
+
+      {/* 🔥 SORT BOTTOM SHEET */}
+      {showSort && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/40 z-40"
+            onClick={() => setShowSort(false)}
+          />
+
+          <div className="fixed bottom-0 left-0 w-full bg-white z-50 rounded-t-2xl p-5 animate-slideUp">
+            <h3 className="text-lg font-semibold mb-4">Sort By</h3>
+
+            {[
+              { label: "Popular", value: "popular" },
+              { label: "Price: Low to High", value: "price-low" },
+              { label: "Price: High to Low", value: "price-high" },
+              { label: "Top Rated", value: "rating" },
+            ].map((item) => (
+              <button
+                key={item.value}
+                onClick={() => {
+                  setSortBy(item.value);
+                  setShowSort(false);
+                }}
+                className={`block w-full text-left py-3 border-b ${
+                  sortBy === item.value
+                    ? "text-[#8B3A62] font-semibold"
+                    : ""
+                }`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
