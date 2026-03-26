@@ -142,6 +142,9 @@ relatedProducts = relatedProducts.slice(0, 4);
             <img
               src={product.image[selectedImage]}
               alt={product.title}
+              initial={{ opacity: 0.3, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3 }}
               className="w-full h-[300px] sm:h-[400px] lg:h-[500px] object-cover transition duration-300"
             />
 
