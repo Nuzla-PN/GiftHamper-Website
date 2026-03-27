@@ -240,22 +240,53 @@ relatedProducts = relatedProducts.slice(0, 4);
             </span>
           </div>
 
+          {/* 🔹 Seller Info */}
+<div className="mb-6">
+  <div className="flex items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition">
+
+    {/* Icon */}
+    <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center bg-[#F7E3DC]">
+      <Package className="w-6 h-6 text-[#8B3A62]" />
+    </div>
+
+    {/* Seller Details */}
+    <div className="flex-1 min-w-0">
+      <p className="text-xs sm:text-sm text-gray-500">Sold by</p>
+
+      <div className="flex items-center gap-2">
+        <p className="font-semibold text-gray-900 truncate">
+          {product.sellerName}
+        </p>
+
+        {/*  Trusted Badge */}
+        <span className="text-[10px] sm:text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+          Trusted
+        </span>
+      </div>
+
+      <div className="flex items-center gap-1 mt-1">
+        <Star className="w-4 h-4 text-[#D4AF37] fill-[#D4AF37]" />
+        <span className="text-xs sm:text-sm text-gray-600">
+          {product.sellerRating || 4.5} • {product.sellerReviews || 120} reviews
+        </span>
+      </div>
+    </div>
+
+    {/* Visit Shop Button (inside same row always) */}
+    <Link
+      to={`/seller/${encodeURIComponent(product.sellerName)}`}
+      className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium border border-[#8B3A62] text-[#8B3A62] hover:bg-[#8B3A62] hover:text-white transition whitespace-nowrap"
+    >
+      Visit Shop
+    </Link>
+  </div>
+</div>
+
           {/*  Price */}
           <div className="mb-4">
             <span className="text-2xl sm:text-3xl text-[#8B3A62] font-bold">
               ₹{product.price}
             </span>
-          </div>
-
-          {/*  Seller */}
-          <div className="bg-[#F7E3DC] p-4 rounded-lg mb-6 flex items-center gap-3">
-            <Package className="text-[#8B3A62]" />
-            <div>
-              <p className="text-sm text-gray-600">Sold by</p>
-              <p className="font-semibold text-[#8B3A62]">
-                {product.sellerName}
-              </p>
-            </div>
           </div>
 
           {/*  Quantity */}
@@ -366,7 +397,7 @@ relatedProducts = relatedProducts.slice(0, 4);
             <button
               onClick={() => {
                 const el = document.getElementById("similar-products");
-                el?.scrollIntoView({ behavior: "smooth" });
+                el?.scrollIntoView({ behavior: "smooth",block: "start", });
               }}
               className="w-full border py-3 rounded-lg flex items-center justify-center gap-2 mb-5 hover:border-[#8B3A62]"
             >
@@ -674,7 +705,7 @@ relatedProducts = relatedProducts.slice(0, 4);
 </div>
 
       {/*  RELATED PRODUCTS */}
-      <div className="mt-16">
+      <div id="similar-products" className="mt-16 scroll-mt-40">
         <h2 className="text-2xl sm:text-3xl text-[#8B3A62] mb-6 font-semibold">
           Related Products
         </h2>
