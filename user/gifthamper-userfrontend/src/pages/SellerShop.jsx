@@ -323,7 +323,7 @@ export default function SellerPage() {
     <div className="space-y-4 text-gray-600 text-sm sm:text-base leading-relaxed">
 
       <p>
-        <span className="font-medium  text-gray-600">{sellerName}</span> is a trusted seller on our platform, known for delivering thoughtfully curated gift hampers for every occasion.
+        <span className="font-medium  text-gray-600">{sellerName}</span> is a trusted seller on our platform, known for delivering thoughtfully curated gift hampers for every occasion.known for delivering thoughtfully curated gift hampers for every occasion 
       </p>
 
       <p>
@@ -340,15 +340,15 @@ export default function SellerPage() {
     <div className="border-t mt-6 pt-6 flex flex-wrap gap-4 text-sm text-gray-500">
 
       <div>
-        <span className="font-medium text-gray-800">Experience:</span> 3+ Years
+        <span className="font-medium text-gray-800">Experience:</span> xxxxx
       </div>
 
       <div>
-        <span className="font-medium text-gray-800">Speciality:</span> Gift Hampers
+        <span className="font-medium text-gray-800">Speciality:</span> xxxxxx
       </div>
 
       <div>
-        <span className="font-medium text-gray-800">Orders Delivered:</span> 500+
+        <span className="font-medium text-gray-800">Orders Delivered:</span> xxxx
       </div>
 
     </div>

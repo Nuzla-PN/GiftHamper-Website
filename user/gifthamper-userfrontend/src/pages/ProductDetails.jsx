@@ -283,10 +283,38 @@ relatedProducts = relatedProducts.slice(0, 4);
 </div>
 
           {/*  Price */}
-          <div className="mb-4">
-            <span className="text-2xl sm:text-3xl text-[#8B3A62] font-bold">
-              ₹{product.price}
-            </span>
+          <div className="mb-5">
+            <div className="flex items-end gap-3 flex-wrap">
+
+              {/* Final Price */}
+              <span className="text-3xl sm:text-4xl font-bold text-[#8B3A62]">
+                ₹{product.price}
+              </span>
+
+              {/* Original Price (if exists) */}
+              {product.originalPrice && (
+                <span className="text-lg text-gray-400 line-through">
+                  ₹{product.originalPrice}
+                </span>
+              )}
+
+              {/* Discount % */}
+              {product.originalPrice && (
+                <span className="text-sm font-semibold text-green-600">
+                  {Math.round(
+                    ((product.originalPrice - product.price) / product.originalPrice) * 100
+                  )}
+                  % OFF
+                </span>
+              )}
+            </div>
+
+            {/* Savings text */}
+            {product.originalPrice && (
+              <p className="text-sm text-green-700 mt-1 font-medium">
+                You save ₹{product.originalPrice - product.price}
+              </p>
+            )}
           </div>
 
           {/*  Quantity */}
