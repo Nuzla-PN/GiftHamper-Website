@@ -8,16 +8,13 @@ const initialState = {
       sellerName: "Sweet Treats",
       sellerRating: 4.7,
       sellerReviews: 210,
-
       stock: 10,
-
       image: ["https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
               "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
               "https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=400",
               ],
       price: 2000,
       originalPrice: 2500,
-
       rating: 4,
       reviews: 120,
       reviewsData: [
@@ -38,18 +35,14 @@ const initialState = {
             date: "1 week ago",
           },
         ],
-
       description:
-        "A delightful chocolate hamper filled with premium chocolates, perfect for gifting on birthdays and special occasions.",
-
+            "A delightful chocolate hamper filled with premium chocolates, perfect for gifting on birthdays and special occasions.",
       features: [
-        "Premium imported chocolates",
-        "Beautiful gift packaging",
-        "Custom message card included",
+            "Premium imported chocolates",
+            "Beautiful gift packaging",
+            "Custom message card included",
       ],
-
       tags: ["Chocolate", "Birthday", "Gift Hamper"],
-
       mainCategory: "Occasion",
       subCategory: "Birthday",
       isFeatured: true,

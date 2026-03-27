@@ -160,7 +160,7 @@ export default function SellerPage() {
         </div>
       </div>
 
-{/* 🔹 STORE INFO SIDEBAR */}
+{/*  STORE INFO SIDEBAR */}
 <div className="lg:col-span-1">
   <div className="bg-white border rounded-2xl p-5 sm:p-6 shadow-sm lg:sticky lg:top-24">
 
@@ -180,7 +180,7 @@ export default function SellerPage() {
         <div>
           <p className="text-xs text-gray-500">Location</p>
           <p className="text-sm font-medium text-gray-800">
-            Mumbai, Maharashtra
+            xxxxxx,xxxxxxxxxxxx
           </p>
         </div>
       </div>
@@ -217,7 +217,7 @@ export default function SellerPage() {
     {/* Divider */}
     <div className="border-t my-6" />
 
-    {/* Quick Stats */}
+    {/* Quick Stats
     <div>
       <h4 className="text-sm font-semibold text-[#8B3A62] mb-4">
         Quick Stats
@@ -241,10 +241,10 @@ export default function SellerPage() {
         </div>
 
       </div>
-    </div>
+    </div> */}
 
-    {/* Divider */}
-    <div className="border-t my-6" />
+    {/* Divider
+    <div className="border-t my-6" /> */}
 
     {/* Certifications */}
     <div>
@@ -268,8 +268,8 @@ export default function SellerPage() {
   </div>
 </div>
 
-      {/* 🔹 SELLER STATS */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+      {/*  SELLER STATS */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 mt-6">
         <div className="bg-white border rounded-xl p-4 text-center">
           <p className="text-lg font-semibold text-gray-900">
             {sellerProducts.length}
@@ -278,12 +278,12 @@ export default function SellerPage() {
         </div>
 
         <div className="bg-white border rounded-xl p-4 text-center">
-          <p className="text-lg font-semibold text-gray-900">4.5</p>
+          <p className="text-lg font-semibold text-gray-900">{seller.sellerRating}</p>
           <p className="text-sm text-gray-500">Rating</p>
         </div>
 
         <div className="bg-white border rounded-xl p-4 text-center">
-          <p className="text-lg font-semibold text-gray-900">120+</p>
+          <p className="text-lg font-semibold text-gray-900">{seller.sellerReviews}+</p>
           <p className="text-sm text-gray-500">Reviews</p>
         </div>
 
@@ -293,7 +293,7 @@ export default function SellerPage() {
         </div>
       </div>
 
-      {/* 🔹 PRODUCTS */}
+      {/*  PRODUCTS */}
       <div>
         <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-6">
           Products by {sellerName}
@@ -309,6 +309,120 @@ export default function SellerPage() {
           </div>
         )}
       </div>
+
+      {/*  ABOUT SELLER */}
+<div className="mt-12 sm:mt-16">
+  <div className="bg-white border rounded-2xl p-6 sm:p-8 shadow-sm">
+
+    {/* Heading */}
+    <h3 className="text-xl sm:text-2xl font-semibold text-[#a7788f] mb-4">
+      About {sellerName}
+    </h3>
+
+    {/* Content */}
+    <div className="space-y-4 text-gray-600 text-sm sm:text-base leading-relaxed">
+
+      <p>
+        <span className="font-medium  text-gray-600">{sellerName}</span> is a trusted seller on our platform, known for delivering thoughtfully curated gift hampers for every occasion.
+      </p>
+
+      <p>
+        Each product is carefully designed using premium quality items to ensure a memorable gifting experience. From birthdays to festivals, every hamper is crafted with attention to detail.
+      </p>
+
+      <p>
+        Whether you're looking for something elegant, personalized, or budget-friendly, {sellerName} offers a wide variety of options to suit every need.
+      </p>
+
+    </div>
+
+    {/* Divider */}
+    <div className="border-t mt-6 pt-6 flex flex-wrap gap-4 text-sm text-gray-500">
+
+      <div>
+        <span className="font-medium text-gray-800">Experience:</span> 3+ Years
+      </div>
+
+      <div>
+        <span className="font-medium text-gray-800">Speciality:</span> Gift Hampers
+      </div>
+
+      <div>
+        <span className="font-medium text-gray-800">Orders Delivered:</span> 500+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{/* CUSTOMER REVIEWS SUMMARY */}
+<div className="mt-12 sm:mt-16">
+  <div className="bg-white border rounded-2xl p-6 sm:p-8 shadow-sm">
+
+    {/* Heading */}
+    <h3 className="text-xl sm:text-2xl font-semibold text-[#8B3A62] mb-6">
+      Customer Reviews
+    </h3>
+
+    {/* Stats Grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-8">
+
+      {/*  Rating */}
+      <div className="text-center p-5 rounded-xl bg-[#F9F5F7] border">
+        <div className="text-3xl font-bold text-gray-900 mb-2">
+          {seller.sellerRating || 4.5}
+        </div>
+
+        <div className="flex items-center justify-center gap-1 mb-2">
+          {[...Array(5)].map((_, i) => (
+            <Star
+              key={i}
+              className={`w-4 h-4 ${
+                i < Math.floor(seller.sellerRating || 4.5)
+                  ? "fill-[#D4AF37] text-[#D4AF37]"
+                  : "text-gray-300"
+              }`}
+            />
+          ))}
+        </div>
+
+        <p className="text-xs sm:text-sm text-gray-500">
+          Overall Rating
+        </p>
+      </div>
+
+      {/*  Total Reviews */}
+      <div className="text-center p-5 rounded-xl bg-[#F9F5F7] border">
+        <div className="text-3xl font-bold text-gray-900 mb-2">
+          {sellerProducts.reduce((sum, p) => sum + (p.reviews || 0), 0)}
+        </div>
+
+        <p className="text-xs sm:text-sm text-gray-500">
+          Total Reviews
+        </p>
+      </div>
+
+      {/* Positive */}
+      <div className="text-center p-5 rounded-xl bg-[#F9F5F7] border">
+        <div className="text-3xl font-bold text-gray-900 mb-2">
+          98%
+        </div>
+
+        <p className="text-xs sm:text-sm text-gray-500">
+          Positive Feedback
+        </p>
+      </div>
+
+    </div>
+
+    {/* Footer Note */}
+    <p className="text-xs sm:text-sm text-gray-500 text-center">
+      Reviews are collected from verified purchases across all products
+    </p>
+
+  </div>
+</div>
     </div>
   );
 }
