@@ -5,12 +5,14 @@ import CustomHamper from "../pages/CustomHamper.jsx";
 import ProductListing from "../pages/ProductList.jsx";
 import ProductDetails from "../pages/ProductDetails.jsx";
 import SellerPage from "../pages/SellerShop.jsx";
+import ScrollToTop from "../components/scrolltotop.jsx";
 
 
 const AppRoutes = ()=>{
   return (
     <>
 <Navbar />
+<ScrollToTop/>
  <Routes>
     {/* public pages */}
       <Route path="/" element={<Home/>}/>

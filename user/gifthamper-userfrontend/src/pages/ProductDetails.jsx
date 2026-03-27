@@ -28,6 +28,9 @@ export default function ProductDetails() {
   const product = products.find((p) => String(p.id) === String(id));
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
   if (!product) return;
 
   let stored = JSON.parse(localStorage.getItem("recentlyViewed")) || [];
@@ -219,7 +222,12 @@ relatedProducts = relatedProducts.slice(0, 4);
 
         {/*  DETAILS */}
         <div>
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl text-gray-900g font-semibold mb-3">
+          {product.isFeatured && (
+              <span className="inline-block bg-[#8B3A62] text-white text-xs px-2 py-1 rounded mb-2">
+                Bestseller
+              </span>
+            )}
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl text-gray-900 font-semibold mb-3">
             {product.title}
           </h1>
 
@@ -240,7 +248,7 @@ relatedProducts = relatedProducts.slice(0, 4);
             </span>
           </div>
 
-          {/* 🔹 Seller Info */}
+          {/* Seller Info */}
 <div className="mb-6">
   <div className="flex items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition">
 
@@ -317,12 +325,34 @@ relatedProducts = relatedProducts.slice(0, 4);
             )}
           </div>
 
+          {/*  STOCK */}
+          <div className="mb-4">
+            {product.stock > 0 ? (
+              <p className="text-sm font-medium text-green-600">
+                In Stock ({product.stock} available)
+              </p>
+            ) : (
+              <p className="text-sm font-medium text-red-500">
+                Out of Stock
+              </p>
+            )}
+          </div>
+
+          {product.stock < 5 && product.stock > 0 && (
+            <p className="text-xs text-red-500 mt-1">
+              Hurry! Only {product.stock} left
+            </p>
+          )}
+
           {/*  Quantity */}
+          <p className="text-sm font-medium text-gray-700 mb-2">
+            Quantity
+          </p>
           <div className="flex items-center gap-4 mb-6">
             <div className="flex border rounded-lg">
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="px-3 py-2"
+                className="px-3 py-2 hover:bg-gray-100"
               >
                 <Minus />
               </button>
@@ -709,7 +739,8 @@ relatedProducts = relatedProducts.slice(0, 4);
             {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-3">
               <Link
-                to={`/products?seller=${product.sellerName}`}
+                // to={`/products?seller=${product.sellerName}`}
+                to={`/seller/${encodeURIComponent(product.sellerName)}`}
                 className="px-5 py-2.5 rounded-lg text-white text-sm text-center"
                 style={{ backgroundColor: "#8B3A62" }}
               >
