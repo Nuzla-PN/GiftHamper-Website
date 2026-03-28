@@ -97,7 +97,10 @@ export const categoryConfig = {
     name: "Gift Type",
     items: [
       { id: "luxury", title: "Luxury", icon: Crown },
+      { id: "HomeDecor", title: "HomeDecor", icon: Sparkles},
       { id: "handmade", title: "Handmade", icon: Sparkles },
+      { id: "NamePlates", title: "NamePlates", icon: Sparkles },
+      { id: "Stationary", title: "Stationary", icon: Type },
       { id: "chocolate", title: "Chocolate Hamper", icon: Cookie },
       { id: "snacks", title: "Snack Hamper", icon: Cookie },
       { id: "dry-fruits", title: "Dry Fruit Hamper", icon: Grape },
@@ -116,6 +119,13 @@ export const priceConfig = [
   { title: "₹2,000 - ₹5,000", value: "2000-5000", icon: Crown },
   { title: "Above ₹5,000", value: "5000-plus", icon: Crown },
 ];
+
+export const categoryMapConfig ={
+    Occasion: ["Birthday", "Anniversary", "Wedding", "Baby shower", "Graduation", "Housewarming"],
+    Recipient: ["For Him", "For Her", "For Kids", "For Parents", "For Couples", "Corporate Gifts"],
+    Festival: ["Christmas", "Diwali", "New Year", "Mothers Day", "Valentines Day", "Fathers Day"],
+    GiftType: ["Luxury","HomeDecor","NamePlates","Stationary", "Handmade", "Chocolate Hamper", "Snack Hamper", "Dry Fruit Hamper", "Coffee & Tea", "Self Care", "Personalized", "Wellness"],
+};
 
 export const couponsConfig = [
   {

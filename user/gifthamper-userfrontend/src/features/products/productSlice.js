@@ -45,6 +45,7 @@ const initialState = {
       tags: ["Chocolate", "Birthday", "Gift Hamper"],
       mainCategory: "Occasion",
       subCategory: "Birthday",
+      giftTypes: ["Handmade", "Luxury"],
       isFeatured: true,
     },
     {
@@ -61,6 +62,7 @@ const initialState = {
       reviews: 80,
       mainCategory: "Recipient",
       subCategory: "For Her",
+      giftTypes: ["Luxury"],
       isFeatured: true,
     },
     {
@@ -77,6 +79,7 @@ const initialState = {
       reviews: 60,
       mainCategory: "Recipient",
       subCategory: "for Him",
+      giftTypes: ["Handmade", "Luxury"],
        isFeatured: true,
     },
     {
@@ -93,6 +96,7 @@ const initialState = {
       reviews: 60,
       mainCategory: "Festival",
       subCategory: "Diwali",
+      giftTypes: ["Self Care"],
        isFeatured: true,
     },
     {
@@ -109,11 +113,12 @@ const initialState = {
       reviews: 60,
       mainCategory: "Festival",
       subCategory: "Diwali",
+      giftTypes: ["Snack Hamper", "Self Care"],
        isFeatured: true,
     },
     {
       id: "6",
-      title: "Festival Hamperd",
+      title: "Festival Hamperz",
       sellerName: "seller shop name",
       sellerRating: 4.7,
       sellerReviews: 210,
@@ -140,7 +145,8 @@ const initialState = {
       rating: 4,
       reviews: 60,
       mainCategory: "Festival",
-      subCategory: "Handmade",
+      subCategory: "New Year",
+       giftTypes: ["Handmade"],
        isFeatured: true,
     },
     {
@@ -157,6 +163,7 @@ const initialState = {
       reviews: 60,
       mainCategory: "Festival",
       subCategory: "New Year",
+      giftTypes: ["Dry Fruit Hamper"],
        isFeatured: false,
     },
   ],

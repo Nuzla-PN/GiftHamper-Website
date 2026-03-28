@@ -2,6 +2,7 @@
 import { Star, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+
 export default function FilterSidebar({
   isOpen,
   onClose,

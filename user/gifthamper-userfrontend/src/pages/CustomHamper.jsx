@@ -923,6 +923,7 @@ import {
 import ProductCard from "../components/ProductCard";
 import OrderSummaryContent from "../components/Ordersummarycard";
 import { useSelector } from "react-redux";
+import FilterSidebar from "../components/Filtersidebar";
 
 export default function StepProgress() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -934,6 +935,7 @@ export default function StepProgress() {
   const [mainCategory, setMainCategory] = useState("All");
   const [subCategory, setSubCategory] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
+   const [rating, setRating] = useState(0);
 
   // ✅ STEPS
   const steps = [
@@ -985,7 +987,7 @@ export default function StepProgress() {
     Occasion: ["Birthday", "Anniversary", "Wedding","Baby shower","Graduation","House warming","Engagement","Get Well Soon"],
     Recipients: ["For Him", "For Her", "Kids","parents","couples","corporate gifts"],
     Festival: ["Christmas", "Diwali","New Year","Valentines Day","Mothers Day","Fathers Day"],
-    GiftType: ["Luxury", "Handmade","Chocolate Hamper","Snack Hamper","Dry Fruits Hamper","Self Care Hamper","coffee & Tea Hamper"],
+    GiftType: ["Luxury","HomeDecor","NamePlates","Stationary", "Handmade", "Chocolate Hamper", "Snack Hamper", "Dry Fruit Hamper", "Coffee & Tea", "Self Care", "Personalized", "Wellness"],
     };
 
   // ✅ PRODUCTS (IMPORTANT: FULL DATA)
@@ -1013,18 +1015,60 @@ export default function StepProgress() {
   });
 };
 
+  const matchesFilter = (product, value) => {
+  const val = value.toLowerCase();
+
+  return (
+    product.subCategory?.toLowerCase() === val ||
+    product.mainCategory?.toLowerCase() === val ||
+    product.giftTypes?.some(
+      (type) => type.toLowerCase() === val
+    )
+  );
+};
+
   const selectedValues = Object.values(appliedFilters).flat().map((v) => v.toLowerCase());
-  const filteredProducts = products.filter((p) => {
-  const productSub = p.subCategory?.toLowerCase();
-  const categoryMatch =
+  // const filteredProducts = products.filter((p) => {
+  // const productSub = p.subCategory?.toLowerCase();
+  // const categoryMatch =
+  //   selectedValues.length === 0 ||
+  //   selectedValues.includes(productSub);
+
+  // const priceMatch =
+  //   p.price >= priceRange[0] && p.price <= priceRange[1];
+
+  // return categoryMatch && priceMatch;
+  // });
+
+  // STRICT FILTER (AND logic)
+let filteredProducts = products.filter((product) =>{
+  const filterMatch =
     selectedValues.length === 0 ||
-    selectedValues.includes(productSub);
+    selectedValues.every((value) => matchesFilter(product, value));
 
   const priceMatch =
-    p.price >= priceRange[0] && p.price <= priceRange[1];
+    product.price >= priceRange[0] &&
+    product.price <= priceRange[1];
 
-  return categoryMatch && priceMatch;
-  });
+  const ratingMatch =
+    rating === 0 || product.rating >= rating;
+
+  return filterMatch && priceMatch && ratingMatch;
+});
+
+// //  FALLBACK → if nothing found → OR logic
+// if (filteredProducts.length === 0 && selectedValues.length > 0) {
+//   filteredProducts = products.filter((product) =>
+//     selectedValues.some((value) => matchesFilter(product, value))
+//   );
+// }
+
+// //  PRICE FILTER
+// filteredProducts = filteredProducts.filter(
+//   (p) =>
+//     p.price >= priceRange[0] &&
+//     p.price <= priceRange[1]
+// );
   
   const stepRefs = useRef([]);
 
@@ -1052,6 +1096,11 @@ export default function StepProgress() {
   if (currentStep === 2) return selectedItems.length > 0;
   return true;
 };
+
+useEffect(() => {
+  setTempFilters({});
+  setAppliedFilters({});
+}, [mainCategory, subCategory]);
 
 //order summary
 const selectedBoxData = boxes.find((b) => b.id === selectedBox);
@@ -1257,7 +1306,7 @@ const selectedItemsData = selectedItems
 
         {/* CONTENT */}
         <div className="p-4 overflow-y-auto flex-1">
-          {Object.entries(categoryMap).map(([category, subs]) => (
+          {/* {Object.entries(categoryMap).map(([category, subs]) => (
             <div key={category} className="mb-5">
               <p className="font-medium text-gray-800 mb-2">{category}</p>
 
@@ -1290,10 +1339,30 @@ const selectedItemsData = selectedItems
                 ))}
               </div>
             </div>
-          ))}
+          ))} */}
+          <FilterSidebar
+              isOpen={showFilters}
+              onClose={() => setShowFilters(false)}
+              categoryMap={categoryMap}
+              tempFilters={tempFilters}
+              setTempFilters={setTempFilters}
+              priceRange={priceRange}
+              setPriceRange={setPriceRange}
+              rating={rating}
+              setRating={setRating}
+              onApply={() => {
+                setAppliedFilters(tempFilters);
+                setShowFilters(false);
+              }}
+              onClear={() => {
+                setTempFilters({});
+                setAppliedFilters({});
+                setPriceRange([0, 5000]);
+              }}
+            />
 
           {/* PRICE FILTER */}
-          <div className="mb-6">
+          {/* <div className="mb-6">
             <h4 className="font-medium mb-3">Price Range</h4>
             <input
               type="range"
@@ -1313,11 +1382,11 @@ const selectedItemsData = selectedItems
               <span>₹{priceRange[0]}</span>
               <span>₹{priceRange[1]}</span>
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* FOOTER */}
-        <div className="p-4 border-t flex gap-2">
+        {/* <div className="p-4 border-t flex gap-2">
           <button
             onClick={() => {
               setTempFilters({});
@@ -1338,7 +1407,7 @@ const selectedItemsData = selectedItems
           >
             Apply
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
     
@@ -1349,10 +1418,10 @@ const selectedItemsData = selectedItems
       {/* DESKTOP SIDEBAR */}
       <div className="hidden lg:block lg:col-span-1">
         <div className="sticky top-24 bg-white p-4 border rounded-xl">
-          <h2 className="text-xl font-semibold text-[#8B3A62]">
+          {/* <h2 className="text-xl font-semibold text-[#8B3A62]">
                 Filters
-              </h2>
-          {Object.entries(categoryMap).map(([category, subs]) => (
+              </h2> */}
+          {/* {Object.entries(categoryMap).map(([category, subs]) => (
             
             <div key={category} className="mb-5">
               
@@ -1387,9 +1456,27 @@ const selectedItemsData = selectedItems
                 ))}
               </div>
             </div>
-          ))}
+          ))} */}
+          <div className="hidden lg:block lg:col-span-1">
+            <FilterSidebar
+              isOpen={true}
+              categoryMap={categoryMap}
+              tempFilters={tempFilters}
+              setTempFilters={setTempFilters}
+              priceRange={priceRange}
+              setPriceRange={setPriceRange}
+              rating={rating}
+              setRating={setRating}
+              onApply={() => setAppliedFilters(tempFilters)}
+              onClear={() => {
+                setTempFilters({});
+                setAppliedFilters({});
+                setPriceRange([0, 5000]);
+              }}
+            />
+        </div>
 
-          {/* PRICE */}
+          {/* PRICE
           <div className="mb-6">
             <h4 className="font-medium mb-3">Price Range</h4>
             <input
@@ -1413,7 +1500,7 @@ const selectedItemsData = selectedItems
           </div>
 
           {/* ACTIONS */}
-          <div className="mt-4 flex gap-2">
+          {/* <div className="mt-4 flex gap-2">
             <button
               onClick={() => {
                 setTempFilters({});
@@ -1431,7 +1518,7 @@ const selectedItemsData = selectedItems
             >
               Apply
             </button>
-          </div>
+          </div> */} 
         </div>
       </div>
 
@@ -1493,7 +1580,7 @@ const selectedItemsData = selectedItems
     {/* ✅ MAIN LAYOUT (same as Step 1) */}
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-      {/* 🔹 LEFT SIDE (MESSAGE + PREVIEW) */}
+      {/*  LEFT SIDE (MESSAGE + PREVIEW) */}
       <div className="lg:col-span-3">
         <div className="max-w-3xl mx-auto">
 

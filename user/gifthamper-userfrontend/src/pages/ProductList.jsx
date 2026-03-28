@@ -571,13 +571,14 @@
 
 //code 4
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import ProductCard from "../components/ProductCard";
 import { useSelector } from "react-redux";
 import { useLocation, Link, useSearchParams } from "react-router-dom";
 import FilterSidebar from "../components/Filtersidebar";
 import { SlidersHorizontal, ArrowUpDown } from "lucide-react";
+import { categoryMapConfig } from "../data/dataConfig";
 
 // ✅ FORMAT TITLE
 const formatTitle = (text) => {
@@ -589,6 +590,7 @@ const formatTitle = (text) => {
 };
 
 export default function ProductListing() {
+  
   const location = useLocation();
   const params = new URLSearchParams(location.search);
 
@@ -620,7 +622,7 @@ export default function ProductListing() {
     Occasion: ["Birthday", "Anniversary", "Wedding", "Baby shower", "Graduation", "Housewarming"],
     Recipient: ["For Him", "For Her", "For Kids", "For Parents", "For Couples", "Corporate Gifts"],
     Festival: ["Christmas", "Diwali", "New Year", "Mothers Day", "Valentines Day", "Fathers Day"],
-    GiftType: ["Luxury", "Handmade", "Chocolate Hamper", "Snack Hamper", "Dry Fruit Hamper", "Coffee & Tea", "Self Care", "Personalized", "Wellness"],
+    GiftType: ["Luxury","HomeDecor","NamePlates","Stationary", "Handmade", "Chocolate Hamper", "Snack Hamper", "Dry Fruit Hamper", "Coffee & Tea", "Self Care", "Personalized", "Wellness"],
   };
 
   // ✅ HIDE FILTERS IF SUBCATEGORY EXISTS
@@ -633,53 +635,130 @@ export default function ProductListing() {
         GiftType: categoryMap.GiftType || [],
       }
     : categoryMap;
+      console.log("selected Category",selectedCategory)
+      console.log("visiblefilters", visibleFilters)
 
-  // ✅ FILTER LOGIC
+  //  FILTER LOGIC
   const selectedValues = Object.values(appliedFilters)
     .flat()
     .map((v) => v.toLowerCase());
 
-  let filteredProducts = filteredProd.filter((product) => {
-    const productMain = product.mainCategory?.toLowerCase();
-    const productSub = product.subCategory?.toLowerCase();
+  const matchesFilter = (product, value) => {
+  const val = value.toLowerCase();
 
-    let urlMatch = true;
+  return (
+    product.subCategory?.toLowerCase() === val ||
+    product.mainCategory?.toLowerCase() === val ||
+    (product.giftTypes || []).some(
+      (type) => type.toLowerCase() === val
+    )
+  );
+};
 
-    if (selectedCategory && subCategory) {
-      urlMatch =
-        productMain === selectedCategory.toLowerCase() &&
-        productSub === subCategory.toLowerCase();
-    } else if (selectedCategory) {
-      urlMatch = productMain === selectedCategory.toLowerCase();
-    }
+let filteredProducts = filteredProd.filter((product) => {
+  const productMain = product.mainCategory?.toLowerCase();
+  const productSub = product.subCategory?.toLowerCase();
 
-    const categoryMatch =
-      selectedValues.length === 0 ||
-      selectedValues.includes(productSub);
+  //  URL MATCH (keep this)
+  let urlMatch = true;
 
-    const priceMatch =
-      product.price >= priceRange[0] &&
-      product.price <= priceRange[1];
-
-    const ratingMatch =
-      rating === 0 || product.rating >= rating;
-
-    return urlMatch && categoryMatch && priceMatch && ratingMatch;
-  });
-
-  // ✅ SORTING
-  if (sortBy === "price-low") {
-    filteredProducts.sort((a, b) => a.price - b.price);
-  } else if (sortBy === "price-high") {
-    filteredProducts.sort((a, b) => b.price - a.price);
-  } else if (sortBy === "rating") {
-    filteredProducts.sort((a, b) => b.rating - a.rating);
+  if (selectedCategory && subCategory) {
+    urlMatch =
+      productMain === selectedCategory.toLowerCase() &&
+      productSub === subCategory.toLowerCase();
+  } else if (selectedCategory) {
+    urlMatch = productMain === selectedCategory.toLowerCase();
   }
+
+  return urlMatch;
+});
+
+// //  STRICT (AND)
+// if (selectedValues.length > 0) {
+//   let strictFiltered = filteredProducts.filter((product) =>
+//     selectedValues.every((value) => matchesFilter(product, value))
+//   );
+  
+//OR LOGIC
+  if (selectedValues.length > 0) {
+  filteredProducts = filteredProducts.filter((product) =>
+    selectedValues.some((value) => matchesFilter(product, value))
+  );
+  // }
+
+  //  FALLBACK → OR logic
+  // if (strictFiltered.length === 0) {
+  //   strictFiltered = filteredProducts.filter((product) =>
+  //     selectedValues.some((value) => matchesFilter(product, value))
+  //   );
+  // }
+
+  // filteredProducts = strictFiltered;
+}
+
+// ✅ PRICE + RATING
+filteredProducts = filteredProducts.filter(
+  (product) =>
+    product.price >= priceRange[0] &&
+    product.price <= priceRange[1] &&
+    (rating === 0 || product.rating >= rating)
+);
+
+
+  // let filteredProducts = filteredProd.filter((product) => {
+  //   const productMain = product.mainCategory?.toLowerCase();
+  //   const productSub = product.subCategory?.toLowerCase();
+
+  //   let urlMatch = true;
+
+  //   if (selectedCategory && subCategory) {
+  //     urlMatch =
+  //       productMain === selectedCategory.toLowerCase() &&
+  //       productSub === subCategory.toLowerCase();
+  //   } else if (selectedCategory) {
+  //     urlMatch = productMain === selectedCategory.toLowerCase();
+  //   }
+
+  //   const categoryMatch =
+  //     selectedValues.length === 0 ||
+  //     selectedValues.every((value) =>
+  //       productSub === value ||
+  //       productMain === value ||
+  //       product.giftTypes?.some(
+  //         (type) => type.toLowerCase() === value
+  //       )
+  // );
+
+  //   const priceMatch =
+  //     product.price >= priceRange[0] &&
+  //     product.price <= priceRange[1];
+
+  //   const ratingMatch =
+  //     rating === 0 || product.rating >= rating;
+
+  //   return urlMatch && categoryMatch && priceMatch && ratingMatch;
+  // });
+
+  //  SORTING
+  if (sortBy === "price-low") {
+    filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price);
+  } else if (sortBy === "price-high") {
+    filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price);
+  } else if (sortBy === "rating") {
+    filteredProducts = [...filteredProducts].sort((a, b) => b.rating - a.rating);
+  }
+
+  useEffect(() => {
+  setTempFilters({});
+  setAppliedFilters({});
+  setPriceRange([0, 5000]);
+  setRating(0);
+}, [selectedCategory, subCategory]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6 pb-24">
 
-      {/* 🔹 BREADCRUMB */}
+      {/*  BREADCRUMB */}
       <div className="text-sm text-gray-500 mb-4">
         <Link to="/">Home</Link>
 
@@ -702,7 +781,7 @@ export default function ProductListing() {
         )}
       </div>
 
-      {/* 🔹 HEADER */}
+      {/*  HEADER */}
       <div className="mb-6">
         <h1 className="text-2xl md:text-3xl text-[#8B3A62] mb-2">
           {subCategory
@@ -717,7 +796,7 @@ export default function ProductListing() {
         </p>
       </div>
 
-      {/* 🔹 MOBILE FILTER OVERLAY */}
+      {/*  MOBILE FILTER OVERLAY */}
       {!hideFilters && showFilters && (
         <div
           className="fixed inset-0 bg-black/40 z-40"
@@ -725,7 +804,7 @@ export default function ProductListing() {
         />
       )}
 
-      {/* 🔹 FILTER SIDEBAR */}
+      {/*  FILTER SIDEBAR */}
       {!hideFilters && (
         <FilterSidebar
           isOpen={showFilters}
@@ -750,7 +829,7 @@ export default function ProductListing() {
         />
       )}
 
-      {/* 🔹 MAIN GRID */}
+      {/*  MAIN GRID */}
       <div className={`grid ${hideFilters ? "grid-cols-1" : "grid-cols-1 lg:grid-cols-4"} gap-6`}>
 
         {/* DESKTOP FILTER */}
@@ -822,13 +901,13 @@ export default function ProductListing() {
           </div>
 
           {/* MOBILE COUNT */}
-          <p className="lg:hidden mb-3 text-sm text-gray-600">
+          <p className="lg:hidden mb-3 text-sm text-gray-500">
             {filteredProducts.length} products
           </p>
 
           {/* GRID */}
           {filteredProducts.length === 0 ? (
-            <p className="text-center mt-10">No products found</p>
+            <p className="text-center text-gray-500 mt-10">No products found</p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {filteredProducts.map((product, index) => (
@@ -845,6 +924,7 @@ export default function ProductListing() {
           )}
         </div>
       </div>
+      
 
       {/*  MOBILE BOTTOM BAR */}
       {!hideFilters && !showFilters && !showSort && (
@@ -865,7 +945,7 @@ export default function ProductListing() {
         </div>
       )}
 
-      {/* 🔥 SORT BOTTOM SHEET */}
+      {/*  SORT BOTTOM SHEET */}
       {showSort && (
         <>
           <div
