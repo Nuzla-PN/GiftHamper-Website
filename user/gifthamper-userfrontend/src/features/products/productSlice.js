@@ -47,6 +47,7 @@ const initialState = {
       subCategory: "Birthday",
       giftTypes: ["Handmade", "Luxury"],
       isFeatured: true,
+      customizable: true,
     },
     {
       id: "2",
@@ -64,6 +65,7 @@ const initialState = {
       subCategory: "For Her",
       giftTypes: ["Luxury"],
       isFeatured: true,
+      customizable: true,
     },
     {
       id: "3",
@@ -81,6 +83,7 @@ const initialState = {
       subCategory: "for Him",
       giftTypes: ["Handmade", "Luxury"],
        isFeatured: true,
+       iscustomizable:true,
     },
     {
       id: "4",
@@ -98,6 +101,7 @@ const initialState = {
       subCategory: "Diwali",
       giftTypes: ["Self Care"],
        isFeatured: true,
+       iscustomizable:true,
     },
     {
       id: "5",
@@ -115,6 +119,7 @@ const initialState = {
       subCategory: "Diwali",
       giftTypes: ["Snack Hamper", "Self Care"],
        isFeatured: true,
+       iscustomizable:true,
     },
     {
       id: "6",
@@ -131,6 +136,7 @@ const initialState = {
       mainCategory: "Festival",
       subCategory: "Diwali",
        isFeatured: true,
+       iscustomizable:true,
     },
     {
       id: "7",
@@ -148,6 +154,7 @@ const initialState = {
       subCategory: "New Year",
        giftTypes: ["Handmade"],
        isFeatured: true,
+       iscustomizable:true,
     },
     {
       id: "8",
@@ -165,6 +172,7 @@ const initialState = {
       subCategory: "New Year",
       giftTypes: ["Dry Fruit Hamper"],
        isFeatured: false,
+       iscustomizable:true,
     },
   ],
 };

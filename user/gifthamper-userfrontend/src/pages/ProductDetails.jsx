@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useParams, Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useParams, Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Heart,
   ShoppingCart,
@@ -15,9 +15,13 @@ import {
   ChevronRight,
   Tag,
   MapPin,
+  Gift,
+  Check,
+  Sparkles,
 } from "lucide-react";
 import ProductCard from "../components/ProductCard";
 import { couponsConfig } from "../data/dataConfig";
+import { addtoCart } from "../features/cart/cartSlice";
 
 
 export default function ProductDetails() {
@@ -26,6 +30,23 @@ export default function ProductDetails() {
   const products = useSelector((state) => state.products.items);
 
   const product = products.find((p) => String(p.id) === String(id));
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+  const box = searchParams.get("giftBox");
+  const boxPrice = searchParams.get("giftBoxPrice");
+
+  if (box) {
+    setGiftBox(box);
+  }
+
+  if (boxPrice) {
+    setSelectedBox({
+      id: box,
+      price: Number(boxPrice),
+    });
+  }
+}, [searchParams]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -51,10 +72,73 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeTab, setActiveTab] = useState("description");
+
+  const [selectedWrap, setSelectedWrap] = useState(null);
+  const [selectedBox, setSelectedBox] = useState(null);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [showCustomization, setShowCustomization] = useState(false);
+
+  const [customText, setCustomText] = useState("");
+  const [engravingText, setEngravingText] = useState("");
+  const [customColor, setCustomColor] = useState("");
+  const [hasCustomImage, setHasCustomImage] = useState(false);
+
+  const hasAnyCustomizations =
+  customText ||
+  engravingText ||
+  customColor ||
+  hasCustomImage;
+
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+// Gift states
+const [giftBox, setGiftBox] = useState(null);
+const [wrapping, setWrapping] = useState(null);
+const [giftCard, setGiftCard] = useState(null);
+const [cardMessage, setCardMessage] = useState("");
+
+const giftBoxPrice = selectedBox?.price || 0;
+const wrappingPrice = selectedWrap?.price || 0;
+const giftCardPrice = selectedCard ? 20 : 0;
+
+const addonsTotal = giftBoxPrice + wrappingPrice + giftCardPrice;
+const finalPrice = (product.price * quantity) + addonsTotal;
+
+// const giftBoxOptions = [
+//   { id: 'basic', name: 'Basic Gift Box', price: 4.99 },
+//   { id: 'premium', name: 'Premium Gift Box', price: 9.99 },
+//   { id: 'deluxe', name: 'Deluxe Gift Box', price: 14.99 },
+//   { id: 'luxury', name: 'Luxury Gift Box', price: 19.99 },
+// ];
+
+// const wrappingStyles = [
+//   { id: 'classic', name: 'Classic Gold', price: 2.99 },
+//   { id: 'floral', name: 'Floral Garden', price: 3.99 },
+//   { id: 'modern', name: 'Modern Geometric', price: 3.99 },
+//   { id: 'festive', name: 'Festive Celebration', price: 4.99 },
+//   { id: 'elegant', name: 'Elegant Silver', price: 4.99 },
+//   { id: 'rustic', name: 'Rustic Kraft', price: 3.49 },
+// ];
+
+// const greetingCards = [
+//   { id: 'birthday', name: 'Birthday Celebration', price: 2.49 },
+//   { id: 'thankyou', name: 'Thank You', price: 2.49 },
+//   { id: 'celebration', name: 'Celebration', price: 2.49 },
+//   { id: 'love', name: 'With Love', price: 2.99 },
+//   { id: 'getwell', name: 'Get Well Soon', price: 2.49 },
+//   { id: 'custom', name: 'Custom Message', price: 3.99 },
+// ];
+const hasAnyGiftOptions =
+  giftBox !== null ||
+  wrapping !== null ||
+  giftCard !== null ||
+  cardMessage.trim() !== "";
 
   const handleTouchStart = (e) => {
   setTouchStartX(e.touches[0].clientX);
@@ -122,6 +206,29 @@ export default function ProductDetails() {
     );
   }
 
+
+  // //  TEMP DATA (later from DB)
+  // const wrappingOptions = [
+  //   { id: 1, name: "Birthday Wrap", price: 30, image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
+  //   { id: 2, name: "Luxury Wrap", price: 60, image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
+  // ];
+
+  // const boxOptions = [
+  //   { id: 1, name: "Standard", price: 0, image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
+  //   { id: 2, name: "Premium Box", price: 50, image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
+  // ];
+
+  // const cardOptions = [
+  //   { id: 1, name: "Birthday Card", image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
+  //   { id: 2, name: "Love Card", image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
+  // ];
+
+  // const totalPrice =
+  //   (product.price +
+  //     (selectedWrap?.price || 0) +
+  //     (selectedBox?.price || 0)) *
+  //   quantity;
+    
  let relatedProducts = products.filter(
   (p) =>
     String(p.id) !== String(product.id) &&
@@ -296,7 +403,7 @@ relatedProducts = relatedProducts.slice(0, 4);
 
               {/* Final Price */}
               <span className="text-3xl sm:text-4xl font-bold text-[#8B3A62]">
-                ₹{product.price}
+                ₹{product.price * quantity + addonsTotal}
               </span>
 
               {/* Original Price (if exists) */}
@@ -323,6 +430,15 @@ relatedProducts = relatedProducts.slice(0, 4);
                 You save ₹{product.originalPrice - product.price}
               </p>
             )}
+
+            {addonsTotal > 0 && (
+              <p className="text-sm text-purple-600 mt-1">
+                + ₹{addonsTotal} for gift options
+              </p>
+            )}
+            <p className="text-xs text-gray-500 mt-1 italic">
+              Add-ons are not included in discounts
+            </p>
           </div>
 
           {/*  STOCK */}
@@ -365,25 +481,550 @@ relatedProducts = relatedProducts.slice(0, 4);
               </button>
             </div>
 
-            <span className="text-lg font-semibold text-[#8B3A62]">
+            {/* <span className="text-lg font-semibold text-[#8B3A62]">
               ₹{product.price * quantity}
-            </span>
+            </span> */}
           </div>
 
+        <div className="space-y-6 mt-6">
+
+        {/* 🎁 GIFT OPTIONS */}
+        {/* <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative rounded-2xl border bg-gradient-to-br from-rose-50  to-pink-50 p-4 sm:p-6 shadow-sm"
+        > */}
+        {/* ✨ Soft Glow */}
+        {/* <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#8B3A62]/10 via-transparent to-[#D4AF37]/10 blur-xl pointer-events-none"></div> */}
+
+        {/* HEADER */}
+        {/* <div className="flex items-center gap-2 mb-5 relative z-10">
+          <div className="p-2 rounded-full bg-[#8B3A62]/10">
+            <Gift className="w-5 h-5 text-[#8B3A62]" />
+          </div>
+          <h3 className="font-semibold text-gray-800 text-base sm:text-lg">
+            Make it Special
+          </h3>
+        </div> */}
+
+        {/* OPTIONS */}
+        {/* <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 relative z-10"> */}
+          
+
+          {/* 🔹 CARD COMPONENT */}
+          {/* {[
+            {
+              title: "Gift Box",
+              value: giftBox,
+              route: `/gift-box?productId=${id}`,
+              color: "rose",
+            },
+            {
+              title: "Wrapping",
+              value: wrapping,
+              route: `/wrapping?productId=${id}`,
+              color: "purple",
+            },
+            {
+              title: "Greeting Card",
+              value: giftCard,
+              route: `/greeting-card?productId=${id}`,
+              color: "pink",
+            },
+          ].map((item, index) => (
+            <motion.button
+              key={index}
+              onClick={() => navigate(item.route)}
+
+              whileHover={{ y: -4, scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+
+              className="group relative p-[1px] rounded-xl overflow-hidden"
+            > */}
+              {/* 🔥 Gradient Border on Hover */}
+              {/* <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition duration-300
+                              bg-gradient-to-r from-[#8B3A62] to-[#D4AF37]"></div> */}
+
+              {/* INNER CARD */}
+              {/* <div className="relative bg-white rounded-xl p-4 flex items-center justify-between shadow-sm"> */}
+                
+                {/* LEFT */}
+                {/* <div className="text-left">
+                  <p className="text-sm font-semibold text-gray-800">
+                    {item.title}
+                  </p> */}
+
+                  {/* STATUS */}
+                  {/* {item.value ? (
+                    <span className="inline-block mt-1 text-[11px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">
+                      Added ✓
+                    </span>
+                  ) : (
+                    <p className="text-xs text-gray-500 mt-1">
+                      Tap to add
+                    </p>
+                  )}
+                </div> */}
+
+                {/* RIGHT ICON */}
+                {/* <div>
+                  {item.value ? (
+                    <Check className="text-green-600 w-5 h-5" />
+                  ) : (
+                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition" />
+                  )}
+                </div>
+              </div>
+            </motion.button>
+          ))}
+        </div> */}
+
+        {/* SUMMARY */}
+        {/* {hasAnyGiftOptions && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-5 border-t pt-4 text-sm space-y-2 relative z-10"
+          >
+            <p className="font-medium text-gray-700">Added to your gift:</p>
+
+            {giftBox && (
+              <div className="flex justify-between text-gray-600">
+                <span>🎁 Gift Box</span>
+                <span className="text-green-600 font-medium">Added</span>
+              </div>
+            )}
+
+            {wrapping && (
+              <div className="flex justify-between text-gray-600">
+                <span>🎀 Wrapping</span>
+                <span className="text-green-600 font-medium">Added</span>
+              </div>
+            )}
+
+            {giftCard && (
+              <div className="flex justify-between text-gray-600">
+                <span>💌 Greeting Card</span>
+                <span className="text-green-600 font-medium">Added</span>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </motion.div> */}
+
+
+        {/* ✨ CUSTOMIZE BUTTON */}
+          {product?.customizable && (
+          <motion.button
+            onClick={() => navigate(`/product/${id}/customize`)}
+
+            whileHover={{ scale: 1.04, y: -2 }}
+            whileTap={{ scale: 0.98 }}
+
+            className="relative w-full p-[2px] rounded-xl overflow-hidden group"
+          >
+            {/*  Animated Gradient Border */}
+            <motion.div
+              className="absolute inset-0 rounded-xl"
+              animate={{
+                background: [
+                  "linear-gradient(90deg, #8B3A62, #D4AF37, #8B3A62)",
+                  "linear-gradient(180deg, #8B3A62, #D4AF37, #8B3A62)",
+                  "linear-gradient(270deg, #8B3A62, #D4AF37, #8B3A62)",
+                ],
+              }}
+              transition={{ duration: 5, repeat: Infinity }}
+            />
+
+            {/*  GLITTER SHIMMER SWEEP */}
+            <motion.div
+              className="absolute top-0 left-[-120%] w-[200%] h-full bg-gradient-to-r 
+                        from-transparent via-white/60 to-transparent"
+              animate={{ left: ["-120%", "120%"] }}
+              transition={{ duration: 2.5, repeat: Infinity }}
+            />
+
+            {/*  FLOATING GLITTER DOTS */}
+            {[...Array(6)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1.5 h-1.5 bg-yellow-300 rounded-full"
+                initial={{
+                  x: Math.random() * 200,
+                  y: Math.random() * 60,
+                  opacity: 0,
+                }}
+                animate={{
+                  y: [null, -10, 0],
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration: 2 + Math.random(),
+                  repeat: Infinity,
+                  delay: i * 0.4,
+                }}
+              />
+            ))}
+
+            {/* INNER CONTENT */}
+            <div className="relative bg-white rounded-xl flex items-center justify-between px-5 py-4 z-10">
+              
+              {/* LEFT */}
+              <div className="flex items-center gap-3">
+                
+                {/* ICON WITH SPARKLE ROTATION */}
+                <motion.div
+                  animate={{ rotate: [0, 15, -15, 0], scale: [1, 1.1, 1] }}
+                  transition={{ duration: 2.5, repeat: Infinity }}
+                  className="bg-gradient-to-r from-[#8B3A62] to-[#D4AF37] p-2 rounded-full shadow-md"
+                >
+                  <Sparkles className="w-5 h-5 text-white" />
+                </motion.div>
+
+                {/* TEXT */}
+                <div className="text-left">
+                  <p className="font-semibold text-gray-800 text-sm sm:text-base">
+                    Customize Your Product {" "}
+                  <span className="text-gray-400 text-xs font-normal">
+                    (optional)
+                  </span>
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Add your personal touch ✨
+                  </p>
+                </div>
+              </div>
+
+              {/* RIGHT ICON */}
+              <div>
+                {hasAnyCustomizations ? (
+                  <Check className="text-green-600 w-5 h-5" />
+                ) : (
+                  <ChevronRight className="text-gray-400 group-hover:translate-x-1 transition" />
+                )}
+              </div>
+            </div>
+
+            {/*  SOFT GLOW PULSE */}
+            <motion.div
+              className="absolute inset-0 rounded-xl"
+              animate={{ opacity: [0.2, 0.5, 0.2] }}
+              transition={{ duration: 2.5, repeat: Infinity }}
+              style={{
+                background:
+                  "radial-gradient(circle, rgba(212,175,55,0.2), transparent 70%)",
+              }}
+            />
+          </motion.button>
+        )}
+      </div>
+
+        {/* {/* CUSTOMIZATION BUTTON  */}
+        {/* <div className="space-y-4 mt-6"></div>
+        <button
+        onClick={() => setShowCustomization(true)}
+        className="w-full border border-[#8B3A62] text-[#8B3A62] py-3 rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-[#8B3A62]/10 transition"
+      >
+        🎁 Customize Your Gift
+      </button>
+        <p className="text-xs text-gray-500 mt-2 text-center leading-relaxed">
+          Personalize with gift wrap, premium box & greeting card
+        </p>
+
+        {showCustomization && (
+          <div className="mt-6 border rounded-2xl p-5 bg-white shadow-sm space-y-6">
+
+            <h2 className="text-xl font-semibold text-[#8B3A62]">
+              Customize Your Gift
+            </h2>  */}
+
+          {/* 🎁 GIFT BOX */}
+          {/* <div>
+            <h3 className="font-medium mb-3">Choose Gift Box</h3>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {boxOptions.map((box) => (
+                <div
+                  key={box.id}
+                  onClick={() => setSelectedBox(box)}
+                  className={`border rounded-xl p-3 cursor-pointer transition hover:shadow ${
+                    selectedBox?.id === box.id
+                      ? "border-[#8B3A62] ring-1 ring-[#8B3A62]"
+                      : "border-gray-200"
+                  }`}
+                >
+                  <img
+                    src={box.image}
+                    className="w-full h-24 object-cover rounded-lg mb-2"
+                  />
+                  <p className="text-sm font-medium">{box.name}</p>
+                  <p className="text-xs text-gray-500">
+                    {box.price === 0 ? "Free" : `+₹${box.price}`}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div> */}
+
+          {/* 🎀 WRAPPING */}
+          {/* <div>
+            <h3 className="font-medium mb-3">Choose Wrapping</h3>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {wrappingOptions.map((wrap) => (
+                <div
+                  key={wrap.id}
+                  onClick={() => setSelectedWrap(wrap)}
+                  className={`border rounded-xl p-3 cursor-pointer transition hover:shadow ${
+                    selectedWrap?.id === wrap.id
+                      ? "border-[#8B3A62] ring-1 ring-[#8B3A62]"
+                      : "border-gray-200"
+                  }`}
+                >
+                  <img
+                    src={wrap.image}
+                    className="w-full h-24 object-cover rounded-lg mb-2"
+                  />
+                  <p className="text-sm font-medium">{wrap.name}</p>
+                  <p className="text-xs text-gray-500">+₹{wrap.price}</p>
+                </div>
+              ))}
+            </div>
+          </div> */}
+
+          {/* 💌 GREETING CARD */}
+          {/* <div>
+            <h3 className="font-medium mb-3">Add Greeting Card</h3>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              {cardOptions.map((card) => (
+                <div
+                  key={card.id}
+                  onClick={() => setSelectedCard(card)}
+                  className={`border rounded-xl p-3 cursor-pointer transition hover:shadow ${
+                    selectedCard?.id === card.id
+                      ? "border-[#8B3A62] ring-1 ring-[#8B3A62]"
+                      : "border-gray-200"
+                  }`}
+                >
+                  <img
+                    src={card.image}
+                    className="w-full h-24 object-cover rounded-lg mb-2"
+                  />
+                  <p className="text-sm font-medium">{card.name}</p>
+                </div>
+              ))}
+            </div> */}
+
+            {/* Message Input */}
+            {/* {selectedCard && (
+              <textarea
+                placeholder="Write your message..."
+                className="w-full mt-3 border rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-[#8B3A62]"
+                value={cardMessage}
+                onChange={(e) => setCardMessage(e.target.value)}
+              />
+            )}
+          </div> */}
+
+          {/* ✅ SUMMARY */}
+          {/* <div className="border-t pt-4 text-sm text-gray-600 space-y-1">
+            <p className="font-medium text-gray-800">Your Selection:</p>
+
+            {selectedBox && <p>📦 Box: {selectedBox.name}</p>}
+            {selectedWrap && <p>🎀 Wrap: {selectedWrap.name}</p>}
+            {selectedCard && <p>💌 Card: {selectedCard.name}</p>}
+
+            <p className="text-[#8B3A62] font-semibold mt-2">
+              Total: ₹{totalPrice}
+            </p>
+          </div> */}
+
+          {/* CLOSE BUTTON */}
+          {/* <button
+            onClick={() => setShowCustomization(false)}
+            className="w-full border border-[#8B3A62] text-[#8B3A62] py-2 rounded-full hover:bg-[#8B3A62] hover:text-white transition"
+          >
+            Done
+          </button>
+        </div>
+      )} */}
+
+        {/*  GIFT OPTIONS */}
+        <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative rounded-2xl p-[1.5px] overflow-hidden mt-6"
+          >
+
+            {/*  GLITTER ANIMATED BORDER */}
+            <div className="absolute inset-0 rounded-2xl bg-[length:200%_200%] 
+              bg-gradient-to-r from-[#8B3A62] via-pink-400 via-yellow-300 to-[#8B3A62]
+              animate-[gradientMove_4s_linear_infinite] blur-[1px] opacity-80">
+            </div>
+
+            {/* INNER CONTAINER */}
+            <div className="relative rounded-2xl bg-gradient-to-br from-rose-50 to-pink-50 p-4 sm:p-6">
+
+              {/*  HEADER */}
+              <div className="flex items-center gap-2 mb-5">
+
+                {/*  BOUNCING ICON */}
+                <motion.div
+                  animate={{ y: [0, -5, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                  className="p-2 rounded-full bg-[#8B3A62]/10"
+                >
+                  <Gift className="w-5 h-5 text-[#8B3A62]" />
+                </motion.div>
+
+                <h3 className="font-semibold text-gray-800 text-base sm:text-lg">
+                  Make it Special {" "}
+                  <span className="text-gray-400 text-xs font-normal">
+                    (optional)
+                  </span>
+                </h3>
+              </div>
+
+              {/* OPTIONS */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+                {[
+                  { title: "Gift Box", value: giftBox, route: `/gift-box?productId=${id}` },
+                  { title: "Wrapping", value: wrapping, route: `/wrapping?productId=${id}` },
+                  { title: "Greeting Card", value: giftCard, route: `/greeting-card?productId=${id}` },
+                ].map((item, index) => (
+                  <motion.button
+                    key={index}
+                    onClick={() => navigate(item.route)}
+                    whileHover={{ y: -4, scale: 1.02 }}
+                    whileTap={{ scale: 0.97 }}
+                    className="group relative p-[1px] rounded-xl overflow-hidden"
+                  >
+                    {/* Hover Gradient Border */}
+                    <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition 
+                      bg-gradient-to-r from-[#8B3A62] to-[#D4AF37]" />
+
+                    <div className="relative bg-white rounded-xl p-4 flex items-center justify-between shadow-sm">
+
+                      <div className="text-left">
+                        <p className="text-sm font-semibold text-gray-800">
+                          {item.title}
+                        </p>
+
+                        {item.value ? (
+                          <span className="inline-block mt-1 text-[11px] px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-medium">
+                            Added ✓
+                          </span>
+                        ) : (
+                          <p className="text-xs text-gray-500 mt-1">
+                            Tap to add
+                          </p>
+                        )}
+                      </div>
+
+                      {item.value ? (
+                        <Check className="text-green-600 w-5 h-5" />
+                      ) : (
+                        <ChevronRight className="w-5 h-5 text-gray-400 group-hover:translate-x-1 transition" />
+                      )}
+                    </div>
+                  </motion.button>
+                ))}
+              </div>
+
+              {/*  LIVE PRICE SECTION */}
+              {addonsTotal > 0 && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="mt-5 border-t pt-4"
+                >
+                  <p className="text-sm font-medium text-gray-700 mb-2">
+                    Add-ons Total
+                  </p>
+
+                  <div className="space-y-1 text-sm">
+
+                    { selectedBox && (
+                      <div className="flex justify-between text-gray-600">
+                        <span>🎁 Gift Box</span>
+                        <span className="text-[#8B3A62] font-medium">+₹{giftBoxPrice}</span>
+                      </div>
+                    )}
+
+                    {selectedWrap && (
+                      <div className="flex justify-between text-gray-600">
+                        <span>🎀 Wrapping</span>
+                        <span className="text-[#8B3A62] font-medium">+₹{wrappingPrice}</span>
+                      </div>
+                    )}
+
+                    {selectedCard && (
+                      <div className="flex justify-between text-gray-600">
+                        <span>💌 Card</span>
+                        <span className="text-[#8B3A62] font-medium">+₹{giftCardPrice}</span>
+                      </div>
+                    )}
+
+                    <div className="flex justify-between font-semibold text-[#8B3A62] pt-2 border-t">
+                      <span>Total</span>
+                      <span>₹{finalPrice}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+            </div>
+          </motion.div>
+
+
           {/*  Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
-            <button className="flex-1 bg-[#8B3A62] text-white py-3 rounded-full flex items-center justify-center gap-2">
-              <ShoppingCart />
+          <div className="mt-8 space-y-3 sm:space-y-0 sm:flex sm:gap-4">
+
+            {/* Add to Cart */}
+            <button onClick={() => {
+                const cartItem = {
+                  id: product.id,
+                  title: product.title,
+                  image: product.image[0],
+                  price: product.price,
+                  quantity,
+
+                  // ADD-ONS
+                  giftBox,
+                  wrapping,
+                  giftCard,
+                  cardMessage,
+
+                  // PRICES
+                  giftBoxPrice: giftBox ? 50 : 0,
+                  wrappingPrice: wrapping ? 30 : 0,
+                  giftCardPrice: giftCard ? 20 : 0,
+
+                  totalPrice:
+                    (product.price +
+                      (giftBox ? 50 : 0) +
+                      (wrapping ? 30 : 0) +
+                      (giftCard ? 20 : 0)) * quantity,
+                };
+
+                dispatch(addtoCart(cartItem));
+              }}
+              className="w-full sm:flex-1 bg-[#8B3A62] text-white py-3 rounded-full font-medium hover:opacity-90 transition flex items-center justify-center gap-2">
+              <ShoppingCart className="w-5 h-5" />
               Add to Cart
             </button>
 
-            <button className="flex-1 border border-[#8B3A62] text-[#8B3A62] py-3 rounded-full">
+            {/* Buy Now */}
+            <button className="w-full sm:flex-1 border border-[#8B3A62] text-[#8B3A62] py-3 rounded-full font-medium hover:bg-[#8B3A62] hover:text-white transition">
               Buy Now
             </button>
+
           </div>
 
           {/*  DELIVERY INFO */}
-          <div className="bg-[#F3F6FF] border border-blue-100 rounded-xl p-4 mb-5 flex items-start justify-between gap-4">
+          <div className="bg-[#F3F6FF] border border-blue-100 rounded-xl p-4 mb-5 flex items-start justify-between gap-4 mt-6">
             <div className="flex items-start gap-3">
               <Package className="w-5 h-5 text-[#8B3A62] mt-1" />
               <div>

@@ -160,8 +160,50 @@ export default function SellerPage() {
         </div>
       </div>
 
+      {/*  SELLER STATS */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 mt-6">
+        <div className="bg-white border rounded-xl p-4 text-center">
+          <p className="text-lg font-semibold text-gray-900">
+            {sellerProducts.length}
+          </p>
+          <p className="text-sm text-gray-500">Products</p>
+        </div>
+
+        <div className="bg-white border rounded-xl p-4 text-center">
+          <p className="text-lg font-semibold text-gray-900">{seller.sellerRating}</p>
+          <p className="text-sm text-gray-500">Rating</p>
+        </div>
+
+        <div className="bg-white border rounded-xl p-4 text-center">
+          <p className="text-lg font-semibold text-gray-900">{seller.sellerReviews}+</p>
+          <p className="text-sm text-gray-500">Reviews</p>
+        </div>
+
+        <div className="bg-white border rounded-xl p-4 text-center">
+          <p className="text-lg font-semibold text-gray-900">2 hrs</p>
+          <p className="text-sm text-gray-500">Response Time</p>
+        </div>
+      </div>
+
+      {/*  PRODUCTS */}
+      <div>
+        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-6">
+          Products by {sellerName}
+        </h2>
+
+        {sellerProducts.length === 0 ? (
+          <p className="text-gray-500">No products found</p>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {sellerProducts.map((product) => (
+              <ProductCard key={product.id} {...product} />
+            ))}
+          </div>
+        )}
+      </div>
+
 {/*  STORE INFO SIDEBAR */}
-<div className="lg:col-span-1">
+<div className="lg:col-span-1 mt-6">
   <div className="bg-white border rounded-2xl p-5 sm:p-6 shadow-sm lg:sticky lg:top-24">
 
     {/* Title */}
@@ -268,47 +310,6 @@ export default function SellerPage() {
   </div>
 </div>
 
-      {/*  SELLER STATS */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 mt-6">
-        <div className="bg-white border rounded-xl p-4 text-center">
-          <p className="text-lg font-semibold text-gray-900">
-            {sellerProducts.length}
-          </p>
-          <p className="text-sm text-gray-500">Products</p>
-        </div>
-
-        <div className="bg-white border rounded-xl p-4 text-center">
-          <p className="text-lg font-semibold text-gray-900">{seller.sellerRating}</p>
-          <p className="text-sm text-gray-500">Rating</p>
-        </div>
-
-        <div className="bg-white border rounded-xl p-4 text-center">
-          <p className="text-lg font-semibold text-gray-900">{seller.sellerReviews}+</p>
-          <p className="text-sm text-gray-500">Reviews</p>
-        </div>
-
-        <div className="bg-white border rounded-xl p-4 text-center">
-          <p className="text-lg font-semibold text-gray-900">2 hrs</p>
-          <p className="text-sm text-gray-500">Response Time</p>
-        </div>
-      </div>
-
-      {/*  PRODUCTS */}
-      <div>
-        <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-6">
-          Products by {sellerName}
-        </h2>
-
-        {sellerProducts.length === 0 ? (
-          <p className="text-gray-500">No products found</p>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {sellerProducts.map((product) => (
-              <ProductCard key={product.id} {...product} />
-            ))}
-          </div>
-        )}
-      </div>
 
       {/*  ABOUT SELLER */}
 <div className="mt-12 sm:mt-16">

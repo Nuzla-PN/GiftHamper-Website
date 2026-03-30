@@ -6,6 +6,9 @@ import ProductListing from "../pages/ProductList.jsx";
 import ProductDetails from "../pages/ProductDetails.jsx";
 import SellerPage from "../pages/SellerShop.jsx";
 import ScrollToTop from "../components/scrolltotop.jsx";
+import GiftBoxSelection from "../pages/GiftBoxSelection.jsx";
+import WrappingSelection from "../pages/WrappingSelection.jsx";
+
 
 
 const AppRoutes = ()=>{
@@ -19,6 +22,8 @@ const AppRoutes = ()=>{
       <Route path="/custom-hamper" element={<CustomHamper/>}/>
       <Route path="/products" element={<ProductListing/>}/>
       <Route path = "/products/:id" element={<ProductDetails/>}/>
+      <Route path = "/gift-box" element = {<GiftBoxSelection/>}/>
+      <Route path = "/wrapping" element = {<WrappingSelection/>}/>
       <Route path="/seller/:sellerName" element={<SellerPage/>} />
 </Routes>
 </>
