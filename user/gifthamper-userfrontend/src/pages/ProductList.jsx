@@ -1102,6 +1102,7 @@ export default function ProductListing() {
 
   // ── RENDER ──────────────────────────────────────────────────────────────────
   return (
+    <div className="bg-gray-100 min-h-screen">
     <div className="max-w-screen-2xl mx-auto px-2 sm:px-6 py-4 pb-24">
 
       {/* BREADCRUMB */}
@@ -1143,11 +1144,11 @@ export default function ProductListing() {
       )}
 
       {/* MAIN LAYOUT */}
-      <div className={`flex gap-0 bg-white border border-gray-200 rounded ${hideFilters ? "" : ""}`}>
+      <div className={`flex gap-3 items-start ${hideFilters ? "" : ""}`}>
 
         {/* DESKTOP SIDEBAR */}
         {!hideFilters && (
-          <div className="hidden lg:block w-64 flex-shrink-0 mr-0">
+          <div className="hidden lg:block w-64 flex-shrink-0 bg-white border border-gray-200 rounded">
             <FilterSidebar
               isOpen={true}
               categoryMap={visibleFilters}
@@ -1164,66 +1165,61 @@ export default function ProductListing() {
         )}
 
         {/* PRODUCTS COLUMN */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 bg-white border border-gray-200 rounded">
 
           {/* SORT BAR + VIEW TOGGLE — Desktop */}
-<div className="hidden lg:flex items-center justify-between flex-wrap gap-y-2 bg-white border border-gray-200 rounded-t px-4 py-0 mb-0">
+           <div className="hidden lg:flex items-center flex-wrap gap-y-2 border-b border-gray-200 px-4 py-0">
+      <div className="py-3 mr-6 min-w-0">
+        <h1 className="text-base font-semibold text-gray-800 leading-tight truncate">
+          {subCategory
+            ? `${formatTitle(subCategory)} Hampers`
+            : selectedCategory
+            ? `${formatTitle(selectedCategory)} Hampers`
+            : "All Gift Hampers"}
+        </h1>
+        <p className="text-xs text-gray-500">{filteredProducts.length} results</p>
+      </div>
 
-  {/* LEFT: title + count */}
-  <div className="py-3 min-w-0">
-    <h1 className="text-base font-semibold text-gray-800 leading-tight truncate">
-      {subCategory
-        ? `${formatTitle(subCategory)} Hampers`
-        : selectedCategory
-        ? `${formatTitle(selectedCategory)} Hampers`
-        : "All Gift Hampers"}
-    </h1>
-    <p className="text-xs text-gray-500">{filteredProducts.length} results</p>
-  </div>
+      <div className="flex items-center flex-wrap gap-y-1">
+        <span className="text-xs text-gray-500 mr-2">Sort by</span>
+        {SORT_OPTIONS.map((opt) => (
+          <button
+            key={opt.value}
+            onClick={() => setSortBy(opt.value)}
+            className="px-3 py-3 text-xs transition-colors border-b-2"
+            style={{
+              borderBottomColor: sortBy === opt.value ? "#8B3A62" : "transparent",
+              color: sortBy === opt.value ? "#8B3A62" : "#555",
+              fontWeight: sortBy === opt.value ? 600 : 400,
+              background: "none",
+              outline: "none",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {opt.label}
+          </button>
+        ))}
 
-  {/* RIGHT: sort tabs + view toggle */}
-  <div className="hidden lg:flex items-center bg-white border-b border-gray-200 px-4 py-0">
-  <span className="text-xs text-gray-500 mr-4 whitespace-nowrap">Sort by</span>
-  {SORT_OPTIONS.map((opt) => (
-    <button
-      key={opt.value}
-      onClick={() => setSortBy(opt.value)}
-      className="px-4 py-3 text-sm transition-colors border-b-2 mr-1"
-      style={{
-        borderBottomColor: sortBy === opt.value ? "#2874f0" : "transparent",
-        color: sortBy === opt.value ? "#2874f0" : "#555",
-        fontWeight: sortBy === opt.value ? 600 : 400,
-        background: "none",
-        outline: "none",
-        cursor: "pointer",
-        whiteSpace: "nowrap",
-      }}
-    >
-      {opt.label}
-    </button>
-  ))}
-
-    {/* VIEW TOGGLE */}
-    <div className="ml-auto flex items-center gap-1 border-l pl-4">
-      <button
-        onClick={() => setViewMode("list")}
-        className="p-1.5 rounded transition-colors"
-        style={{ background: viewMode === "list" ? "#f5e9f1" : "none", color: viewMode === "list" ? "#8B3A62" : "#888" }}
-        title="List view"
-      >
-        <List size={16} />
-      </button>
-      <button
-        onClick={() => setViewMode("grid")}
-        className="p-1.5 rounded transition-colors"
-        style={{ background: viewMode === "grid" ? "#f5e9f1" : "none", color: viewMode === "grid" ? "#8B3A62" : "#888" }}
-        title="Grid view"
-      >
-        <LayoutGrid size={16} />
-      </button>
+              {/* VIEW TOGGLE */}
+              <div className="flex items-center gap-1 ml-3 border-l pl-3">
+          <button
+            onClick={() => setViewMode("list")}
+            className="p-1.5 rounded transition-colors"
+            style={{ background: viewMode === "list" ? "#f5e9f1" : "none", color: viewMode === "list" ? "#8B3A62" : "#888" }}
+          >
+            <List size={16} />
+          </button>
+          <button
+            onClick={() => setViewMode("grid")}
+            className="p-1.5 rounded transition-colors"
+            style={{ background: viewMode === "grid" ? "#f5e9f1" : "none", color: viewMode === "grid" ? "#8B3A62" : "#888" }}
+          >
+            <LayoutGrid size={16} />
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
           {/* MOBILE HEADER */}
           <div className="lg:hidden mb-3">
@@ -1239,40 +1235,28 @@ export default function ProductListing() {
 
           {/* PRODUCT LIST / GRID */}
           {filteredProducts.length === 0 ? (
-            <div className="bg-white border border-gray-200 rounded p-12 text-center ">
-              <p className="text-gray-400 text-sm">No products found</p>
-            </div>
-          ) : viewMode === "list" ? (
-            /* LIST MODE */
-            <div className="border border-gray-200 rounded overflow-hidden ">
-              {filteredProducts.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: index * 0.03 }}
-                >
-                  <ProductCard {...product} viewMode="list" />
-                </motion.div>
-              ))}
-            </div>
-          ) : (
-            /* GRID MODE */
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3">
-              {filteredProducts.map((product, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <ProductCard {...product} viewMode="grid" />
-                </motion.div>
-              ))}
-            </div>
-          )}
-        </div>
+      <div className="p-12 text-center">
+        <p className="text-gray-400 text-sm">No products found</p>
       </div>
+    ) : viewMode === "list" ? (
+      <div className="divide-y divide-gray-100">
+        {filteredProducts.map((product, index) => (
+          <motion.div key={product.id} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: index * 0.03 }}>
+            <ProductCard {...product} viewMode="list" />
+          </motion.div>
+        ))}
+      </div>
+    ) : (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-0 p-3">
+        {filteredProducts.map((product, index) => (
+          <motion.div key={product.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }}>
+            <ProductCard {...product} viewMode="grid" />
+          </motion.div>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
 
       {/* MOBILE BOTTOM BAR */}
       {!hideFilters && (
@@ -1300,6 +1284,7 @@ export default function ProductListing() {
           </button>
         </div>
       )}
+    </div>
     </div>
   );
 }
