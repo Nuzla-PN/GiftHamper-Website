@@ -1031,7 +1031,7 @@ export default function ProductListing() {
   const [priceRange, setPriceRange] = useState([0, 5000]);
   const [rating, setRating] = useState(0);
   const [sortBy, setSortBy] = useState("popular");
-  const [viewMode, setViewMode] = useState("list"); // "list" | "grid"
+  const [viewMode, setViewMode] = useState("grid"); // "list" | "grid"
 
   // ── CATEGORY MAP ────────────────────────────────────────────────────────────
   const categoryMap = {
@@ -1102,7 +1102,7 @@ export default function ProductListing() {
 
   // ── RENDER ──────────────────────────────────────────────────────────────────
   return (
-    <div className="max-w-7xl mx-auto px-3 sm:px-4 py-4 pb-24">
+    <div className="max-w-screen-2xl mx-auto px-2 sm:px-6 py-4 pb-24">
 
       {/* BREADCRUMB */}
       <div className="text-xs text-gray-500 mb-3">
@@ -1143,11 +1143,11 @@ export default function ProductListing() {
       )}
 
       {/* MAIN LAYOUT */}
-      <div className={`flex gap-0 ${hideFilters ? "" : ""}`}>
+      <div className={`flex gap-0 bg-white border border-gray-200 rounded ${hideFilters ? "" : ""}`}>
 
         {/* DESKTOP SIDEBAR */}
         {!hideFilters && (
-          <div className="hidden lg:block w-56 flex-shrink-0 mr-4">
+          <div className="hidden lg:block w-64 flex-shrink-0 mr-0">
             <FilterSidebar
               isOpen={true}
               categoryMap={visibleFilters}
@@ -1182,29 +1182,29 @@ export default function ProductListing() {
   </div>
 
   {/* RIGHT: sort tabs + view toggle */}
-  <div className="flex items-center flex-wrap gap-y-1 gap-x-0">
-    <span className="text-xs text-gray-500 mr-2">Sort by</span>
-    {SORT_OPTIONS.map((opt) => (
-      <button
-        key={opt.value}
-        onClick={() => setSortBy(opt.value)}
-        className="px-2 py-3 text-xs transition-colors border-b-2"
-        style={{
-          borderBottomColor: sortBy === opt.value ? "#8B3A62" : "transparent",
-          color: sortBy === opt.value ? "#8B3A62" : "#555",
-          fontWeight: sortBy === opt.value ? 500 : 400,
-          background: "none",
-          outline: "none",
-          cursor: "pointer",
-          whiteSpace: "nowrap",
-        }}
-      >
-        {opt.label}
-      </button>
-    ))}
+  <div className="hidden lg:flex items-center bg-white border-b border-gray-200 px-4 py-0">
+  <span className="text-xs text-gray-500 mr-4 whitespace-nowrap">Sort by</span>
+  {SORT_OPTIONS.map((opt) => (
+    <button
+      key={opt.value}
+      onClick={() => setSortBy(opt.value)}
+      className="px-4 py-3 text-sm transition-colors border-b-2 mr-1"
+      style={{
+        borderBottomColor: sortBy === opt.value ? "#2874f0" : "transparent",
+        color: sortBy === opt.value ? "#2874f0" : "#555",
+        fontWeight: sortBy === opt.value ? 600 : 400,
+        background: "none",
+        outline: "none",
+        cursor: "pointer",
+        whiteSpace: "nowrap",
+      }}
+    >
+      {opt.label}
+    </button>
+  ))}
 
     {/* VIEW TOGGLE */}
-    <div className="flex items-center gap-1 ml-3 border-l pl-3">
+    <div className="ml-auto flex items-center gap-1 border-l pl-4">
       <button
         onClick={() => setViewMode("list")}
         className="p-1.5 rounded transition-colors"
@@ -1258,7 +1258,7 @@ export default function ProductListing() {
             </div>
           ) : (
             /* GRID MODE */
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3">
               {filteredProducts.map((product, index) => (
                 <motion.div
                   key={product.id}

@@ -67,11 +67,12 @@ export default function FilterSidebar({
             animate={{ x: 0 }}
             exit={{ x: -300 }}
             // transition={{ duration: 0.3 }}
-            className="fixed lg:static top-0 left-0 h-full lg:h-auto w-72 lg:w-full bg-white z-50 shadow-lg lg:shadow-none p-5 overflow-y-auto pb-24"
+            className="fixed lg:static top-0 left-0 h-full lg:h-auto w-72 lg:w-full bg-white z-50 shadow-lg lg:shadow-none overflow-y-auto pb-4"
           >
             {/*  HEADER */}
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-semibold text-[#8B3A62] tracking-tight">
+            {/* HEADER — only show on mobile */}
+            <div className="flex justify-between items-center px-4 py-3 border-b border-gray-100 lg:border-b-0">
+              <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide">
                 Filters
               </h2>
               <button onClick={onClose} className="lg:hidden text-gray-600">
