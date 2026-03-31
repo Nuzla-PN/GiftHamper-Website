@@ -1167,63 +1167,63 @@ export default function ProductListing() {
         <div className="flex-1 min-w-0">
 
           {/* SORT BAR + VIEW TOGGLE — Desktop */}
-          <div className="hidden lg:flex items-center justify-between bg-white border border-gray-200 rounded-t px-4 py-0 mb-0">
+<div className="hidden lg:flex items-center justify-between flex-wrap gap-y-2 bg-white border border-gray-200 rounded-t px-4 py-0 mb-0">
 
-            {/* LEFT: title + count */}
-            <div className="py-3">
-              <h1 className="text-base font-semibold text-gray-800 leading-tight">
-                {subCategory
-                  ? `${formatTitle(subCategory)} Hampers`
-                  : selectedCategory
-                  ? `${formatTitle(selectedCategory)} Hampers`
-                  : "All Gift Hampers"}
-              </h1>
-              <p className="text-xs text-gray-500">{filteredProducts.length} results</p>
-            </div>
+  {/* LEFT: title + count */}
+  <div className="py-3 min-w-0">
+    <h1 className="text-base font-semibold text-gray-800 leading-tight truncate">
+      {subCategory
+        ? `${formatTitle(subCategory)} Hampers`
+        : selectedCategory
+        ? `${formatTitle(selectedCategory)} Hampers`
+        : "All Gift Hampers"}
+    </h1>
+    <p className="text-xs text-gray-500">{filteredProducts.length} results</p>
+  </div>
 
-            {/* RIGHT: sort tabs + view toggle */}
-            <div className="flex items-center gap-0">
-              <span className="text-xs text-gray-500 mr-3">Sort by</span>
-              {SORT_OPTIONS.map((opt) => (
-                <button
-                  key={opt.value}
-                  onClick={() => setSortBy(opt.value)}
-                  className="px-3 py-4 text-sm transition-colors border-b-2"
-                  style={{
-                    borderBottomColor: sortBy === opt.value ? "#8B3A62" : "transparent",
-                    color: sortBy === opt.value ? "#8B3A62" : "#555",
-                    fontWeight: sortBy === opt.value ? 500 : 400,
-                    background: "none",
-                    outline: "none",
-                    cursor: "pointer",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {opt.label}
-                </button>
-              ))}
+  {/* RIGHT: sort tabs + view toggle */}
+  <div className="flex items-center flex-wrap gap-y-1 gap-x-0">
+    <span className="text-xs text-gray-500 mr-2">Sort by</span>
+    {SORT_OPTIONS.map((opt) => (
+      <button
+        key={opt.value}
+        onClick={() => setSortBy(opt.value)}
+        className="px-2 py-3 text-xs transition-colors border-b-2"
+        style={{
+          borderBottomColor: sortBy === opt.value ? "#8B3A62" : "transparent",
+          color: sortBy === opt.value ? "#8B3A62" : "#555",
+          fontWeight: sortBy === opt.value ? 500 : 400,
+          background: "none",
+          outline: "none",
+          cursor: "pointer",
+          whiteSpace: "nowrap",
+        }}
+      >
+        {opt.label}
+      </button>
+    ))}
 
-              {/* VIEW TOGGLE */}
-              <div className="flex items-center gap-1 ml-4 border-l pl-4">
-                <button
-                  onClick={() => setViewMode("list")}
-                  className="p-1.5 rounded transition-colors"
-                  style={{ background: viewMode === "list" ? "#f5e9f1" : "none", color: viewMode === "list" ? "#8B3A62" : "#888" }}
-                  title="List view"
-                >
-                  <List size={17} />
-                </button>
-                <button
-                  onClick={() => setViewMode("grid")}
-                  className="p-1.5 rounded transition-colors"
-                  style={{ background: viewMode === "grid" ? "#f5e9f1" : "none", color: viewMode === "grid" ? "#8B3A62" : "#888" }}
-                  title="Grid view"
-                >
-                  <LayoutGrid size={17} />
-                </button>
-              </div>
-            </div>
-          </div>
+    {/* VIEW TOGGLE */}
+    <div className="flex items-center gap-1 ml-3 border-l pl-3">
+      <button
+        onClick={() => setViewMode("list")}
+        className="p-1.5 rounded transition-colors"
+        style={{ background: viewMode === "list" ? "#f5e9f1" : "none", color: viewMode === "list" ? "#8B3A62" : "#888" }}
+        title="List view"
+      >
+        <List size={16} />
+      </button>
+      <button
+        onClick={() => setViewMode("grid")}
+        className="p-1.5 rounded transition-colors"
+        style={{ background: viewMode === "grid" ? "#f5e9f1" : "none", color: viewMode === "grid" ? "#8B3A62" : "#888" }}
+        title="Grid view"
+      >
+        <LayoutGrid size={16} />
+      </button>
+    </div>
+  </div>
+</div>
 
           {/* MOBILE HEADER */}
           <div className="lg:hidden mb-3">
