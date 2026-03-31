@@ -1121,22 +1121,19 @@ const selectedItemsData = selectedItems
 };
   
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8 lg:pr-20 ">
+    <div className="min-h-screen bg-gray-50 w-full">
+      <div className="w-full px-4 py-6">
 
         {/* HEADER */}
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-[#8B3A62]">
             Build Your Custom Hamper
           </h1>
-          <p className="text-gray-600">
-            Create a personalized gift hamper
-          </p>
+          <p className="text-gray-600">Create a personalized gift hamper</p>
         </div>
 
 
-        {/* STEP PROGRESS */}
-        
+        {/* STEP PROGRESS */}   
         <div className="mb-10 overflow-x-auto">
         <div className="flex items-center justify-start md:justify-center w-full gap-4 px-2">
 
@@ -1226,18 +1223,10 @@ const selectedItemsData = selectedItems
               </div>
 
               <div className="p-6">
-                <h3 className="text-xl mb-2 text-[#8B3A62]">
-                  {box.name}
-                </h3>
-                <p className="text-sm text-gray-600 mb-1">
-                  Size: {box.size}
-                </p>
-                <p className="text-sm text-gray-600 mb-3">
-                  Capacity: {box.capacity}
-                </p>
-                <p className="text-2xl text-[#8B3A62] font-semibold">
-                  ₹ {box.price.toFixed(2)}
-                </p>
+                <h3 className="text-xl mb-2 text-[#8B3A62]">{box.name}</h3>
+                <p className="text-sm text-gray-600 mb-1">Size: {box.size}</p>
+                <p className="text-sm text-gray-600 mb-3">Capacity: {box.capacity}</p>
+                <p className="text-2xl text-[#8B3A62] font-semibold">₹ {box.price.toFixed(2)}</p>
               </div>
             </motion.div>
           ))}
@@ -1260,296 +1249,118 @@ const selectedItemsData = selectedItems
   </div>
 )}
 
-           {currentStep === 2 && (
-  <div>
-    {/* HEADER */}
-    <div className="text-center mb-8 mt-8">
-      <h2 className="text-3xl text-[#8B3A62] mb-2">
-        Select Your Items
-      </h2>
-      <p className="text-gray-600">
-        Selected: {selectedItems.length} items
-      </p>
-    </div>
+     {currentStep === 2 && (
+              <div>
+                <div className="text-center mb-8 mt-8">
+                  <h2 className="text-3xl text-[#8B3A62] mb-2">Select Your Items</h2>
+                  <p className="text-gray-600">Selected: {selectedItems.length} items</p>
+                </div>
 
-    {/* MOBILE FILTER BUTTON */}
-    <button
-      onClick={() => setShowFilters(true)}
-      className="lg:hidden bg-[#8B3A62] text-white px-4 py-2 rounded mb-4"
-    >
-      Filters
-    </button>
+                {/* MOBILE FILTER BUTTON */}
+                <button
+                  onClick={() => setShowFilters(true)}
+                  className="lg:hidden bg-[#8B3A62] text-white px-4 py-2 rounded mb-4"
+                >
+                  Filters
+                </button>
 
-    {/* MOBILE OVERLAY */}
-    {showFilters && (
-      <div
-        className="fixed inset-0 bg-black bg-opacity-40 z-40 lg:hidden"
-        onClick={() => setShowFilters(false)}
-      />
-    )}
+                {/* MOBILE OVERLAY */}
+                {showFilters && (
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-40 z-40 lg:hidden"
+                    onClick={() => setShowFilters(false)}
+                  />
+                )}
 
-    {/* MOBILE SIDEBAR */}
-    <div
-      className={`
-        fixed top-0 left-0 h-full w-72 bg-white z-50
-        transform transition-transform duration-300
-        ${showFilters ? "translate-x-0" : "-translate-x-full"}
-        lg:hidden
-      `}
-    >
-      <div className="h-full flex flex-col">
-        {/* HEADER */}
-        <div className="flex justify-between items-center p-4 border-b">
-          <h3 className="font-semibold text-lg">Filters</h3>
-          <button onClick={() => setShowFilters(false)}>✕</button>
-        </div>
+                {/* MOBILE SIDEBAR */}
+                <div
+                  className={`fixed top-0 left-0 h-full w-72 bg-white z-50 transform transition-transform duration-300 lg:hidden ${
+                    showFilters ? "translate-x-0" : "-translate-x-full"
+                  }`}
+                >
+                  <div className="h-full flex flex-col">
+                    <div className="flex justify-between items-center p-4 border-b">
+                      <h3 className="font-semibold text-lg">Filters</h3>
+                      <button onClick={() => setShowFilters(false)}>
+                        <X size={20} />
+                      </button>
+                    </div>
+                    <div className="overflow-y-auto flex-1">
+                      <FilterSidebar
+                        isOpen={showFilters}
+                        onClose={() => setShowFilters(false)}
+                        categoryMap={categoryMap}
+                        tempFilters={tempFilters}
+                        setTempFilters={setTempFilters}
+                        priceRange={priceRange}
+                        setPriceRange={setPriceRange}
+                        rating={rating}
+                        setRating={setRating}
+                        onApply={() => {
+                          setAppliedFilters(tempFilters);
+                          setShowFilters(false);
+                        }}
+                        onClear={() => {
+                          setTempFilters({});
+                          setAppliedFilters({});
+                          setPriceRange([0, 5000]);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
 
-        {/* CONTENT */}
-        <div className="p-4 overflow-y-auto flex-1">
-          {/* {Object.entries(categoryMap).map(([category, subs]) => (
-            <div key={category} className="mb-5">
-              <p className="font-medium text-gray-800 mb-2">{category}</p>
+                {/* MAIN 3-COLUMN LAYOUT */}
+                <div className="flex gap-3 items-start w-full">
 
-              <div className="space-y-1 ml-2">
-                {subs.map((sub) => (
-                  <label
-                    key={sub}
-                    className="flex items-center gap-2 text-sm cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={
-                        tempFilters[category]?.includes(sub) || false
-                      }
-                      onChange={() =>
-                        handleFilterChange(category, sub)
-                      }
-                      className="accent-[#8B3A62]"
+                  {/* DESKTOP FILTER SIDEBAR */}
+                  <div className="hidden lg:flex flex-col w-56 flex-shrink-0 self-start sticky top-36"
+                    style={{ maxHeight: "calc(100vh - 2rem)", overflowY: "auto" }}>
+                  <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                    <FilterSidebar
+                      isOpen={true}
+                      categoryMap={categoryMap}
+                      tempFilters={tempFilters}
+                      setTempFilters={setTempFilters}
+                      priceRange={priceRange}
+                      setPriceRange={setPriceRange}
+                      rating={rating}
+                      setRating={setRating}
+                      onApply={() => setAppliedFilters(tempFilters)}
+                      onClear={() => {
+                        setTempFilters({});
+                        setAppliedFilters({});
+                        setPriceRange([0, 5000]);
+                      }}
                     />
-                    <span
-                      className={`${
-                        tempFilters[category]?.includes(sub)
-                          ? "text-[#8B3A62] font-medium"
-                          : "text-gray-600"
-                      }`}
-                    >
-                      {sub}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          ))} */}
-          <FilterSidebar
-              isOpen={showFilters}
-              onClose={() => setShowFilters(false)}
-              categoryMap={categoryMap}
-              tempFilters={tempFilters}
-              setTempFilters={setTempFilters}
-              priceRange={priceRange}
-              setPriceRange={setPriceRange}
-              rating={rating}
-              setRating={setRating}
-              onApply={() => {
-                setAppliedFilters(tempFilters);
-                setShowFilters(false);
-              }}
-              onClear={() => {
-                setTempFilters({});
-                setAppliedFilters({});
-                setPriceRange([0, 5000]);
-              }}
-            />
+                  </div>
+                  </div>
 
-          {/* PRICE FILTER */}
-          {/* <div className="mb-6">
-            <h4 className="font-medium mb-3">Price Range</h4>
-            <input
-              type="range"
-              min="0"
-              max="5000"
-              step="100"
-              value={priceRange[1]}
-              onChange={(e) =>
-                setPriceRange([
-                  priceRange[0],
-                  Number(e.target.value),
-                ])
-              }
-              className="w-full accent-[#8B3A62]"
-            />
-            <div className="flex justify-between text-sm text-gray-600 mt-2">
-              <span>₹{priceRange[0]}</span>
-              <span>₹{priceRange[1]}</span>
-            </div>
-          </div> */}
-        </div>
-
-        {/* FOOTER */}
-        {/* <div className="p-4 border-t flex gap-2">
-          <button
-            onClick={() => {
-              setTempFilters({});
-              setAppliedFilters({});
-              setPriceRange([0, 5000]);
-            }}
-            className="flex-1 border border-gray-300 py-2 rounded text-sm"
-          >
-            Clear
-          </button>
-
-          <button
-            onClick={() => {
-              setAppliedFilters(tempFilters);
-              setShowFilters(false);
-            }}
-            className="flex-1 bg-[#8B3A62] text-white py-2 rounded text-sm"
-          >
-            Apply
-          </button>
-        </div> */}
-      </div>
-    </div>
-    
-
-    {/* MAIN GRID */}
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-
-      {/* DESKTOP SIDEBAR */}
-      <div className="hidden lg:block lg:col-span-1">
-        <div className="sticky top-24 bg-white p-4 border rounded-xl">
-          {/* <h2 className="text-xl font-semibold text-[#8B3A62]">
-                Filters
-              </h2> */}
-          {/* {Object.entries(categoryMap).map(([category, subs]) => (
-            
-            <div key={category} className="mb-5">
-              
-              <p className="font-medium text-gray-800 mb-2 mt-5">{category}</p>
-
-              <div className="space-y-1 ml-2">
-                {subs.map((sub) => (
-                  <label
-                    key={sub}
-                    className="flex items-center gap-2 text-sm cursor-pointer"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={
-                        tempFilters[category]?.includes(sub) || false
-                      }
-                      onChange={() =>
-                        handleFilterChange(category, sub)
-                      }
-                      className="accent-[#8B3A62]"
-                    />
-                    <span
-                      className={`${
-                        tempFilters[category]?.includes(sub)
-                          ? "text-[#8B3A62] font-medium"
-                          : "text-gray-600"
-                      }`}
-                    >
-                      {sub}
-                    </span>
-                  </label>
-                ))}
-              </div>
-            </div>
-          ))} */}
-          <div className="hidden lg:block lg:col-span-1">
-            <FilterSidebar
-              isOpen={true}
-              categoryMap={categoryMap}
-              tempFilters={tempFilters}
-              setTempFilters={setTempFilters}
-              priceRange={priceRange}
-              setPriceRange={setPriceRange}
-              rating={rating}
-              setRating={setRating}
-              onApply={() => setAppliedFilters(tempFilters)}
-              onClear={() => {
-                setTempFilters({});
-                setAppliedFilters({});
-                setPriceRange([0, 5000]);
-              }}
-            />
-        </div>
-
-          {/* PRICE
-          <div className="mb-6">
-            <h4 className="font-medium mb-3">Price Range</h4>
-            <input
-              type="range"
-              min="0"
-              max="5000"
-              step="100"
-              value={priceRange[1]}
-              onChange={(e) =>
-                setPriceRange([
-                  priceRange[0],
-                  Number(e.target.value),
-                ])
-              }
-              className="w-full accent-[#8B3A62]"
-            />
-            <div className="flex justify-between text-sm text-gray-600 mt-2">
-              <span>₹{priceRange[0]}</span>
-              <span>₹{priceRange[1]}</span>
-            </div>
-          </div>
-
-          {/* ACTIONS */}
-          {/* <div className="mt-4 flex gap-2">
-            <button
-              onClick={() => {
-                setTempFilters({});
-                setAppliedFilters({});
-                setPriceRange([0, 5000]);
-              }}
-              className="flex-1 border border-gray-300 py-2 rounded text-sm"
-            >
-              Clear
-            </button>
-
-            <button
-              onClick={() => setAppliedFilters(tempFilters)}
-              className="flex-1 bg-[#8B3A62] text-white py-2 rounded text-sm"
-            >
-              Apply
-            </button>
-          </div> */} 
-        </div>
-      </div>
-
-      {/* PRODUCTS */}
-      <div className="lg:col-span-2">
-        {filteredProducts.length === 0 ? (
-          <p className="text-center text-gray-500 mt-10">
-            No products found
-          </p>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 gap-6">
-            {filteredProducts.map((item) => {
-              const isSelected = selectedItems.includes(item.id);
-
-              return (
-                <ProductCard
-                  key={item.id}
-                  {...item}
-                  showSelect={true}
-                  isSelected={isSelected}
-                  onSelect={toggleItem}
-                />
-              );
-            })}
-          </div>
-        )}
-      </div>
+                  {/* PRODUCTS */}
+                  <div className="flex-1 min-w-0 bg-white border border-gray-200  p-4">
+                    {filteredProducts.length === 0 ? (
+                      <p className="text-center text-gray-500 mt-10">No products found</p>
+                    ) : (
+                      <div className="grid grid-cols-2 xl:grid-cols-3 gap-4">
+                        {filteredProducts.map((item) => {
+                          const isSelected = selectedItems.includes(item.id);
+                          return (
+                            <ProductCard
+                              key={item.id}
+                              {...item}
+                              showSelect={true}
+                              isSelected={isSelected}
+                              onSelect={toggleItem}
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
 
       {/* ORDER SUMMARY */}
-      <div className="hidden lg:block lg:col-span-1">
-        <div className="sticky top-28">
+      <div className="hidden lg:flex flex-col w-64 flex-shrink-0 self-start sticky top-36"
+       style={{ maxHeight: "calc(100vh - 2rem)", overflowY: "auto" }}>
           <OrderSummaryContent
             selectedBoxData={selectedBoxData}
             selectedItemsData={selectedItemsData}
@@ -1559,7 +1370,7 @@ const selectedItemsData = selectedItems
         </div>
       </div>
     </div>
-  </div>
+  
 )}
 
             {/* STEP 3 */}
