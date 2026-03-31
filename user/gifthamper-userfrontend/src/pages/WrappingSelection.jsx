@@ -9,7 +9,7 @@ const wrappingStyles = [
     price: 100, 
     description: 'Traditional wrapping paper',
     image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400',
-    features: ['xxxxxxxxxx', 'xxxxxxxxxx', 'xxxxxxxxxx']
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
   },
   { 
     id: 'floral', 
@@ -17,7 +17,7 @@ const wrappingStyles = [
     price: 120, 
     description: 'Beautiful floral pattern design',
     image: 'https://images.unsplash.com/photo-1530103043960-ef38714abb15?w=400',
-    features: ['xxxxxxxxxx', 'xxxxxxxxxx', 'xxxxxxxxxx']
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
   },
   { 
     id: 'modern', 
@@ -26,7 +26,7 @@ const wrappingStyles = [
     description: 'Contemporary pattern Wrapping',
     image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400',
     // image: 'https://images.unsplash.com/photo-1544435253-f0ead49638fa?w=400',
-    features: ['xxxxxxxxxx', 'xxxxxxxxxx', 'xxxxxxxxxx']
+   features: ['wrapping styling', 'elegent Design', 'Attractive design']
   },
   { 
     id: 'festive', 
@@ -35,25 +35,25 @@ const wrappingStyles = [
     description: 'Colorful celebration themed wrap',
     image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400',
     // image: 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400',
-    features: ['xxxxxxxxxx', 'xxxxxxxxxx', 'xxxxxxxxxx']
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
   },
   { 
     id: 'elegant', 
     name: 'Elegant Wrapping', 
-    price: 4.99, 
+    price: 200, 
     description: 'Elegent wrapping Style for gift',
     image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400',
     // image: 'https://images.unsplash.com/photo-1606762254160-b1b6b0c18aaa?w=400',
-    features: ['xxxxxxxxxx', 'xxxxxxxxxx', 'xxxxxxxxxx']
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
   },
   { 
     id: 'Natural', 
     name: 'Natural Wrapping', 
-    price: 3.49, 
+    price: 210, 
     description: 'Natural Wrapping Style',
     image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400',
     // image: 'https://images.unsplash.com/photo-1574169411236-be48359ce5d9?w=400',
-    features: ['xxxxxxxxxx', 'xxxxxxxxxx', 'xxxxxxxxxx']
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
   },
 ];
 
@@ -62,36 +62,48 @@ export default function WrappingSelection() {
   const [searchParams] = useSearchParams();
 
   const productId = searchParams.get("productId");
-  const currentSelection = searchParams.get("selected");
+  const currentSelection = searchParams.get("wrapping");
 
   const [selectedWrapping, setSelectedWrapping] = useState(currentSelection || null);
 
   const handleSelect = (id) => setSelectedWrapping(id);
 
   const handleApply = () => {
-    const selectedOption = wrappingStyles.find(wrap => wrap.id === selectedWrapping);
+  const selectedOption = wrappingStyles.find(
+    (wrap) => wrap.id === selectedWrapping
+  );
 
-    if (selectedOption) {
-      const giftBox = searchParams.get("giftBox");
-      const giftBoxPrice = searchParams.get("giftBoxPrice");
-      const giftCard = searchParams.get("giftCard");
-      const giftCardPrice = searchParams.get("giftCardPrice");
+  const params = new URLSearchParams();
 
-      const params = new URLSearchParams();
-      params.append("wrapping", selectedWrapping);
-      params.append("wrappingPrice", selectedOption.price.toString());
-      if (giftBox) params.append("giftBox", giftBox);
-      if (giftBoxPrice) params.append("giftBoxPrice", giftBoxPrice);
-      if (giftCard) params.append("giftCard", giftCard);
-      if (giftCardPrice) params.append("giftCardPrice", giftCardPrice);
+  params.set("productId", productId);
 
-      navigate(`/products/${productId}?${params.toString()}`);
-    } else {
-      navigate(`/products/${productId}`);
-    }
-  };
+  // ✅ Preserve gift box
+  const giftBox = searchParams.get("giftBox");
+  const giftBoxPrice = searchParams.get("giftBoxPrice");
 
-  const handleSkip = () => navigate(`/products/${productId}`);
+  if (giftBox) params.set("giftBox", giftBox);
+  if (giftBoxPrice) params.set("giftBoxPrice", giftBoxPrice);
+
+  // ❌ REMOVE giftCard logic completely
+
+  // ✅ Add wrapping
+  if (selectedOption) {
+    params.set("wrapping", selectedWrapping);
+    params.set("wrappingPrice", selectedOption.price);
+  }
+
+  navigate(`/products/${productId}?${params.toString()}`);
+};
+
+  const handleSkip = () => {
+  const params = new URLSearchParams(searchParams);
+
+  // ❌ Remove ONLY wrapping
+  params.delete("wrapping");
+  params.delete("wrappingPrice");
+
+  navigate(`/products/${productId}?${params.toString()}`);
+};
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#faf7fb] to-white">

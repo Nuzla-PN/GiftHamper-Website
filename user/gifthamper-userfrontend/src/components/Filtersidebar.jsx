@@ -1,8 +1,30 @@
 //------------------------------------------------code 3--------------------------------------------------// 
-import { Star, X } from "lucide-react";
+import { ChevronDown, ChevronUp, Star, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
+function FilterSection({ title, children }) {
+  const [open, setOpen] = useState(true);
 
+  return (
+    <div style={{ borderBottom: "1px solid #f0f0f0" }}>
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors"
+        style={{ background: "none", border: "none", cursor: "pointer" }}
+      >
+        <span
+          className="font-medium text-[#8B3A62]"
+          style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: "0.4px" }}
+        >
+          {title}
+        </span>
+        {open ? <ChevronUp size={14} color="#888" /> : <ChevronDown size={14} color="#888" />}
+      </button>
+      {open && <div className="px-4 pb-3">{children}</div>}
+    </div>
+  );
+}
 export default function FilterSidebar({
   isOpen,
   onClose,
@@ -59,11 +81,8 @@ export default function FilterSidebar({
 
             {/*  CATEGORY */}
             {Object.entries(categoryMap).map(([cat, subs]) => (
-              <div key={cat} className="mb-6">
-                <h3 className="text-sm font-semibold mb-3 text-[#8B3A62] tracking-tight">
-                  {cat}
-                </h3>
-
+              <FilterSection key={cat} title={cat}className="mb-6 text-sm font-semibold mb-3 text-[#8B3A62] tracking-tight">
+                
                 {(subs || []).map((sub) => (
                   // <label
                   //   key={sub}
@@ -116,14 +135,13 @@ export default function FilterSidebar({
                     </div>
                   </label>
                 ))}
-              </div>
+              
+            </FilterSection>
             ))}
 
             {/*  PRICE */}
-            <div className="mb-6">
-              <h3 className="text-sm font-semibold mb-3 text-[#8B3A62]">
-                Price
-              </h3>
+            <FilterSection  title="Price" className="mb-6 text-sm font-semibold mb-3 text-[#8B3A62]">
+              
 
               <input
                 type="range"
@@ -142,13 +160,11 @@ export default function FilterSidebar({
                   ₹{priceRange[1]}
                 </span>
               </div>
-            </div>
+           </FilterSection>
 
             {/*  RATING */}
-            <div className="mb-6">
-              <h3 className="text-sm font-semibold mb-3 text-[#8B3A62]">
-                Rating
-              </h3>
+            <FilterSection title="Ratings" className="mb-6 text-sm font-semibold mb-3 text-[#8B3A62]">
+            
 
               {[5, 4, 3, 2, 1].map((r) => (
                 <label
@@ -180,7 +196,7 @@ export default function FilterSidebar({
                   {/* <span className="text-xs text-gray-500">& up</span> */}
                 </label>
               ))}
-            </div>
+           </FilterSection>
 
             {/*  ACTION BUTTONS */}
             <div className="flex gap-3 pt-3 border-t">
@@ -204,6 +220,232 @@ export default function FilterSidebar({
     </AnimatePresence>
   );
 }
+
+
+// //----------------------------------code cloude---------------------------------------------------------// 
+
+// import { Star, X, ChevronDown, ChevronUp } from "lucide-react";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { useState } from "react";
+
+// function FilterSection({ title, children }) {
+//   const [open, setOpen] = useState(true);
+
+//   return (
+//     <div style={{ borderBottom: "1px solid #f0f0f0" }}>
+//       <button
+//         onClick={() => setOpen(!open)}
+//         className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-colors"
+//         style={{ background: "none", border: "none", cursor: "pointer" }}
+//       >
+//         <span
+//           className="font-medium text-gray-800"
+//           style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: "0.4px" }}
+//         >
+//           {title}
+//         </span>
+//         {open ? <ChevronUp size={14} color="#888" /> : <ChevronDown size={14} color="#888" />}
+//       </button>
+//       {open && <div className="px-4 pb-3">{children}</div>}
+//     </div>
+//   );
+// }
+
+// export default function FilterSidebar({
+//   isOpen,
+//   onClose,
+//   categoryMap,
+//   tempFilters,
+//   setTempFilters,
+//   priceRange,
+//   setPriceRange,
+//   rating,
+//   setRating,
+//   onApply,
+//   onClear,
+// }) {
+//   const toggleCategory = (category, value) => {
+//     setTempFilters((prev) => {
+//       const current = prev[category] || [];
+//       return {
+//         ...prev,
+//         [category]: current.includes(value)
+//           ? current.filter((v) => v !== value)
+//           : [...current, value],
+//       };
+//     });
+//   };
+
+//   const sidebar = (
+//     <div
+//       className="bg-white h-full overflow-y-auto"
+//       style={{ borderRight: "1px solid #e0e0e0" }}
+//     >
+//       {/* HEADER */}
+//       <div
+//         className="flex items-center justify-between px-4 py-3 sticky top-0 bg-white z-10"
+//         style={{ borderBottom: "1px solid #e0e0e0" }}
+//       >
+//         <span className="font-semibold text-gray-800" style={{ fontSize: 14 }}>
+//           Filters
+//         </span>
+//         <div className="flex items-center gap-3">
+//           <button
+//             onClick={onClear}
+//             className="text-xs font-medium hover:opacity-80 transition"
+//             style={{ color: "#8B3A62", background: "none", border: "none", cursor: "pointer" }}
+//           >
+//             Clear All
+//           </button>
+//           <button onClick={onClose} className="lg:hidden text-gray-500">
+//             <X size={18} />
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* CATEGORY FILTERS */}
+//       {Object.entries(categoryMap).map(([cat, subs]) => (
+//         <FilterSection key={cat} title={cat}>
+//           <div className="flex flex-col gap-2">
+//             {(subs || []).map((sub) => {
+//               const checked = tempFilters[cat]?.includes(sub) || false;
+//               return (
+//                 <label
+//                   key={sub}
+//                   className="flex items-center gap-2 cursor-pointer group"
+//                   style={{ fontSize: 13 }}
+//                 >
+//                   <input
+//                     type="checkbox"
+//                     checked={checked}
+//                     onChange={() => toggleCategory(cat, sub)}
+//                     style={{ accentColor: "#8B3A62", width: 14, height: 14, cursor: "pointer" }}
+//                   />
+//                   <span
+//                     className="transition-colors"
+//                     style={{ color: checked ? "#8B3A62" : "#444" }}
+//                   >
+//                     {sub}
+//                   </span>
+//                 </label>
+//               );
+//             })}
+//           </div>
+//         </FilterSection>
+//       ))}
+
+//       {/* PRICE FILTER */}
+//       <FilterSection title="Price">
+//         <input
+//           type="range"
+//           min="0"
+//           max="5000"
+//           step="100"
+//           value={priceRange[1]}
+//           onChange={(e) => setPriceRange([0, Number(e.target.value)])}
+//           className="w-full"
+//           style={{ accentColor: "#8B3A62" }}
+//         />
+//         <div className="flex justify-between mt-1" style={{ fontSize: 12, color: "#888" }}>
+//           <span>₹0</span>
+//           <span style={{ color: "#8B3A62", fontWeight: 500 }}>₹{priceRange[1]}</span>
+//         </div>
+
+//         {/* PRESET PRICE RANGES */}
+//         <div className="flex flex-col gap-1.5 mt-2">
+//           {[
+//             { label: "Under ₹500", max: 500 },
+//             { label: "₹500 – ₹1,000", max: 1000 },
+//             { label: "₹1,000 – ₹2,500", max: 2500 },
+//             { label: "₹2,500 – ₹5,000", max: 5000 },
+//           ].map((range) => (
+//             <label key={range.max} className="flex items-center gap-2 cursor-pointer" style={{ fontSize: 13 }}>
+//               <input
+//                 type="radio"
+//                 name="price-preset"
+//                 checked={priceRange[1] === range.max}
+//                 onChange={() => setPriceRange([0, range.max])}
+//                 style={{ accentColor: "#8B3A62", width: 14, height: 14, cursor: "pointer" }}
+//               />
+//               <span style={{ color: priceRange[1] === range.max ? "#8B3A62" : "#444" }}>
+//                 {range.label}
+//               </span>
+//             </label>
+//           ))}
+//         </div>
+//       </FilterSection>
+
+//       {/* RATING FILTER */}
+//       <FilterSection title="Customer Ratings">
+//         <div className="flex flex-col gap-2">
+//           {[4, 3, 2, 1].map((r) => (
+//             <label key={r} className="flex items-center gap-2 cursor-pointer" style={{ fontSize: 13 }}>
+//               <input
+//                 type="radio"
+//                 checked={rating === r}
+//                 onChange={() => setRating(r)}
+//                 style={{ accentColor: "#8B3A62", width: 14, height: 14, cursor: "pointer" }}
+//               />
+//               <span
+//                 className="inline-flex items-center gap-1"
+//                 style={{ color: rating === r ? "#8B3A62" : "#444" }}
+//               >
+//                 <span
+//                   className="text-white text-xs px-1.5 py-0.5 rounded font-medium"
+//                   style={{ background: r >= 4 ? "#388e3c" : r >= 3 ? "#ff9f00" : "#f44336", fontSize: 11 }}
+//                 >
+//                   {r}★
+//                 </span>
+//                 &amp; above
+//               </span>
+//             </label>
+//           ))}
+//         </div>
+//       </FilterSection>
+
+//       {/* APPLY BUTTON (mobile) */}
+//       <div className="lg:hidden p-4 sticky bottom-0 bg-white" style={{ borderTop: "1px solid #eee" }}>
+//         <button
+//           onClick={onApply}
+//           className="w-full py-2.5 text-white font-medium text-sm rounded"
+//           style={{ background: "#8B3A62" }}
+//         >
+//           Apply Filters
+//         </button>
+//       </div>
+//     </div>
+//   );
+
+//   return (
+//     <>
+//       {/* DESKTOP: always visible, no animation */}
+//       <div className="hidden lg:block h-fit sticky top-4">
+//         {sidebar}
+//       </div>
+
+//       {/* MOBILE: animated slide-in */}
+//       <AnimatePresence>
+//         {isOpen && (
+//           <>
+//             <div
+//               className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+//               onClick={onClose}
+//             />
+//             <motion.div
+//               initial={{ x: -300 }}
+//               animate={{ x: 0 }}
+//               exit={{ x: -300 }}
+//               transition={{ type: "tween", duration: 0.25 }}
+//               className="fixed top-0 left-0 h-full w-72 z-50 shadow-xl lg:hidden"
+//             >
+//               {sidebar}
+//             </motion.div>
+//           </>
+//         )}
+//       </AnimatePresence>
+//     </>
+//   );
+// }
 
 //code 1 black text theame
 

@@ -46,7 +46,7 @@ export default function GiftBoxSelection() {
   const [searchParams] = useSearchParams();
 
   const productId = searchParams.get("productId");
-  const currentSelection = searchParams.get("selected");
+  const currentSelection = searchParams.get("giftBox");
 
   const [selectedBox, setSelectedBox] = useState(currentSelection || null);
 
@@ -55,22 +55,42 @@ export default function GiftBoxSelection() {
   };
 
   const handleApply = () => {
-    const selectedOption = giftBoxOptions.find(
-      (box) => box.id === selectedBox
-    );
+  const selectedOption = giftBoxOptions.find(
+    (box) => box.id === selectedBox
+  );
 
-    if (selectedOption) {
-      navigate(
-        `/products/${productId}?giftBox=${selectedBox}&giftBoxPrice=${selectedOption.price}`
-      );
-    } else {
-      navigate(`/products/${productId}`);
-    }
-  };
+  const params = new URLSearchParams();
 
-  const handleSkip = () => {
-    navigate(`/products/${productId}`);
-  };
+  params.set("productId", productId);
+
+  // ✅ Preserve wrapping
+  const wrapping = searchParams.get("wrapping");
+  const wrappingPrice = searchParams.get("wrappingPrice");
+
+  if (wrapping) params.set("wrapping", wrapping);
+  if (wrappingPrice) params.set("wrappingPrice", wrappingPrice);
+
+  // ❌ REMOVE giftCard completely (since not implemented)
+  // DO NOT include giftCard at all
+
+  // ✅ Add gift box
+  if (selectedOption) {
+    params.set("giftBox", selectedBox);
+    params.set("giftBoxPrice", selectedOption.price);
+  }
+
+  navigate(`/products/${productId}?${params.toString()}`);
+};
+
+const handleSkip = () => {
+  const params = new URLSearchParams(searchParams);
+
+  // ❌ Remove ONLY gift box
+  params.delete("giftBox");
+  params.delete("giftBoxPrice");
+
+  navigate(`/products/${productId}?${params.toString()}`);
+};
 
 return (
   <div className="min-h-screen bg-gradient-to-br from-[#faf7fb] to-white">

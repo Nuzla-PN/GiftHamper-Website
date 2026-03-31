@@ -48,6 +48,12 @@ export default function ProductDetails() {
   }
 }, [searchParams]);
 
+useEffect(() => {
+  setGiftBox(searchParams.get("giftBox"));
+  setWrapping(searchParams.get("wrapping"));
+  // setGiftCard(searchParams.get("giftCard"));
+}, [searchParams]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -103,10 +109,25 @@ const [wrapping, setWrapping] = useState(null);
 const [giftCard, setGiftCard] = useState(null);
 const [cardMessage, setCardMessage] = useState("");
 
-const giftBoxPrice = selectedBox?.price || 0;
-const wrappingPrice = selectedWrap?.price || 0;
-const giftCardPrice = selectedCard ? 20 : 0;
 
+
+const giftBoxPrice = Number(searchParams.get("giftBoxPrice")) || 0;
+const wrappingPrice = Number(searchParams.get("wrappingPrice")) || 0;
+const giftCardPrice = Number(searchParams.get("giftCardPrice")) || 0;
+
+const params = new URLSearchParams();
+
+params.set("productId", id);
+
+// preserve gift box
+if (giftBox) params.set("giftBox", giftBox);
+if (giftBoxPrice) params.set("giftBoxPrice", giftBoxPrice);
+
+// preserve wrapping
+if (wrapping) params.set("wrapping", wrapping);
+if (wrappingPrice) params.set("wrappingPrice", wrappingPrice);
+
+// ❌ remove giftCard for now if not implemented
 const addonsTotal = giftBoxPrice + wrappingPrice + giftCardPrice;
 const finalPrice = (product.price * quantity) + addonsTotal;
 
@@ -890,9 +911,9 @@ relatedProducts = relatedProducts.slice(0, 4);
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
                 {[
-                  { title: "Gift Box", value: giftBox, route: `/gift-box?productId=${id}` },
-                  { title: "Wrapping", value: wrapping, route: `/wrapping?productId=${id}` },
-                  { title: "Greeting Card", value: giftCard, route: `/greeting-card?productId=${id}` },
+                  { title: "Gift Box", value: giftBox, route: `/gift-box?${params.toString()}`  },
+                  { title: "Wrapping", value: wrapping, route: `/wrapping?${params.toString()}` },
+                  { title: "Greeting Card", value: giftCard, route: `/greeting-card?${params.toString()}` },
                 ].map((item, index) => (
                   <motion.button
                     key={index}
