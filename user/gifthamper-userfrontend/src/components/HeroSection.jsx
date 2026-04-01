@@ -84,9 +84,10 @@ export default function HeroSection() {
 
                     <div className="mt-6 flex flex-wrap gap-4">
 
-                      <button className="bg-[#8B3A62] hover:bg-[#742e52] text-white px-6 py-3 rounded-full text-sm md:text-base transition shadow-lg">
+                      <Link to="/products" className="px-7 py-3.5 rounded-full bg-[#8B3A62] hover:bg-[#742e52] text-whitefont-semibold text-sm hover:shadow-xl hover:-translate-y-0.5 transition-all">
+                      
                         Shop Now
-                      </button>
+                      </Link>
 
                       <Link to="/custom-hamper">
                       <button className="bg-white text-black px-6 py-3 rounded-full text-sm md:text-base hover:bg-gray-200 transition shadow-lg">

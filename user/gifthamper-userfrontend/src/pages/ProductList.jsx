@@ -1555,7 +1555,7 @@ export default function ProductListing() {
             <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden sticky top-4">
               {/* Sidebar header */}
               <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
-                <span className="text-sm font-semibold text-gray-800">Filters</span>
+                
                 {activeFilterCount > 0 && (
                   <button
                     onClick={() => { setTempFilters({}); setAppliedFilters({}); setPriceRange([0, 5000]); setRating(0); }}
