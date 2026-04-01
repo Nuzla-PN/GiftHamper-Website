@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useParams, Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   Heart,
@@ -30,30 +30,8 @@ export default function ProductDetails() {
   const products = useSelector((state) => state.products.items);
 
   const product = products.find((p) => String(p.id) === String(id));
-  const [searchParams] = useSearchParams();
-
-  useEffect(() => {
-  const box = searchParams.get("giftBox");
-  const boxPrice = searchParams.get("giftBoxPrice");
-
-  if (box) {
-    setGiftBox(box);
-  }
-
-  if (boxPrice) {
-    setSelectedBox({
-      id: box,
-      price: Number(boxPrice),
-    });
-  }
-}, [searchParams]);
-
-useEffect(() => {
-  setGiftBox(searchParams.get("giftBox"));
-  setWrapping(searchParams.get("wrapping"));
-  // setGiftCard(searchParams.get("giftCard"));
-}, [searchParams]);
-
+  const { giftBox, wrapping, giftCard } = useSelector((state) => state.addons);
+  
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -79,10 +57,13 @@ useEffect(() => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeTab, setActiveTab] = useState("description");
 
-  const [selectedWrap, setSelectedWrap] = useState(null);
-  const [selectedBox, setSelectedBox] = useState(null);
-  const [selectedCard, setSelectedCard] = useState(null);
-  const [showCustomization, setShowCustomization] = useState(false);
+  // const [selectedWrap, setSelectedWrap] = useState(null);
+  // const [selectedBox, setSelectedBox] = useState(null);
+  // const [selectedCard, setSelectedCard] = useState(null);
+  // const [showCustomization, setShowCustomization] = useState(false);
+
+  // Gift states
+const [cardMessage, setCardMessage] = useState("");
 
   const [customText, setCustomText] = useState("");
   const [engravingText, setEngravingText] = useState("");
@@ -103,58 +84,14 @@ useEffect(() => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-// Gift states
-const [giftBox, setGiftBox] = useState(null);
-const [wrapping, setWrapping] = useState(null);
-const [giftCard, setGiftCard] = useState(null);
-const [cardMessage, setCardMessage] = useState("");
+const giftBoxPrice = giftBox?.price || 0;
+const wrappingPrice = wrapping?.price || 0;
+const giftCardPrice = giftCard?.price || 0;
 
 
-
-const giftBoxPrice = Number(searchParams.get("giftBoxPrice")) || 0;
-const wrappingPrice = Number(searchParams.get("wrappingPrice")) || 0;
-const giftCardPrice = Number(searchParams.get("giftCardPrice")) || 0;
-
-const params = new URLSearchParams();
-
-params.set("productId", id);
-
-// preserve gift box
-if (giftBox) params.set("giftBox", giftBox);
-if (giftBoxPrice) params.set("giftBoxPrice", giftBoxPrice);
-
-// preserve wrapping
-if (wrapping) params.set("wrapping", wrapping);
-if (wrappingPrice) params.set("wrappingPrice", wrappingPrice);
-
-// ❌ remove giftCard for now if not implemented
 const addonsTotal = giftBoxPrice + wrappingPrice + giftCardPrice;
-const finalPrice = (product.price * quantity) + addonsTotal;
+const finalPrice = ((product?.price || 0) * quantity) + addonsTotal;
 
-// const giftBoxOptions = [
-//   { id: 'basic', name: 'Basic Gift Box', price: 4.99 },
-//   { id: 'premium', name: 'Premium Gift Box', price: 9.99 },
-//   { id: 'deluxe', name: 'Deluxe Gift Box', price: 14.99 },
-//   { id: 'luxury', name: 'Luxury Gift Box', price: 19.99 },
-// ];
-
-// const wrappingStyles = [
-//   { id: 'classic', name: 'Classic Gold', price: 2.99 },
-//   { id: 'floral', name: 'Floral Garden', price: 3.99 },
-//   { id: 'modern', name: 'Modern Geometric', price: 3.99 },
-//   { id: 'festive', name: 'Festive Celebration', price: 4.99 },
-//   { id: 'elegant', name: 'Elegant Silver', price: 4.99 },
-//   { id: 'rustic', name: 'Rustic Kraft', price: 3.49 },
-// ];
-
-// const greetingCards = [
-//   { id: 'birthday', name: 'Birthday Celebration', price: 2.49 },
-//   { id: 'thankyou', name: 'Thank You', price: 2.49 },
-//   { id: 'celebration', name: 'Celebration', price: 2.49 },
-//   { id: 'love', name: 'With Love', price: 2.99 },
-//   { id: 'getwell', name: 'Get Well Soon', price: 2.49 },
-//   { id: 'custom', name: 'Custom Message', price: 3.99 },
-// ];
 const hasAnyGiftOptions =
   giftBox !== null ||
   wrapping !== null ||
@@ -185,7 +122,7 @@ const hasAnyGiftOptions =
       );
     }
   };
-  
+
   //simple code not needed
     // const getDeliveryDate = () => {
     //   const date = new Date();
@@ -214,9 +151,7 @@ const hasAnyGiftOptions =
     //   return `${format(startDate)} - ${format(endDate)}`;
     // };
 
-    const availableCoupons = couponsConfig.filter(
-  (coupon) => product.price >= coupon.minAmount
-);
+ 
 
   // fallback (avoid crash)
   if (!product) {
@@ -227,29 +162,11 @@ const hasAnyGiftOptions =
     );
   }
 
+   const availableCoupons = couponsConfig.filter(
+  (coupon) => (product?.price || 0) >= coupon.minAmount
+);
 
-  // //  TEMP DATA (later from DB)
-  // const wrappingOptions = [
-  //   { id: 1, name: "Birthday Wrap", price: 30, image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
-  //   { id: 2, name: "Luxury Wrap", price: 60, image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
-  // ];
-
-  // const boxOptions = [
-  //   { id: 1, name: "Standard", price: 0, image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
-  //   { id: 2, name: "Premium Box", price: 50, image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
-  // ];
-
-  // const cardOptions = [
-  //   { id: 1, name: "Birthday Card", image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
-  //   { id: 2, name: "Love Card", image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400", },
-  // ];
-
-  // const totalPrice =
-  //   (product.price +
-  //     (selectedWrap?.price || 0) +
-  //     (selectedBox?.price || 0)) *
-  //   quantity;
-    
+   
  let relatedProducts = products.filter(
   (p) =>
     String(p.id) !== String(product.id) &&
@@ -635,6 +552,7 @@ relatedProducts = relatedProducts.slice(0, 4);
 
 
         {/* ✨ CUSTOMIZE BUTTON */}
+        
           {product?.customizable && (
           <motion.button
             onClick={() => navigate(`/product/${id}/customize`)}
@@ -911,13 +829,17 @@ relatedProducts = relatedProducts.slice(0, 4);
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
                 {[
-                  { title: "Gift Box", value: giftBox, route: `/gift-box?${params.toString()}`  },
-                  { title: "Wrapping", value: wrapping, route: `/wrapping?${params.toString()}` },
-                  { title: "Greeting Card", value: giftCard, route: `/greeting-card?${params.toString()}` },
+                  { title: "Gift Box", value: giftBox, route: `/gift-box/${id}`  },
+                  { title: "Wrapping", value: wrapping, route: `/wrapping/${id}`  },
+                  { title: "Greeting Card", value: giftCard, route: `/greeting-card/${id}`  },
+                  
                 ].map((item, index) => (
                   <motion.button
                     key={index}
-                    onClick={() => navigate(item.route)}
+                    onClick={() => {
+                      console.log("Navigating to:", item.route);
+                      navigate(item.route);
+                    }}
                     whileHover={{ y: -4, scale: 1.02 }}
                     whileTap={{ scale: 0.97 }}
                     className="group relative p-[1px] rounded-xl overflow-hidden"
@@ -952,6 +874,7 @@ relatedProducts = relatedProducts.slice(0, 4);
                     </div>
                   </motion.button>
                 ))}
+                
               </div>
 
               {/*  LIVE PRICE SECTION */}
@@ -967,27 +890,28 @@ relatedProducts = relatedProducts.slice(0, 4);
 
                   <div className="space-y-1 text-sm">
 
-                    { selectedBox && (
+                    { giftBox && (
                       <div className="flex justify-between text-gray-600">
                         <span>🎁 Gift Box</span>
                         <span className="text-[#8B3A62] font-medium">+₹{giftBoxPrice}</span>
                       </div>
                     )}
 
-                    {selectedWrap && (
+                    {wrapping && (
                       <div className="flex justify-between text-gray-600">
                         <span>🎀 Wrapping</span>
                         <span className="text-[#8B3A62] font-medium">+₹{wrappingPrice}</span>
                       </div>
                     )}
 
-                    {selectedCard && (
+                    {giftCard && (
                       <div className="flex justify-between text-gray-600">
                         <span>💌 Card</span>
                         <span className="text-[#8B3A62] font-medium">+₹{giftCardPrice}</span>
                       </div>
+                      
                     )}
-
+                    
                     <div className="flex justify-between font-semibold text-[#8B3A62] pt-2 border-t">
                       <span>Total</span>
                       <span>₹{finalPrice}</span>
@@ -1005,33 +929,36 @@ relatedProducts = relatedProducts.slice(0, 4);
 
             {/* Add to Cart */}
             <button onClick={() => {
-                const cartItem = {
+              const cartItem = {
                   id: product.id,
                   title: product.title,
                   image: product.image[0],
-                  price: product.price,
+                  basePrice: product.price,
                   quantity,
 
-                  // ADD-ONS
-                  giftBox,
-                  wrapping,
-                  giftCard,
-                  cardMessage,
-
-                  // PRICES
-                  giftBoxPrice: giftBox ? 50 : 0,
-                  wrappingPrice: wrapping ? 30 : 0,
-                  giftCardPrice: giftCard ? 20 : 0,
+                  addons: {
+                    giftBox: giftBox
+                      ? { id: giftBox, price: giftBoxPrice }
+                      : null,
+                    wrapping: wrapping
+                      ? { id: wrapping, price: wrappingPrice }
+                      : null,
+                    giftCard: giftCard
+                      ? { id: giftCard, price: giftCardPrice }
+                      : null,
+                  },
 
                   totalPrice:
-                    (product.price +
-                      (giftBox ? 50 : 0) +
-                      (wrapping ? 30 : 0) +
-                      (giftCard ? 20 : 0)) * quantity,
+                    (product.price + giftBoxPrice + wrappingPrice + giftCardPrice) *
+                    quantity,
                 };
-
+//               const cartTotal = useSelector((state) =>
+//               state.cart.items.reduce((sum, item) => sum + item.totalPrice, 0)
+// );
+// 
                 dispatch(addtoCart(cartItem));
               }}
+
               className="w-full sm:flex-1 bg-[#8B3A62] text-white py-3 rounded-full font-medium hover:opacity-90 transition flex items-center justify-center gap-2">
               <ShoppingCart className="w-5 h-5" />
               Add to Cart

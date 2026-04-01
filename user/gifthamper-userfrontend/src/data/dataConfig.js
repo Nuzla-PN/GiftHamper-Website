@@ -112,6 +112,7 @@ export const categoryConfig = {
   },
 };
 
+
 export const priceConfig = [
   { title: "Under ₹500", value: "0-500", icon: IndianRupee },
   { title: "₹500 - ₹1,000", value: "500-1000", icon: IndianRupee },
@@ -120,12 +121,14 @@ export const priceConfig = [
   { title: "Above ₹5,000", value: "5000-plus", icon: Crown },
 ];
 
+
 export const categoryMapConfig ={
     Occasion: ["Birthday", "Anniversary", "Wedding", "Baby shower", "Graduation", "Housewarming"],
     Recipient: ["For Him", "For Her", "For Kids", "For Parents", "For Couples", "Corporate Gifts"],
     Festival: ["Christmas", "Diwali", "New Year", "Mothers Day", "Valentines Day", "Fathers Day"],
     GiftType: ["Luxury","HomeDecor","NamePlates","Stationary", "Handmade", "Chocolate Hamper", "Snack Hamper", "Dry Fruit Hamper", "Coffee & Tea", "Self Care", "Personalized", "Wellness"],
 };
+
 
 export const couponsConfig = [
   {
@@ -145,3 +148,99 @@ export const couponsConfig = [
     description:" Get xx % OFF on orders aboove 999",
   },
 ];
+
+
+export const wrappingStylesConfig = [
+  {
+    id: 'Basic', 
+    name: 'Basic Wrapping', 
+    price: 100, 
+    description: 'Traditional wrapping paper',
+    image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400',
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
+  },
+  {
+    id: 'floral', 
+    name: 'Floral Wrapping', 
+    price: 120, 
+    description: 'Beautiful floral pattern design',
+    image: 'https://images.unsplash.com/photo-1530103043960-ef38714abb15?w=400',
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
+  
+  },
+   { 
+    id: 'modern', 
+    name: 'Modern Wrapping', 
+    price: 130, 
+    description: 'Contemporary pattern Wrapping',
+    image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400',
+    // image: 'https://images.unsplash.com/photo-1544435253-f0ead49638fa?w=400',
+   features: ['wrapping styling', 'elegent Design', 'Attractive design']
+  },
+  { 
+    id: 'festive', 
+    name: 'Festive Wrapping', 
+    price: 150, 
+    description: 'Colorful celebration themed wrap',
+    image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400',
+    // image: 'https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400',
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
+  },
+  { 
+    id: 'elegant', 
+    name: 'Elegant Wrapping', 
+    price: 200, 
+    description: 'Elegent wrapping Style for gift',
+    image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400',
+    // image: 'https://images.unsplash.com/photo-1606762254160-b1b6b0c18aaa?w=400',
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
+  },
+  { 
+    id: 'Natural', 
+    name: 'Natural Wrapping', 
+    price: 210, 
+    description: 'Natural Wrapping Style',
+    image: 'https://images.unsplash.com/photo-1512909006721-3d6018887383?w=400',
+    // image: 'https://images.unsplash.com/photo-1574169411236-be48359ce5d9?w=400',
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
+  },
+];
+
+
+export const giftBoxOptionsConfig = [
+    { 
+    id: "basic", 
+    name: "Basic Gift Box", 
+    price: 99, 
+    description: "Simple elegant box with tissue paper",
+    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400",
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
+  },
+  { 
+    id: "Normal", 
+    name: "Normal Gift Box", 
+    price: 199, 
+    description: "Luxury gift box with ribbon",
+    image: "https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=400",
+    // image: "https://images.unsplash.com/photo-1513885535751-8b9238bd345a?w=400",
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
+  },
+  { 
+    id: "Premium", 
+    name: "Premium Gift Box", 
+    price: 299, 
+    description: "Premium box with custom message card",
+    image: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400",
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
+  },
+  { 
+    id: "luxury", 
+    name: "Luxury Gift Box", 
+    price: 499, 
+    description: "Ultimate branded gift box",
+    image: "https://images.unsplash.com/photo-1607344645866-009c320b63e0?w=400",
+    // image: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=400",
+    features: ['wrapping styling', 'elegent Design', 'Attractive design']
+  },
+  
+]

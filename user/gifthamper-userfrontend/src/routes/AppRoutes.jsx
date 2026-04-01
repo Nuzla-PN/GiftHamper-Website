@@ -8,6 +8,7 @@ import SellerPage from "../pages/SellerShop.jsx";
 import ScrollToTop from "../components/scrolltotop.jsx";
 import GiftBoxSelection from "../pages/GiftBoxSelection.jsx";
 import WrappingSelection from "../pages/WrappingSelection.jsx";
+import GreetingCardSelection from "../pages/GreetingCardSelection.jsx";
 
 
 
@@ -22,8 +23,9 @@ const AppRoutes = ()=>{
       <Route path="/custom-hamper" element={<CustomHamper/>}/>
       <Route path="/products" element={<ProductListing/>}/>
       <Route path = "/products/:id" element={<ProductDetails/>}/>
-      <Route path = "/gift-box" element = {<GiftBoxSelection/>}/>
-      <Route path = "/wrapping" element = {<WrappingSelection/>}/>
+      <Route path = "/gift-box/:id" element = {<GiftBoxSelection/>}/>
+      <Route path = "/wrapping/:id" element = {<WrappingSelection/>}/>
+      <Route path = "/greeting-card/:id" element = {<GreetingCardSelection/>}/>
       <Route path="/seller/:sellerName" element={<SellerPage/>} />
 </Routes>
 </>

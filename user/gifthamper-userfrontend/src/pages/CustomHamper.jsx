@@ -1314,9 +1314,9 @@ const selectedItemsData = selectedItems
                 <div className="flex gap-3 items-start w-full">
 
                   {/* DESKTOP FILTER SIDEBAR */}
-                  <div className="hidden lg:flex flex-col w-56 flex-shrink-0 self-start sticky top-36"
-                    style={{ maxHeight: "calc(100vh - 2rem)", overflowY: "auto" }}>
-                  <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+                  <div className="hidden lg:flex flex-col w-56 flex-shrink-0 sticky top-36 h-fit max-h-[calc(200vh-6rem)] overflow-y-auto"
+                    >
+                  <div className="bg-white border border-gray-200 rounded-xl p-4">
                     <FilterSidebar
                       isOpen={true}
                       categoryMap={categoryMap}
