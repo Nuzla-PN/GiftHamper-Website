@@ -863,7 +863,7 @@ export default function ProductCard({
 
           {/* SELLER */}
           {sellerName && (
-            <p className="text-[11px] text-rose-900/40 mb-1.5">
+            <p style={{ fontSize: 11, color: "#878787", margin: "0 0 6px" }}>
               {sellerName}
             </p>
           )}
