@@ -793,7 +793,7 @@ export default function ProductCard({
 
           {/* Seller */}
           {sellerName && (
-            <p className="text-[11px] text-rose-900/40 mb-1.5">by {sellerName}</p>
+            <p className="text-[11px] text-rose-900/40 mb-1.5"> {sellerName}</p>
           )}
 
           {/* Rating */}
