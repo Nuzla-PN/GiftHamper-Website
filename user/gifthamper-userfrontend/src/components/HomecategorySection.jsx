@@ -414,9 +414,9 @@ const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.08 } } };
 const slides = [
   {
     id: 1, tag: "New Collection",
-    title: "Gifts That Feel\nLike Magic ✨",
+    title: "Gifts That Feel\nLike Magic ",
     subtitle: "Curated premium hampers for every celebration",
-    image: "https://images.unsplash.com/photo-1607082349566-187342175e2f?w=1400",
+    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400",
     cta: "Shop All Gifts", ctaLink: "/products",
   },
   {
@@ -428,7 +428,7 @@ const slides = [
   },
   {
     id: 3, tag: "For Every Moment",
-    title: "Perfect Gifts\nfor Loved Ones 💝",
+    title: "Perfect Gifts\nfor Loved Ones ",
     subtitle: "Discover unique hampers from our top sellers",
     image: "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1400",
     cta: "Explore Now", ctaLink: "/products",
@@ -600,7 +600,7 @@ export default function HomePage() {
       <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} variants={stagger}>
           <motion.div variants={fadeUp()}>
-            <SectionHeader eyebrow="Shop by moment" title="Perfect for Every Occasion 🎉" linkTo="/products?category=Occasion" />
+            <SectionHeader eyebrow="Shop by moment" title="Perfect for Every Occasion " linkTo="/products?category=Occasion" />
           </motion.div>
 
           {/* Desktop */}
@@ -634,7 +634,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} variants={stagger}>
             <motion.div variants={fadeUp()}>
-              <SectionHeader eyebrow="Handpicked for you" title="Featured Hampers 🎀" linkTo="/products?featured=true" />
+              <SectionHeader eyebrow="Handpicked for you" title="Featured Hampers " linkTo="/products?featured=true" />
             </motion.div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5">
@@ -686,7 +686,7 @@ export default function HomePage() {
       <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} variants={stagger}>
           <motion.div variants={fadeUp()}>
-            <SectionHeader eyebrow="Gifts for everyone" title="Shop by Recipient 💝" linkTo="/products?category=Recipient" />
+            <SectionHeader eyebrow="Gifts for everyone" title="Shop by Recipient " linkTo="/products?category=Recipient" />
           </motion.div>
 
           <div className="hidden sm:grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
@@ -778,12 +778,12 @@ export default function HomePage() {
               <div className="text-center lg:text-left max-w-lg">
                 <div className="inline-flex items-center gap-2 text-[11px] font-bold tracking-[0.15em] uppercase rounded-full px-4 py-1.5 mb-6 border"
                   style={{ borderColor: "rgba(212,168,71,0.4)", color: "#D4A847", background: "rgba(212,168,71,0.08)" }}>
-                  <Sparkles size={11} /> Fully Personalised 🎀
+                  <Sparkles size={11} /> Fully Personalised 
                 </div>
 
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-4">
                   Build Your Own<br />
-                  <span className="italic font-light" style={{ color: "#D4A847" }}>Dream Hamper ✨</span>
+                  <span className=" font-light" style={{ color: "#D4A847" }}>Dream Hamper </span>
                 </h2>
                 <p className="text-white/60 text-base leading-relaxed">
                   Pick items you love, choose your wrapping, add a heartfelt note — all in one place.
@@ -791,7 +791,7 @@ export default function HomePage() {
 
                 {/* steps */}
                 <div className="flex items-center gap-3 mt-6 flex-wrap justify-center lg:justify-start">
-                  {["Pick Items 🛍️", "Choose Wrapping 🎀", "Add Message 💌"].map((step, i) => (
+                  {["Pick Items 🛍️", "Choose Wrapping ", "Add Message "].map((step, i) => (
                     <div key={step} className="flex items-center gap-2 text-white/50 text-xs">
                       <span className="w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold text-[#3B2A35]"
                         style={{ background: "linear-gradient(135deg, #D4A847, #e8c96e)" }}>
@@ -810,7 +810,7 @@ export default function HomePage() {
                   className="px-8 py-4 rounded-full font-bold text-sm text-white transition-all hover:shadow-2xl hover:-translate-y-0.5 whitespace-nowrap text-center"
                   style={{ background: "linear-gradient(135deg, #C2556A, #E8956D)" }}
                 >
-                  Start Building 🎁
+                  Start Building 
                 </Link>
                 <Link
                   to="/products"
