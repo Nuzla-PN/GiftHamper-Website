@@ -665,7 +665,7 @@ export default function ProductCard({
               {title}
             </p>
             {sellerName && (
-              <p className="text-xs text-rose-900/40 mb-2">by {sellerName}</p>
+              <p className="text-xs text-rose-900/40 mb-2"> {sellerName}</p>
             )}
             {rating > 0 && (
               <div className="flex items-center gap-1.5 mb-2">
