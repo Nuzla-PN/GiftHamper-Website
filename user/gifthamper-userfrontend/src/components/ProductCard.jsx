@@ -610,7 +610,7 @@
 
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Heart, Check, ShoppingCart, Star } from "lucide-react";
+import { Heart, Check, ShoppingCart } from "lucide-react";
 import { useState } from "react";
 
 export default function ProductCard({
@@ -637,198 +637,292 @@ export default function ProductCard({
       ? Math.round(((originalPrice - price) / originalPrice) * 100)
       : null;
 
-  /* ─── LIST ROW ──────────────────────────────────────────────── */
+  const ratingBg =
+    rating >= 4 ? "#388e3c" : rating >= 3.5 ? "#689f38" : rating >= 3 ? "#ff9f00" : "#f44336";
+
+  // ─── LIST ROW ───────────────────────────────────────────────────────────────
   if (viewMode === "list" && !showSelect) {
     return (
-      <Link
-        to={`/products/${id}`}
-        className="flex gap-4 p-4 bg-white hover:bg-rose-50/40 transition-colors duration-200 group"
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        style={{ borderBottom: "1px solid #f0f0f0", background: "#fff" }}
       >
-        {/* Image */}
-        <div className="relative w-36 h-36 sm:w-44 sm:h-44 shrink-0 rounded-xl overflow-hidden bg-[#FFF0F3]">
-          <img
-            src={image} alt={title}
-            className="w-full h-full object-contain p-3 transition-transform duration-300 group-hover:scale-105"
-          />
-          {discountPercent && (
-            <span className="absolute top-2 left-2 text-[10px] font-bold text-white px-2 py-0.5 rounded-full"
-              style={{ background: "linear-gradient(135deg,#C2556A,#E8956D)" }}>
-              -{discountPercent}%
-            </span>
-          )}
-        </div>
-
-        {/* Info */}
-        <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
-          <div>
-            <p className="text-sm sm:text-base font-semibold text-[#3B2A35] line-clamp-2 leading-snug mb-1">
-              {title}
-            </p>
-            {sellerName && (
-              <p className="text-xs text-rose-900/40 mb-2"> {sellerName}</p>
-            )}
-            {rating > 0 && (
-              <div className="flex items-center gap-1.5 mb-2">
-                <div className="flex items-center gap-0.5 bg-[#FFF0F3] px-2 py-0.5 rounded-full">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-2.5 h-2.5"
-                      style={i < Math.floor(rating) ? { color: "#D4A847", fill: "#D4A847" } : { color: "#e5e7eb" }} />
-                  ))}
-                  <span className="text-[11px] font-semibold text-[#C2556A] ml-1">{rating}</span>
+        <Link
+          to={`/products/${id}`}
+          style={{ display: "flex", gap: 16, padding: 16, textDecoration: "none", color: "inherit" }}
+          className="group"
+        >
+          <div style={{ position: "relative", width: 160, height: 160, flexShrink: 0, background: "#f5f5f5" }}>
+            <img src={image} alt={title} style={{ width: "100%", height: "100%", objectFit: "contain", padding: 8 }} />
+          </div>
+          <div style={{ flex: 1, minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+            <div>
+              <div style={{ fontSize: 15, fontWeight: 500, color: "#212121", marginBottom: 4, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{title}</div>
+              {sellerName && <div style={{ fontSize: 12, color: "#878787", marginBottom: 8 }}>by {sellerName}</div>}
+              {rating > 0 && (
+                <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 8 }}>
+                  <span style={{ background: ratingBg, color: "#fff", fontSize: 11, fontWeight: 600, padding: "2px 6px", borderRadius: 3 }}>{rating} ★</span>
+                  {reviews > 0 && <span style={{ fontSize: 12, color: "#878787" }}>({reviews.toLocaleString()})</span>}
                 </div>
-                {reviews > 0 && (
-                  <span className="text-[11px] text-rose-900/40">
-                    ({reviews >= 1000 ? `${(reviews / 1000).toFixed(1)}k` : reviews})
-                  </span>
-                )}
-              </div>
-            )}
+              )}
+            </div>
+            <div style={{ display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap" }}>
+              <span style={{ fontSize: 18, fontWeight: 700, color: "#212121" }}>₹{price.toLocaleString()}</span>
+              {originalPrice && originalPrice > price && (
+                <span style={{ fontSize: 13, color: "#878787", textDecoration: "line-through" }}>₹{originalPrice.toLocaleString()}</span>
+              )}
+              {discountPercent && (
+                <span style={{ fontSize: 13, color: "#388e3c", fontWeight: 600 }}>{discountPercent}% off</span>
+              )}
+            </div>
           </div>
-
-          {/* Price */}
-          <div className="flex items-baseline gap-2 flex-wrap">
-            <span className="text-lg font-bold text-[#3B2A35]">₹{price.toLocaleString()}</span>
-            {originalPrice && originalPrice > price && (
-              <span className="text-xs text-rose-900/40 line-through">₹{originalPrice.toLocaleString()}</span>
-            )}
-            {discountPercent && (
-              <span className="text-xs font-semibold text-[#6B8F71]">{discountPercent}% off</span>
-            )}
-          </div>
-        </div>
-      </Link>
+        </Link>
+      </motion.div>
     );
   }
 
-  /* ─── BUILDER / SELECT MODE ─────────────────────────────────── */
+  // ─── BUILDER / SELECT MODE ──────────────────────────────────────────────────
   if (showSelect) {
     return (
       <div
         onClick={() => onSelect(id)}
-        className={`cursor-pointer rounded-2xl overflow-hidden border-2 transition-all duration-200 bg-white
-          ${isSelected ? "border-[#C2556A] shadow-lg shadow-rose-100" : "border-rose-100 hover:border-[#E8956D]"}`}
+        style={{
+          background: "#fff",
+          border: isSelected ? "2px solid #8B3A62" : "1px solid #e0e0e0",
+          cursor: "pointer",
+          position: "relative",
+        }}
       >
-        <div className="relative aspect-square bg-[#FFF0F3] overflow-hidden">
-          <img src={image} alt={title} className="w-full h-full object-contain p-3" />
+        <div style={{ position: "relative", width: "100%", paddingBottom: "100%", background: "#f5f5f5", overflow: "hidden" }}>
+          <img src={image} alt={title} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "contain", padding: 8 }} />
           {isSelected && (
-            <div className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center shadow-md"
-              style={{ background: "linear-gradient(135deg,#C2556A,#E8956D)" }}>
-              <Check className="w-3.5 h-3.5 text-white" strokeWidth={3} />
+            <div style={{ position: "absolute", top: 8, right: 8, width: 28, height: 28, borderRadius: "50%", background: "#8B3A62", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Check style={{ width: 16, height: 16, color: "#fff" }} />
             </div>
           )}
         </div>
-        <div className="p-3">
-          <p className="text-xs font-semibold text-[#3B2A35] line-clamp-2 leading-snug mb-1">{title}</p>
-          <span className="text-sm font-bold text-[#C2556A]">₹{price.toLocaleString()}</span>
+        <div style={{ padding: "10px 12px" }}>
+          <div style={{ fontSize: 13, fontWeight: 500, color: "#212121", marginBottom: 6, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>{title}</div>
+          <span style={{ fontSize: 15, fontWeight: 700, color: "#212121" }}>₹{price.toLocaleString()}</span>
         </div>
       </div>
     );
   }
 
-  /* ─── GRID CARD ─────────────────────────────────────────────── */
+  // ─── FLIPKART GRID CARD ─────────────────────────────────────────────────────
   return (
     <Link
       to={`/products/${id}`}
-      className="block"
+      style={{ textDecoration: "none", color: "inherit", display: "block" }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      <motion.div
-        whileHover={{ y: -4 }}
-        transition={{ type: "spring", stiffness: 300, damping: 22 }}
-        className="bg-white rounded-2xl overflow-hidden border border-rose-100 shadow-sm hover:shadow-xl hover:shadow-rose-100/60 transition-shadow duration-300 relative"
+      <div
+        style={{
+          background: "#fff",
+          border: "1px solid #f0f0f0",
+          cursor: "pointer",
+          boxShadow: hovered
+            ? "0 2px 16px rgba(0,0,0,0.14)"
+            : "0 1px 2px rgba(0,0,0,0.06)",
+          transition: "box-shadow 0.18s",
+          position: "relative",
+          overflow: "hidden",
+        }}
       >
-        {/* ── IMAGE ── */}
-        <div className="relative overflow-hidden bg-[#FFF8F6]" style={{ paddingBottom: "100%" }}>
+        {/* ── IMAGE BLOCK ── */}
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            paddingBottom: "100%",
+            background: "#f5f5f5",
+            overflow: "hidden",
+          }}
+        >
           <img
-            src={image} alt={title}
-            className="absolute inset-0 w-full h-full object-contain p-3 transition-transform duration-500"
-            style={{ transform: hovered ? "scale(1.07)" : "scale(1)" }}
+            src={image}
+            alt={title}
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
+              padding: 12,
+              transform: hovered ? "scale(1.05)" : "scale(1)",
+              transition: "transform 0.3s ease",
+            }}
           />
 
-          {/* Discount badge */}
+          {/* DISCOUNT BADGE — left ribbon style */}
           {discountPercent && (
-            <span
-              className="absolute top-2.5 left-2.5 text-[10px] font-extrabold text-white px-2.5 py-1 rounded-full shadow-sm"
-              style={{ background: "linear-gradient(135deg,#C2556A,#E8956D)" }}
+            <div
+              style={{
+                position: "absolute",
+                top: 10,
+                left: 0,
+                background: "#D4AF37",
+                color: "#fff",
+                fontSize: 10,
+                fontWeight: 700,
+                padding: "3px 9px 3px 6px",
+                borderRadius: "0 3px 3px 0",
+                letterSpacing: 0.3,
+              }}
             >
-              -{discountPercent}%
-            </span>
+              {discountPercent}% off
+            </div>
           )}
 
-          {/* Wishlist */}
+           {/* WISHLIST HEART */}
           <button
-            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsWishlisted(!isWishlisted); }}
-            className="absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center bg-white shadow-md transition-all duration-200 hover:scale-110"
-            style={{ opacity: hovered || isWishlisted ? 1 : 0, transition: "opacity 0.2s, transform 0.2s" }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsWishlisted(!isWishlisted);
+            }}
+            style={{
+              position: "absolute",
+              top: 6,
+              right: 8,
+              background: isWishlisted ? "none" : "#fff",
+              border: "none",
+              cursor: "pointer",
+              borderRadius: "50%",
+              width: 34,
+              height: 34,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              
+              boxShadow: "0 1px 5px rgba(0,0,0,0.15)",
+              // transition: "background 0.2s",
+              padding: 4,
+              opacity: hovered || isWishlisted ? 1 : 0,
+              transition: "opacity 0.15s",
+              lineHeight: 0,
+            }}
           >
-            <Heart
-              className="w-4 h-4 transition-colors duration-200"
-              style={{ color: isWishlisted ? "#C2556A" : "#d1a0ab", fill: isWishlisted ? "#C2556A" : "none", strokeWidth: 2 }}
+             <Heart
+              style={{
+                width: 16,
+                height: 16,
+                color: isWishlisted ? "#ff4081" : "#9e9e9e",
+                fill: isWishlisted ? "#ff4081" : "none",
+                strokeWidth: 2,
+              }}
+
+              
             />
           </button>
 
-          {/* Add to cart slide-up */}
+            {/* ADD TO CART — slides up on hover */}
           <div
-            className="absolute bottom-0 left-0 right-0 transition-transform duration-300"
-            style={{ transform: hovered ? "translateY(0)" : "translateY(100%)" }}
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              right: 0,
+              transform: hovered ? "translateY(0)" : "translateY(100%)",
+              transition: "transform 0.3s ease",
+            }}
           >
             <button
               onClick={(e) => e.preventDefault()}
               className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold text-white transition-all"
               style={{ background: "linear-gradient(90deg,#C2556A,#E8956D)" }}
             >
-              <ShoppingCart className="w-3.5 h-3.5" />
+              <ShoppingCart style={{ width: 15, height: 15 }} />
               Add to Cart
             </button>
           </div>
-        </div>
+         </div>
 
-        {/* ── CONTENT ── */}
-        <div className="px-3 pt-2.5 pb-3.5">
-          {/* Title */}
-          <p className="text-[13px] font-semibold text-[#3B2A35] line-clamp-2 leading-snug mb-0.5">
+        {/* ── CONTENT BLOCK ── */}
+        <div style={{ padding: "10px 12px 14px" }}>
+
+          {/* TITLE — 2 lines max, same as Flipkart */}
+          <p
+            style={{
+              fontSize: 13,
+              color: "#212121",
+              fontWeight: 400,
+              lineHeight: 1.45,
+              margin: "0 0 2px",
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
             {title}
           </p>
 
-          {/* Seller */}
+          {/* SELLER */}
           {sellerName && (
-            <p className="text-[11px] text-rose-900/40 mb-1.5"> {sellerName}</p>
+            <p className="text-[11px] text-rose-900/40 mb-1.5">
+              {sellerName}
+            </p>
           )}
 
-          {/* Rating */}
+          {/* RATING BADGE + COUNT */}
           {rating > 0 && (
-            <div className="flex items-center gap-1.5 mb-2">
-              <div className="flex items-center gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-2.5 h-2.5"
-                    style={i < Math.floor(rating) ? { color: "#D4A847", fill: "#D4A847" } : { color: "#e5e7eb" }} />
-                ))}
-              </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 4, marginBottom: 7 }}>
+              <span
+                style={{
+                  background: ratingBg,
+                  color: "#fff",
+                  fontSize: 11,
+                  fontWeight: 600,
+                  padding: "1px 5px",
+                  borderRadius: 3,
+                  lineHeight: 1.6,
+                }}
+              >
+                {rating} ★
+              </span>
               {reviews > 0 && (
-                <span className="text-[10px] text-rose-900/40">
-                  ({reviews >= 1000 ? `${(reviews / 1000).toFixed(1)}k` : reviews})
+                <span style={{ fontSize: 11, color: "#878787" }}>
+                  {reviews >= 1000
+                    ? `(${(reviews / 1000).toFixed(1)}k)`
+                    : `(${reviews})`}
                 </span>
               )}
             </div>
           )}
 
-          {/* Price */}
-          <div className="flex items-baseline gap-1.5 flex-wrap">
-            <span className="text-sm font-extrabold text-[#3B2A35]">₹{price.toLocaleString()}</span>
+          {/* PRICE ROW */}
+          <div style={{ display: "flex", alignItems: "baseline", gap: 5, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 15, fontWeight: 700, color: "#212121" }}>
+              ₹{price.toLocaleString()}
+            </span>
             {originalPrice && originalPrice > price && (
-              <span className="text-[11px] text-rose-900/35 line-through">₹{originalPrice.toLocaleString()}</span>
+              <span
+                style={{
+                  fontSize: 12,
+                  color: "#878787",
+                  textDecoration: "line-through",
+                  fontWeight: 400,
+                }}
+              >
+                ₹{originalPrice.toLocaleString()}
+              </span>
             )}
             {discountPercent && (
-              <span className="text-[11px] font-bold text-[#6B8F71]">{discountPercent}% off</span>
+              <span style={{ fontSize: 12, color: "#388e3c", fontWeight: 600 }}>
+                {discountPercent}% off
+              </span>
             )}
           </div>
+
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }
-
 
 
 
