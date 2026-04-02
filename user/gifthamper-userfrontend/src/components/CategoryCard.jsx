@@ -1,3 +1,7 @@
+// 
+
+//cl cd
+
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -12,87 +16,60 @@ export default function CategoryCard({
   return (
     <Link to={href} className="block">
       <motion.div
-        whileHover={{ scale: 1.04 }}
+        whileHover={{ y: -5, scale: 1.02 }}
         whileTap={{ scale: 0.97 }}
-        className={`
-        relative rounded-xl sm:rounded-2xl 
-        shadow-md hover:shadow-xl 
-        overflow-hidden cursor-pointer 
-        transition-all duration-300 
-        h-36 sm:h-44 lg:h-48   // default height
-        ${className}           
-        group bg-[#F7E3DC]
-      `}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
+        className={`relative rounded-2xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300 group ${className}`}
+        style={{ height: "clamp(140px, 22vw, 200px)" }}
       >
-        
         {image ? (
-          <div className="relative h-full w-full">
-            
+          <>
+            {/* Image */}
             <img
               src={image}
               alt={title}
-              className="
-                w-full h-full object-cover 
-                transition-transform duration-500 
-                group-hover:scale-110
-              "
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
             />
 
-           
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+            {/* Gradient overlay — warm rose at bottom */}
+            <div className="absolute inset-0"
+              style={{ background: "linear-gradient(to top, rgba(59,42,53,0.78) 0%, rgba(59,42,53,0.2) 55%, transparent 100%)" }}
+            />
 
-           
-            <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-  
+            {/* Soft shimmer on hover */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ background: "linear-gradient(135deg, rgba(194,85,106,0.15) 0%, rgba(232,149,109,0.1) 100%)" }}
+            />
+
+            {/* Content */}
+            <div className="absolute inset-0 flex flex-col items-center justify-end pb-4 px-2 text-center">
               {Icon && (
-                  <motion.div
-                    className="mb-1 sm:mb-2"
-                    
-                    whileHover={{
-                      scale: 1.2,
-                      y: -3,
-                    }}
-
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 12,
-                    }}
-                  >
-                    <Icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7" />
-                  </motion.div>
-                )}
-
-              <h3 className="text-xs sm:text-sm lg:text-base font-medium text-center px-2">
+                <motion.div
+                  className="mb-1.5 opacity-90 group-hover:opacity-100"
+                  whileHover={{ scale: 1.2, y: -2 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 12 }}
+                >
+                  <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white drop-shadow-md" />
+                </motion.div>
+              )}
+              <h3 className="text-xs sm:text-sm font-bold text-white drop-shadow-md leading-tight">
                 {title}
               </h3>
-
             </div>
-          </div>
+          </>
         ) : (
-          
-          <div className="flex flex-col items-center justify-center h-full px-3 sm:px-4 text-center">
-            
+          /* No-image fallback — pastel gradient card */
+          <div
+            className="flex flex-col items-center justify-center h-full px-3 text-center"
+            style={{ background: "linear-gradient(135deg, #FFF0F3, #FFF6EC)" }}
+          >
             <div
-              className="
-                w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 
-                rounded-full flex items-center justify-center 
-                mb-2 sm:mb-3 
-                bg-[#8B3A62] 
-                transition-transform duration-300 
-                group-hover:scale-110
-              "
+              className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center mb-2.5 shadow-sm transition-transform duration-300 group-hover:scale-110"
+              style={{ background: "linear-gradient(135deg, #C2556A, #E8956D)" }}
             >
-              <Icon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-7 lg:h-7 text-white" />
+              {Icon && <Icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />}
             </div>
-
-            <h3 className="
-              text-xs sm:text-sm lg:text-base 
-              font-medium 
-              text-[#8B3A62]
-            ">
-              {title}
-            </h3>
+            <h3 className="text-xs sm:text-sm font-bold text-[#3B2A35] leading-tight">{title}</h3>
           </div>
         )}
       </motion.div>

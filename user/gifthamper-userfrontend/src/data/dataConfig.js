@@ -84,12 +84,12 @@ export const categoryConfig = {
   Festival: {
     name: "Festival",
     items: [
-      { id: "christmas", title: "Christmas", icon: TreePine,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-      { id: "diwali", title: "Diwali", icon: Zap,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-      { id: "new-year", title: "New Year", icon: PartyPopper,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-      { id: "valentines", title: "Valentine's Day", icon: Heart,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400' },
-      { id: "mothers-day", title: "Mother's Day", icon: Heart,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'},
-      { id: "fathers-day", title: "Father's Day", icon: Users,image: 'https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400'},
+      { id: "christmas", title: "Christmas", icon: TreePine,image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400' },
+      { id: "diwali", title: "Diwali", icon: Zap,image: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=1400' },
+      { id: "new-year", title: "New Year", icon: PartyPopper,image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1400' },
+      { id: "valentines", title: "Valentine's Day", icon: Heart,image: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=1400' },
+      { id: "mothers-day", title: "Mother's Day", icon: Heart,image: 'https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=1400'},
+      { id: "fathers-day", title: "Father's Day", icon: Users,image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=1400'},
     ],
   },
 
