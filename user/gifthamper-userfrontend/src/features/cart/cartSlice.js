@@ -47,6 +47,10 @@ const cartSlice = createSlice({
         item.totalPrice = item.price * item.quantity;
       }
     },
+    updateCartItem: (state, action) => {
+      const { index, item } = action.payload;
+      state.items[index] = item;
+    },
   },
 });
 
@@ -56,6 +60,7 @@ export const {
   clearCart,
   increaseQty,
   decreaseQty,
+  updateCartItem,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

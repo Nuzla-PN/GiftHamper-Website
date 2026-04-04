@@ -1292,6 +1292,7 @@ import {
   PackageOpen, Info,
 } from "lucide-react";
 import { couponsConfig } from "../data/dataConfig";
+import {HamperCartCard} from "../components/HamperCart";
 
 /* ─── CONSTANTS ──────────────────────────────────────────────── */
 const FREE_DELIVERY_THRESHOLD = 999;
@@ -1310,6 +1311,8 @@ function discountPct(price, originalPrice) {
 export default function CartPage() {
   const dispatch   = useDispatch();
   const cartItems  = useSelector((state) => state.cart.items);
+  const hamperItems = cartItems.filter(item => item.type === "hamper");
+  const normalItems = cartItems.filter(item => item.type !== "hamper");
 
   /* ── LOCAL STATE ── */
   const [couponInput,    setCouponInput]    = useState("");
@@ -1320,12 +1323,12 @@ export default function CartPage() {
   const [deliveryMode,   setDeliveryMode]   = useState("separate"); // "separate" | "combined"
 
   const navigate = useNavigate();
-
+  
   const handleCombineHamper = ()=>{
     navigate("/custom-hamper",{
       state:{
         fromCart:true,
-        cartItems:cartItems,
+        cartItems:normalItems
       },
     });
   };
@@ -1334,23 +1337,26 @@ export default function CartPage() {
      Each cart item must have sellerId + sellerName from addToCart
   ─────────────────────────────────────────────────────────────── */
   const groupedBySeller = useMemo(() => {
-    return cartItems.reduce((acc, item, globalIndex) => {
-      const sid = item.sellerId || "unknown";
-      if (!acc[sid]) {
-        acc[sid] = {
-          sellerId:   sid,
-          sellerName: item.sellerName || "Unknown Seller",
-          items:      [],
-        };
-      }
-      acc[sid].items.push({ ...item, _globalIndex: globalIndex });
-      return acc;
-    }, {});
-  }, [cartItems]);
+  return normalItems.reduce((acc, item, index) => {
+    const sid = item.sellerId || "unknown";
+
+    if (!acc[sid]) {
+      acc[sid] = {
+        sellerId: sid,
+        sellerName: item.sellerName || "Unknown Seller",
+        items: [],
+      };
+    }
+
+    acc[sid].items.push(item);
+    return acc;
+  }, {});
+}, [normalItems]);
 
   const sellerGroups   = Object.values(groupedBySeller);
   const isMultiSeller  = sellerGroups.length > 1;
   const isEmpty        = cartItems.length === 0;
+  const hasNormalItems = normalItems.length > 0;
 
   /* ── PRICE MATH ───────────────────────────────────────────────
      totalPrice per item is already stored in slice (price * qty + addons)
@@ -1400,9 +1406,7 @@ export default function CartPage() {
     }
   };
 
-  /* ════════════════════════════════════════════════════════════
-     EMPTY STATE
-  ════════════════════════════════════════════════════════════ */
+
   if (isEmpty) {
     return (
       <div className="min-h-screen bg-[#FEF9F5] flex flex-col items-center justify-center py-28 px-4 text-center">
@@ -1423,9 +1427,7 @@ export default function CartPage() {
     );
   }
 
-  /* ════════════════════════════════════════════════════════════
-     MAIN RENDER
-  ════════════════════════════════════════════════════════════ */
+ 
   return (
     <div className="min-h-screen bg-[#FEF9F5]">
 
@@ -1480,6 +1482,17 @@ export default function CartPage() {
 
             <AnimatePresence>
               {cartItems.map((item, globalIndex) => {
+                if (item.type === "hamper") {
+                  return (
+                    <HamperCartCard
+                      key={`hamper-${globalIndex}`}
+                      item={item}
+                      globalIndex={globalIndex}
+                      dispatch={dispatch}
+                      removeFromCart={removeFromCart}
+                    />
+                  );
+                }
                 const disc        = discountPct(item.price, item.originalPrice);
                 const inStock     = item.stock > 0;
                 const imgSrc      = Array.isArray(item.image) ? item.image[0] : item.image;
@@ -1550,6 +1563,8 @@ export default function CartPage() {
                               Sold by{" "}
                               <span className="font-medium text-[#C2556A]">{item.sellerName}</span>
                             </p>
+
+                           
                           </div>
 
                           {/* Wishlist */}
@@ -1679,7 +1694,7 @@ export default function CartPage() {
 
             {/* ── MULTI-SELLER DELIVERY MODE ── */}
             <AnimatePresence>
-              {isMultiSeller && (
+              {hasNormalItems && isMultiSeller && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                   className="bg-white rounded-2xl border border-amber-200 shadow-sm overflow-hidden"

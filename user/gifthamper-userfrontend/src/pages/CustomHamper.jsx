@@ -922,9 +922,10 @@ import {
 
 import ProductCard from "../components/ProductCard";
 import OrderSummaryContent from "../components/Ordersummarycard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FilterSidebar from "../components/Filtersidebar";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { addtoCart, updateCartItem } from "../features/cart/cartSlice";
 
 
 export default function StepProgress() {
@@ -939,7 +940,10 @@ export default function StepProgress() {
   const [showFilters, setShowFilters] = useState(false);
   const [rating, setRating] = useState(0);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
+  const { editMode, hamperData, hamperIndex } = location.state || {};
   const {fromCart,cartItems} = location.state || {};
 
   // ✅ STEPS
@@ -1087,12 +1091,35 @@ let filteredProducts = products.filter((product) =>{
       }
     }, [currentStep]);
 
-  useEffect(() => {
+ useEffect(() => {
   if (fromCart && cartItems && currentStep === 2) {
-    const ids = cartItems.map((item) => item.id);
+    const ids = cartItems
+      .filter(item => item.type !== "hamper") // ✅ IMPORTANT
+      .map(item => item.id);
+
     setSelectedItems(ids);
   }
 }, [fromCart, cartItems, currentStep]);
+
+useEffect(() => {
+  if (editMode && hamperData) {
+    // Set box
+    setSelectedBox(
+      boxes.find((b) => b.name === hamperData.box?.name)?.id
+    );
+
+    // Set items
+    const ids = hamperData.items.map((item) => item.id);
+    setSelectedItems(ids);
+
+    // Set message
+    setCustomMessage(hamperData.message || "");
+
+    // Go to last step
+    setCurrentStep(4);
+  }
+}, [editMode, hamperData]);
+
 
   // ✅ SELECT ITEM
   const toggleItem = (id) => {
@@ -1116,6 +1143,10 @@ useEffect(() => {
 
 //order summary
 const selectedBoxData = boxes.find((b) => b.id === selectedBox);
+
+// const validSelectedItems = selectedItems.filter(id =>
+//   products.some(p => p.id === id)
+// );
 
 const selectedItemsData = selectedItems
   .map((id) => products.find((p) => p.id === id))
@@ -1270,7 +1301,7 @@ const selectedItemsData = selectedItems
                       Items from your cart are already selected 🎁
                     </p>
                   )}
-                  <p className="text-gray-600">Selected: {selectedItems.length} items</p>
+                  <p className="text-gray-600">Selected: {selectedItemsData.length} items</p>
                 </div>
 
                 {/* MOBILE FILTER BUTTON */}
@@ -1675,11 +1706,39 @@ const selectedItemsData = selectedItems
         ) : (
           <button
             onClick={() => {
-              if (!fromCart) {
-                console.log("Add to Cart clicked");
+              const hamperItem = {
+                id: editMode ? hamperData.id : Date.now(),
+                type: "hamper",
+
+                box: {
+                  name: selectedBoxData?.name,
+                  price: selectedBoxData?.price,
+                },
+
+                items: selectedItemsData,
+
+                message: customMessage,
+
+                totalPrice: calculateTotal(), // ✅ FIXED
+              };
+
+              if (editMode) {
+                dispatch(updateCartItem({
+                  index: hamperIndex,
+                  item: hamperItem,
+                }));
+              } else {
+                dispatch(addtoCart(hamperItem));
               }
+
+              navigate("/cart");
             }}
-            disabled={
+//   disabled={!selectedBoxData || selectedItemsData.length === 0}
+//   className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-[#8B3A62] text-white"
+// >
+//   {editMode ? "Update Hamper" : "Add to Cart"}
+  
+           disabled={
               fromCart || !selectedBoxData || selectedItemsData.length === 0
             }
             className={`w-full sm:w-auto flex items-center justify-center gap-2
@@ -1692,8 +1751,9 @@ const selectedItemsData = selectedItems
                   : "bg-gray-200 text-gray-400 cursor-not-allowed"
               }`}
           >
-            {fromCart ? "Add to Cart" : "Add to Cart"}
+            {fromCart ? "Already in cart" : "Add to Cart"}
           </button>
+
         )}
       </div>
       </div>

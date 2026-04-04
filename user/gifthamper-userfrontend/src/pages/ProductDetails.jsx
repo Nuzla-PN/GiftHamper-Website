@@ -972,7 +972,7 @@ relatedProducts = relatedProducts.slice(0, 4);
 // );
 // 
                 dispatch(addtoCart(cartItem));
-                navigate("/cart");
+                // navigate("/cart");
               }}
 
              className={`w-full sm:flex-1 py-3 rounded-full font-medium transition flex items-center justify-center gap-2
