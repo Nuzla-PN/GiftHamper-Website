@@ -928,14 +928,24 @@ relatedProducts = relatedProducts.slice(0, 4);
           <div className="mt-8 space-y-3 sm:space-y-0 sm:flex sm:gap-4">
 
            { /* Add to Cart */ }
-            <button onClick={() => {
+            <button 
+            disabled={product.stock === 0}
+            onClick={() => {
               const cartItem = {
                   id: product.id,
                      // FIXED FIELDS
                   name: product.title,
-                  image: product.image[0],
+                  description:  product.description,
+                  // image: product.image[0],
+                   image:        Array.isArray(product.image)
+                                  ? product.image[0]
+                                  : product.image,
                   price: product.price,
+                  originalPrice: product.originalPrice || null,
                   quantity,
+                  stock: product.stock,
+                  rating:  product.rating  || 0,
+                  reviews: product.reviews || 0,
 
                   //  IMPORTANT (THIS FIXES YOUR MULTI-SELLER ISSUE)
                   sellerId: product.sellerId,
@@ -965,13 +975,25 @@ relatedProducts = relatedProducts.slice(0, 4);
                 navigate("/cart");
               }}
 
-              className="w-full sm:flex-1 bg-[#8B3A62] text-white py-3 rounded-full font-medium hover:opacity-90 transition flex items-center justify-center gap-2">
+             className={`w-full sm:flex-1 py-3 rounded-full font-medium transition flex items-center justify-center gap-2
+                ${product.stock === 0
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : "bg-[#8B3A62] text-white hover:opacity-90"
+                }`}
+            >
               <ShoppingCart className="w-5 h-5" />
-              Add to Cart
+              {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
             </button>
 
             {/* Buy Now */}
-            <button className="w-full sm:flex-1 border border-[#8B3A62] text-[#8B3A62] py-3 rounded-full font-medium hover:bg-[#8B3A62] hover:text-white transition">
+            <button
+              disabled={product.stock === 0}
+              className={`w-full sm:flex-1 py-3 rounded-full font-medium transition
+                ${product.stock === 0
+                  ? "border border-gray-200 text-gray-400 cursor-not-allowed"
+                  : "border border-[#8B3A62] text-[#8B3A62] hover:bg-[#8B3A62] hover:text-white"
+                }`}
+            >
               Buy Now
             </button>
 

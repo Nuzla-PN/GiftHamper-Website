@@ -5,3 +5,34 @@
 body {
   @apply font-sans;
 }
+.shimmer {
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+  transform: skewX(-20deg);
+  animation: shimmerMove 2s infinite;
+  
+}
+
+/* Animate only on hover */
+button:hover .shimmer {
+  animation: shimmerMove 0.8s ease-in-out;
+  
+}
+
+@keyframes shimmerMove {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
+}

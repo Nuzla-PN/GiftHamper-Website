@@ -924,6 +924,8 @@ import ProductCard from "../components/ProductCard";
 import OrderSummaryContent from "../components/Ordersummarycard";
 import { useSelector } from "react-redux";
 import FilterSidebar from "../components/Filtersidebar";
+import { useLocation } from "react-router-dom";
+
 
 export default function StepProgress() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -935,7 +937,10 @@ export default function StepProgress() {
   const [mainCategory, setMainCategory] = useState("All");
   const [subCategory, setSubCategory] = useState("All");
   const [showFilters, setShowFilters] = useState(false);
-   const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(0);
+
+  const location = useLocation();
+  const {fromCart,cartItems} = location.state || {};
 
   // ✅ STEPS
   const steps = [
@@ -1081,6 +1086,13 @@ let filteredProducts = products.filter((product) =>{
         });
       }
     }, [currentStep]);
+
+  useEffect(() => {
+  if (fromCart && cartItems && currentStep === 2) {
+    const ids = cartItems.map((item) => item.id);
+    setSelectedItems(ids);
+  }
+}, [fromCart, cartItems, currentStep]);
 
   // ✅ SELECT ITEM
   const toggleItem = (id) => {
@@ -1253,6 +1265,11 @@ const selectedItemsData = selectedItems
               <div>
                 <div className="text-center mb-8 mt-8">
                   <h2 className="text-3xl text-[#8B3A62] mb-2">Select Your Items</h2>
+                  {fromCart && (
+                    <p className="text-sm text-green-600 text-center mb-4">
+                      Items from your cart are already selected 🎁
+                    </p>
+                  )}
                   <p className="text-gray-600">Selected: {selectedItems.length} items</p>
                 </div>
 
@@ -1600,7 +1617,7 @@ const selectedItemsData = selectedItems
         </button>
 
         {/* NEXT / ADD TO CART */}
-        {currentStep < 4 ? (
+        {/* {currentStep < 4 ? (
           <button
             onClick={() => {
               if (canProceed()) {
@@ -1634,6 +1651,48 @@ const selectedItemsData = selectedItems
               }`}
           >
             Add to Cart
+          </button>
+        )} */}
+
+        {currentStep < 4 ? (
+          <button
+            onClick={() => {
+              if (canProceed()) {
+                setCurrentStep((prev) => prev + 1);
+              }
+            }}
+            disabled={!canProceed()}
+            className={`w-full sm:w-auto flex items-center justify-center gap-2
+              px-6 py-2.5 rounded-lg transition-all
+              ${
+                canProceed()
+                  ? "bg-[#8B3A62] text-white hover:shadow-md"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
+          >
+            Next
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              if (!fromCart) {
+                console.log("Add to Cart clicked");
+              }
+            }}
+            disabled={
+              fromCart || !selectedBoxData || selectedItemsData.length === 0
+            }
+            className={`w-full sm:w-auto flex items-center justify-center gap-2
+              px-6 py-2.5 rounded-lg transition-all
+              ${
+                fromCart
+                  ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                  : selectedBoxData && selectedItemsData.length > 0
+                  ? "bg-[#8B3A62] text-white hover:shadow-md"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              }`}
+          >
+            {fromCart ? "Add to Cart" : "Add to Cart"}
           </button>
         )}
       </div>

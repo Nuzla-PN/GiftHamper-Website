@@ -37,12 +37,14 @@ const cartSlice = createSlice({
     increaseQty: (state, action) => {
       const item = state.items[action.payload];
       item.quantity += 1;
+      item.totalPrice = item.price * item.quantity;
     },
 
     decreaseQty: (state, action) => {
       const item = state.items[action.payload];
       if (item.quantity > 1) {
         item.quantity -= 1;
+        item.totalPrice = item.price * item.quantity;
       }
     },
   },
