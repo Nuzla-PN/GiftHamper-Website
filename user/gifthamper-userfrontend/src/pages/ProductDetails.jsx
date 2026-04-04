@@ -555,7 +555,7 @@ relatedProducts = relatedProducts.slice(0, 4);
         
           {product?.customizable && (
           <motion.button
-            onClick={() => navigate(`/product/${id}/customize`)}
+            onClick={() => navigate(`/customize/${product.id}`)}
 
             whileHover={{ scale: 1.04, y: -2 }}
             whileTap={{ scale: 0.98 }}
@@ -927,14 +927,19 @@ relatedProducts = relatedProducts.slice(0, 4);
           {/*  Buttons */}
           <div className="mt-8 space-y-3 sm:space-y-0 sm:flex sm:gap-4">
 
-            {/* Add to Cart */}
+           { /* Add to Cart */ }
             <button onClick={() => {
               const cartItem = {
                   id: product.id,
-                  title: product.title,
+                     // FIXED FIELDS
+                  name: product.title,
                   image: product.image[0],
-                  basePrice: product.price,
+                  price: product.price,
                   quantity,
+
+                  //  IMPORTANT (THIS FIXES YOUR MULTI-SELLER ISSUE)
+                  sellerId: product.sellerId,
+                  sellerName: product.sellerName,
 
                   addons: {
                     giftBox: giftBox
@@ -957,6 +962,7 @@ relatedProducts = relatedProducts.slice(0, 4);
 // );
 // 
                 dispatch(addtoCart(cartItem));
+                navigate("/cart");
               }}
 
               className="w-full sm:flex-1 bg-[#8B3A62] text-white py-3 rounded-full font-medium hover:opacity-90 transition flex items-center justify-center gap-2">

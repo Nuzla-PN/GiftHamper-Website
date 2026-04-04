@@ -588,7 +588,7 @@ export default function HomePage() {
         >
           {Array(6).fill(null).map((_, i) => (
             <span key={i} className="text-white text-[11px] font-extrabold tracking-[0.18em] uppercase mx-8 inline-flex items-center gap-4">
-              Gift Wrapping 🎀 Same Day Delivery 💌 10,000+ Happy Customers 🎁 Handpicked Quality ✨ Custom Hampers &nbsp;
+              🎀Gift Wrapping  💌 10,000+ Happy Customers 🎁 Handpicked Quality ✨ Custom Hampers &nbsp;
             </span>
           ))}
         </motion.div>

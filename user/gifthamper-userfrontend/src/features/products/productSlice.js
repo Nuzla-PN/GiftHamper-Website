@@ -5,6 +5,7 @@ const initialState = {
     {
       id: "1",
       title: "Chocolate Delight Hamper",
+      sellerId:"seller1",
       sellerName: "Sweet Treats",
       sellerRating: 4.7,
       sellerReviews: 210,
@@ -48,11 +49,30 @@ const initialState = {
       giftTypes: ["Handmade", "Luxury"],
       isFeatured: true,
       customizable: true,
+      customizations: [
+  {
+    type: "text",
+    label: "Gift Message",
+    key: "message"
+  },
+  {
+    type: "text",
+    label: "Recipient Name",
+    key: "recipientName"
+  },
+  {
+    type: "dropdown",
+    label: "Color",
+    key: "color",
+    options: ["Pink", "Blue"]
+  }
+]
     },
     {
       id: "2",
       title: "Luxury Gift Box",
       sellerName: "Gift Studio",
+      sellerId:"seller2",
       sellerRating: 4.7,
       sellerReviews: 210,
       stock:5,
@@ -70,6 +90,7 @@ const initialState = {
     {
       id: "3",
       title: "Watch Hamper",
+      sellerId:"seller3",
       sellerName: "seller shop name",
       sellerRating: 4.7,
       sellerReviews: 210,
@@ -83,11 +104,12 @@ const initialState = {
       subCategory: "for Him",
       giftTypes: ["Handmade", "Luxury"],
        isFeatured: true,
-       iscustomizable:true,
+       customizable:true,
     },
     {
       id: "4",
       title: "Festival Hamperd",
+      sellerId:"seller4",
       sellerName: "seller shop name",
       sellerRating: 4.7,
       sellerReviews: 210,
@@ -101,11 +123,12 @@ const initialState = {
       subCategory: "Diwali",
       giftTypes: ["Self Care"],
        isFeatured: true,
-       iscustomizable:true,
+       customizable:true,
     },
     {
       id: "5",
       title: "Festival Hamperd",
+      sellerId:"seller5",
       sellerName: "seller shop name",
       sellerRating: 4.7,
       sellerReviews: 210,
@@ -119,11 +142,12 @@ const initialState = {
       subCategory: "Diwali",
       giftTypes: ["Snack Hamper", "Self Care"],
        isFeatured: true,
-       iscustomizable:true,
+       customizable:true,
     },
     {
       id: "6",
       title: "Festival Hamperz",
+      sellerId:"seller6",
       sellerName: "seller shop name",
       sellerRating: 4.7,
       sellerReviews: 210,
@@ -136,11 +160,12 @@ const initialState = {
       mainCategory: "Festival",
       subCategory: "Diwali",
        isFeatured: true,
-       iscustomizable:true,
+       customizable:true,
     },
     {
       id: "7",
       title: "Handmade Hamperf",
+      sellerId:"seller7",
       sellerName: "seller shop name",
       sellerRating: 4.7,
       sellerReviews: 210,
@@ -154,11 +179,12 @@ const initialState = {
       subCategory: "New Year",
        giftTypes: ["Handmade"],
        isFeatured: true,
-       iscustomizable:true,
+       customizable:true,
     },
     {
       id: "8",
       title: "Festival HamperN",
+      sellerId:"seller8",
       sellerName: "seller shop name",
       sellerRating: 4.7,
       sellerReviews: 210,
@@ -172,7 +198,8 @@ const initialState = {
       subCategory: "New Year",
       giftTypes: ["Dry Fruit Hamper"],
        isFeatured: false,
-       iscustomizable:true,
+       customizable:true,
+       
     },
   ],
 };
