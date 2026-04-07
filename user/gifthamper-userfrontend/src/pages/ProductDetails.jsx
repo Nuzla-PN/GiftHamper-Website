@@ -22,6 +22,7 @@ import {
 import ProductCard from "../components/ProductCard";
 import { couponsConfig } from "../data/dataConfig";
 import { addtoCart } from "../features/cart/cartSlice";
+import { clearAddons } from "../features/addson/addsonSlice";
 
 
 export default function ProductDetails() {
@@ -972,6 +973,8 @@ relatedProducts = relatedProducts.slice(0, 4);
 // );
 // 
                 dispatch(addtoCart(cartItem));
+                dispatch(clearAddons())
+                setQuantity(1);
                 // navigate("/cart");
               }}
 
