@@ -615,6 +615,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addtoCart } from "../features/cart/cartSlice";
 import { clearAddons } from "../features/addson/addsonSlice";
+import { toggleWishlist } from "../features/wishlist/wishlistSlice";
 
 export default function ProductCard({
   id,
@@ -632,12 +633,15 @@ export default function ProductCard({
   onSelect,
   viewMode = "grid",
 }) {
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  
   const [hovered, setHovered] = useState(false);
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(1);
   const products = useSelector((state) => state.products.items);
   const product = products.find((p) => String(p.id) === String(id));
+  const wishlistItems = useSelector((state) => state.wishlist?.items || []);
+  const isWishlisted = wishlistItems.some((item) => item.id === product.id);
+
   
   const discountPercent =
     originalPrice && originalPrice > price
@@ -789,7 +793,8 @@ export default function ProductCard({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              setIsWishlisted(!isWishlisted);
+              // setIsWishlisted(!isWishlisted);
+              dispatch(toggleWishlist(product))
             }}
             style={{
               position: "absolute",
@@ -820,9 +825,7 @@ export default function ProductCard({
                 color: isWishlisted ? "#ff4081" : "#9e9e9e",
                 fill: isWishlisted ? "#ff4081" : "none",
                 strokeWidth: 2,
-              }}
-
-              
+              }} 
             />
           </button>
 

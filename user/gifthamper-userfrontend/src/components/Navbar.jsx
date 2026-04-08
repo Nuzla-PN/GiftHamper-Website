@@ -42,6 +42,8 @@ export default function Navbar() {
   const [isMobile, setIsMobile] = useState(false);
   const [mobileActiveDropdown, setMobileActiveDropdown] = useState(null);
   const navigate = useNavigate();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+  const wishlistCount = wishlistItems.length;
   
  
   useEffect(() => {
@@ -146,7 +148,7 @@ const priceRangeCategories = priceConfig.map((item) => ({
   link: `/products?price=${item.value}`,
 }));
 
-const cartItems = useSelector((state) => state.cart.items);
+const cartItems = useSelector((state) => state.cart?.items || []);
 // const cartCount = cartItems.reduce((total, item) => {
 //   if (item.type === "hamper") {
 //     return total + (item.items?.length || 0); // count items inside hamper
@@ -198,7 +200,12 @@ const cartCount = cartItems.length;
               
               <button className="relative p-2 text-gray-700 hover:text-[#8B3A62] transition-colors">
                 <Heart className="w-6 h-6" />
-                <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium"></span>
+                {wishlistCount > 0 &&(
+                  <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
+                    {wishlistCount}
+                  </span>
+                )}
+                
               </button>
 
               

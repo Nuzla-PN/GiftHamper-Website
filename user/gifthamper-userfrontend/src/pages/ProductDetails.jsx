@@ -23,6 +23,7 @@ import ProductCard from "../components/ProductCard";
 import { couponsConfig } from "../data/dataConfig";
 import { addtoCart } from "../features/cart/cartSlice";
 import { clearAddons } from "../features/addson/addsonSlice";
+import { toggleWishlist } from "../features/wishlist/wishlistSlice";
 
 
 export default function ProductDetails() {
@@ -32,6 +33,8 @@ export default function ProductDetails() {
 
   const product = products.find((p) => String(p.id) === String(id));
   const { giftBox, wrapping, giftCard } = useSelector((state) => state.addons);
+  const wishlistItems = useSelector((state) => state.wishlist?.items || []); 
+  const isWishlisted = wishlistItems.some((item) => item.id === product.id); 
   
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -77,7 +80,7 @@ const [cardMessage, setCardMessage] = useState("");
   customColor ||
   hasCustomImage;
 
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  // const [isWishlisted, setIsWishlisted] = useState(false);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
@@ -234,7 +237,10 @@ relatedProducts = relatedProducts.slice(0, 4);
             />
 
             <button
-              onClick={() => setIsWishlisted(!isWishlisted)}
+              onClick={() => {
+                dispatch(toggleWishlist(product))
+                // setIsWishlisted(!isWishlisted)
+              }}
               className="absolute top-4 right-4 bg-white p-3 rounded-full shadow"
             >
               <Heart
