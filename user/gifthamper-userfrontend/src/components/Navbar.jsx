@@ -31,6 +31,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { categoryConfig, priceConfig } from '../data/dataConfig';
+import { useSelector } from 'react-redux';
 
 
 export default function Navbar() {
@@ -145,6 +146,16 @@ const priceRangeCategories = priceConfig.map((item) => ({
   link: `/products?price=${item.value}`,
 }));
 
+const cartItems = useSelector((state) => state.cart.items);
+// const cartCount = cartItems.reduce((total, item) => {
+//   if (item.type === "hamper") {
+//     return total + (item.items?.length || 0); // count items inside hamper
+//   }
+//   return total + 1;
+// }, 0);
+const cartCount = cartItems.length;
+
+
   return (
 <nav className={`sticky top-0 z-50 bg-white overflow-visible transition-all ${isScrolled ? 'shadow-md' : 'border-b'}`}>
       
@@ -191,12 +202,25 @@ const priceRangeCategories = priceConfig.map((item) => ({
               </button>
 
               
-              <button onClick={() => {
-                      
-                      navigate("/cart");
-                    }}className="relative p-2 text-gray-700 hover:text-[#8B3A62] transition-colors">
+              <button onClick={() => 
+              { navigate("/cart");}}
+                className="relative p-2 text-gray-700 hover:text-[#8B3A62] transition-colors">
                 <ShoppingCart className="w-6 h-6" />
-                <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium"></span>
+                {cartCount > 0 && (
+                  <motion.span
+                    key={cartCount} 
+                    initial={{ scale: 0 }}
+                    animate={{ scale: [0, 1.3, 1] }} // bounce effect
+                    transition={{
+                      duration: 0.35,
+                      ease: "easeOut",
+                    }}
+                    className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold shadow-md"
+                  >
+                    {cartCount}
+                  </motion.span>
+                )}
+                
               </button>
 
               

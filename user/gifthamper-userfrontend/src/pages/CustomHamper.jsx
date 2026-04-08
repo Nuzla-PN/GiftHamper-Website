@@ -1994,7 +1994,8 @@ import ProductCard from "../components/ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import FilterSidebar from "../components/Filtersidebar";
 import { useLocation, useNavigate } from "react-router-dom";
-import { addtoCart, updateCartItem } from "../features/cart/cartSlice";
+import { addtoCart, removeFromCart, updateCartItem } from "../features/cart/cartSlice";
+import { toast } from "react-hot-toast";
 
 /* ─── palette constants ──────────────────────────────────────── */
 const ROSE      = "#C2556A";
@@ -2206,8 +2207,11 @@ export default function CustomHamperPage() {
   const selectedBoxData   = BOXES.find((b) => b.id === selectedBox) ?? null;
   const selectedItemsData = selectedItems.map((id) => products.find((p) => p.id === id)).filter(Boolean);
 
+  // const calculateTotal = () =>
+  //   (selectedBoxData?.price ?? 0) + selectedItemsData.reduce((s, i) => s + i.price, 0);
   const calculateTotal = () =>
-    (selectedBoxData?.price ?? 0) + selectedItemsData.reduce((s, i) => s + i.price, 0);
+  (selectedBoxData?.price ?? 0) +
+  selectedItemsData.reduce((s, i) => s + (i.price || 0), 0);
 
   /* ── filter logic ── */
   const selectedValues = Object.values(appliedFilters).flat().map((v) => v.toLowerCase());
@@ -2261,23 +2265,103 @@ export default function CustomHamperPage() {
   const goNext = () => canProceed() && setCurrentStep((p) => Math.min(4, p + 1));
   const goPrev = () => setCurrentStep((p) => Math.max(1, p - 1));
 
-  const handleAddToCart = () => {
-    const hamperItem = {
-      id:         editMode ? hamperData.id : Date.now(),
-      type:       "hamper",
-      box:        { name: selectedBoxData?.name, price: selectedBoxData?.price },
-      items:      selectedItemsData,
-      message:    customMessage,
-      totalPrice: calculateTotal(),
-    };
+  // const handleAddToCart = () => {
+  //   const hamperItem = {
+  //     id:         editMode ? hamperData.id : Date.now(),
+  //     type:       "hamper",
+  //     box:        { name: selectedBoxData?.name, price: selectedBoxData?.price },
+  //     items:      selectedItemsData,
+  //     message:    customMessage,
+  //     totalPrice: calculateTotal(),
+  //   };
 
-    if (editMode) {
-      dispatch(updateCartItem({ index: hamperIndex, item: hamperItem }));
-    } else {
-      dispatch(addtoCart(hamperItem));
-    }
-    navigate("/cart");
+  //   if (editMode) {
+  //     dispatch(updateCartItem({ index: hamperIndex, item: hamperItem }));
+  //   } else {
+  //     dispatch(addtoCart(hamperItem));
+  //   }
+  //   navigate("/cart");
+  // };
+
+//   const handleAddToCart = () => {
+//   const itemsTotal = selectedItemsData.reduce(
+//     (sum, item) => sum + (item.price || 0),
+//     0
+//   );
+
+//   const boxPrice = selectedBoxData?.price || 0;
+
+//   const totalPrice = itemsTotal + boxPrice;
+
+//   const hamperItem = {
+//     id: editMode ? hamperData.id : Date.now(),
+//     type: "hamper",
+
+//     box: {
+//       name: selectedBoxData?.name,
+//       price: boxPrice,
+//     },
+
+//     items: selectedItemsData,
+//     message: customMessage,
+
+//     quantity: 1,              // ✅ REQUIRED
+//     price: totalPrice,        // ✅ BASE PRICE (IMPORTANT)
+//     totalPrice: totalPrice,   // ✅ USED IN CART
+//   };
+
+//   if (editMode) {
+//     dispatch(updateCartItem({ index: hamperIndex, item: hamperItem }));
+//   } else {
+//     dispatch(addtoCart(hamperItem));
+//   }
+
+//   navigate("/cart");
+// };
+
+const handleAddToCart = () => {
+  const itemsTotal = selectedItemsData.reduce(
+    (sum, item) => sum + (item.price || 0),
+    0
+  );
+
+  const boxPrice = selectedBoxData?.price || 0;
+  const totalPrice = itemsTotal + boxPrice;
+
+  const hamperItem = {
+    id: editMode ? hamperData.id : Date.now(),
+    type: "hamper",
+    box: {
+      name: selectedBoxData?.name,
+      price: boxPrice,
+    },
+    items: selectedItemsData,
+    message: customMessage,
+    quantity: 1,
+    price: totalPrice,
+    totalPrice: totalPrice,
   };
+
+  // ✅ ADD HAMPER
+  if (editMode) {
+    dispatch(updateCartItem({ index: hamperIndex, item: hamperItem }));
+  } else {
+    dispatch(addtoCart(hamperItem));
+  }
+
+  // 🔥 REMOVE ORIGINAL ITEMS (VERY IMPORTANT)
+  if (fromCart && fromCartItems) {
+    // remove from last index → first (to avoid shifting issue)
+    const sorted = [...fromCartItems].sort((a, b) => b.index - a.index);
+
+    sorted.forEach(item => {
+      dispatch(removeFromCart(item.index));
+    });
+    toast.success("Items combined into hamper 🎁");
+  }
+
+  navigate("/cart");
+};
 
   /* ── shared order summary props ── */
   const summaryProps = {

@@ -238,7 +238,8 @@ export function HamperCartCard({ item, globalIndex, dispatch, removeFromCart }) 
           {/* Price row */}
           <div className="flex items-center justify-between flex-wrap gap-2 mt-1">
             <span className="text-base font-extrabold text-[#3B2A35]">
-              ₹{(item.totalPrice ?? 0).toLocaleString()}
+              {/* ₹{(item.totalPrice ?? 0).toLocaleString()} */}
+              ₹{(item.totalPrice || 0).toLocaleString()}
             </span>
             <span className="text-[10px] text-rose-900/40">
               {itemCount} product{itemCount !== 1 ? "s" : ""} · 1 hamper

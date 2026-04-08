@@ -612,6 +612,9 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Heart, Check, ShoppingCart } from "lucide-react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addtoCart } from "../features/cart/cartSlice";
+import { clearAddons } from "../features/addson/addsonSlice";
 
 export default function ProductCard({
   id,
@@ -631,7 +634,11 @@ export default function ProductCard({
 }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [hovered, setHovered] = useState(false);
-
+  const dispatch = useDispatch();
+  const [quantity, setQuantity] = useState(1);
+  const products = useSelector((state) => state.products.items);
+  const product = products.find((p) => String(p.id) === String(id));
+  
   const discountPercent =
     originalPrice && originalPrice > price
       ? Math.round(((originalPrice - price) / originalPrice) * 100)
@@ -830,13 +837,40 @@ export default function ProductCard({
               transition: "transform 0.3s ease",
             }}
           >
+           
             <button
-              onClick={(e) => e.preventDefault()}
+            disabled={product.stock === 0}
+              onClick={(e) => {e.preventDefault()
+                const cartItem = {
+                              id: product.id,
+                                 // FIXED FIELDS
+                              name: product.title,
+                              description:  product.description,
+                              // image: product.image[0],
+                               image:        Array.isArray(product.image)
+                                              ? product.image[0]
+                                              : product.image,
+                              price: product.price,
+                              originalPrice: product.originalPrice || null,
+                              quantity,
+                              stock: product.stock,
+                              rating:  product.rating  || 0,
+                              reviews: product.reviews || 0,
+            
+                              //  IMPORTANT (THIS FIXES YOUR MULTI-SELLER ISSUE)
+                              sellerId: product.sellerId,
+                              sellerName: product.sellerName,
+            
+                              
+                            };
+                            dispatch(addtoCart(cartItem));
+              }}
               className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold text-white transition-all"
               style={{ background: "linear-gradient(90deg,#C2556A,#E8956D)" }}
             >
               <ShoppingCart style={{ width: 15, height: 15 }} />
-              Add to Cart
+              {product.stock === 0 ? "Out of Stock" : "Add to Cart"}
+              
             </button>
           </div>
          </div>

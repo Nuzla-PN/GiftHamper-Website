@@ -243,4 +243,33 @@ export const giftBoxOptionsConfig = [
     features: ['wrapping styling', 'elegent Design', 'Attractive design']
   },
   
-]
+];
+
+export const flyToCart = (imgElement) => {
+  const cart = document.getElementById("cart-icon");
+
+  if (!imgElement || !cart) return;
+
+  const imgRect = imgElement.getBoundingClientRect();
+  const cartRect = cart.getBoundingClientRect();
+
+  const clone = imgElement.cloneNode(true);
+  clone.style.position = "fixed";
+  clone.style.left = imgRect.left + "px";
+  clone.style.top = imgRect.top + "px";
+  clone.style.width = imgRect.width + "px";
+  clone.style.height = imgRect.height + "px";
+  clone.style.zIndex = 9999;
+  clone.style.transition = "all 0.8s ease-in-out";
+  document.body.appendChild(clone);
+
+  requestAnimationFrame(() => {
+    clone.style.left = cartRect.left + "px";
+    clone.style.top = cartRect.top + "px";
+    clone.style.width = "20px";
+    clone.style.height = "20px";
+    clone.style.opacity = 0.3;
+  });
+
+  setTimeout(() => clone.remove(), 800);
+};
