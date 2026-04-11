@@ -11,6 +11,7 @@ import WrappingSelection from "../pages/WrappingSelection.jsx";
 import GreetingCardSelection from "../pages/GreetingCardSelection.jsx";
 import CustomizeProduct from "../pages/CustomizeProduct.jsx";
 import CartPage from "../pages/Cart.jsx";
+import WishlistPage from "../pages/Wishlist.jsx";
 
 
 
@@ -29,6 +30,7 @@ const AppRoutes = ()=>{
       <Route path = "/gift-box/:id" element = {<GiftBoxSelection/>}/>
       <Route path = "/wrapping/:id" element = {<WrappingSelection/>}/>
       <Route path = "/greeting-card/:id" element = {<GreetingCardSelection/>}/>
+      <Route path = "/wishlist" element={<WishlistPage/>}/>
       <Route path = "/cart" element={<CartPage/>}/>
       <Route path="/seller/:sellerName" element={<SellerPage/>} />
 </Routes>
