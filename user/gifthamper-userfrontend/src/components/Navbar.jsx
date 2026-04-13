@@ -27,7 +27,8 @@ import {
   Crown,
   Type,
   Leaf,
-  IndianRupee
+  IndianRupee,
+  Package
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { categoryConfig, priceConfig } from '../data/dataConfig';
@@ -191,8 +192,7 @@ const cartCount = cartItems.length;
 
             
             <div className="flex items-center space-x-2 sm:space-x-4">
-
-             
+  
               <button className="lg:hidden p-2 text-gray-700 hover:text-[#8B3A62] transition-colors" onClick={() => setSearchOpen(!searchOpen)}>
                 <Search className="w-6 h-6" />
               </button>
@@ -229,6 +229,12 @@ const cartCount = cartItems.length;
                   </motion.span>
                 )}
                 
+              </button>
+              <button
+                onClick={() => navigate("/orders")}
+                className="relative p-2 text-gray-700 hover:text-[#8B3A62] transition-colors"
+              >
+                <Package className="w-6 h-6" />
               </button>
 
               

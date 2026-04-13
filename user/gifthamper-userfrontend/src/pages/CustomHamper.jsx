@@ -2798,3 +2798,800 @@ const handleAddToCart = () => {
   );
 }
 
+
+
+// import { useState, useRef, useEffect } from "react";
+// import { motion, AnimatePresence } from "framer-motion";
+// import {
+//   Check, Gift, Package, MessageSquare, ShoppingCart,
+//   X, Sparkles, ChevronRight, Star, Filter, Pencil,
+//   Info, ArrowRight, Truck, Shield,
+// } from "lucide-react";
+// import ProductCard from "../components/ProductCard";
+// import { useDispatch, useSelector } from "react-redux";
+// import FilterSidebar from "../components/Filtersidebar";
+// import { useLocation, useNavigate } from "react-router-dom";
+// import { addtoCart, removeFromCart, updateCartItem } from "../features/cart/cartSlice";
+// import { toast } from "react-hot-toast";
+
+// /* ─── palette ─────────────────────────────────────────────────── */
+// const ROSE     = "#C2556A";
+// const MULBERRY = "#3B2A35";
+// const CTA_BG   = "linear-gradient(135deg,#C2556A,#E8956D)";
+// const BLUSH    = "linear-gradient(135deg,#FFF0F3,#FFF6EC)";
+
+// /* ─── steps ───────────────────────────────────────────────────── */
+// const STEPS = [
+//   { number: 1, title: "Select Box",    icon: Package       },
+//   { number: 2, title: "Add Items",     icon: Gift          },
+//   { number: 3, title: "Add Message",   icon: MessageSquare },
+//   { number: 4, title: "Review & Add",  icon: ShoppingCart  },
+// ];
+
+// /* ─── boxes ───────────────────────────────────────────────────── */
+// const BOXES = [
+//   { id: "small",   name: "Small Box",   size: '8"×6"',   capacity: "3–5 items",   price: 200,  emoji: "📦", desc: "Perfect for a small thoughtful gift" },
+//   { id: "medium",  name: "Medium Box",  size: '12"×8"',  capacity: "6–10 items",  price: 300,  emoji: "🎁", desc: "Most popular choice for hampers"     },
+//   { id: "large",   name: "Large Box",   size: '16"×8"',  capacity: "15–20 items", price: 1000, emoji: "🎀", desc: "Great for festive or corporate gifts" },
+//   { id: "premium", name: "Premium Box", size: '20"×10"', capacity: "20–35 items", price: 2000, emoji: "✨", desc: "Luxury packaging for grand occasions" },
+// ];
+
+// const CATEGORY_MAP = {
+//   Occasion:   ["Birthday","Anniversary","Wedding","Baby shower","Graduation","Housewarming","Engagement","Get Well Soon"],
+//   Recipients: ["For Him","For Her","Kids","Parents","Couples","Corporate Gifts"],
+//   Festival:   ["Christmas","Diwali","New Year","Valentines Day","Mothers Day","Fathers Day"],
+//   GiftType:   ["Luxury","HomeDecor","NamePlates","Stationary","Handmade","Chocolate Hamper","Snack Hamper","Dry Fruit Hamper","Coffee & Tea","Self Care","Personalized","Wellness"],
+// };
+
+// /* ════════════════════════════════════════════════════════════════
+//    ORDER SUMMARY SIDEBAR (Flipkart price-card style)
+// ════════════════════════════════════════════════════════════════ */
+// function OrderSummary({ selectedBoxData, selectedItemsData, customMessage, total, currentStep, onProceed }) {
+//   const disc = selectedBoxData || selectedItemsData.length > 0;
+
+//   return (
+//     <div className="bg-white rounded-2xl border border-rose-100 shadow-sm overflow-hidden">
+
+//       {/* Header */}
+//       <div className="px-5 py-3.5 border-b border-rose-50 flex items-center gap-2" style={{ background: BLUSH }}>
+//         <Sparkles size={14} className="text-[#C2556A]" />
+//         <h3 className="text-sm font-bold text-[#3B2A35]">Order Summary</h3>
+//       </div>
+
+//       <div className="px-5 py-4 space-y-3 text-sm">
+
+//         {/* Box */}
+//         <div>
+//           <p className="text-[10px] font-bold text-rose-900/40 uppercase tracking-widest mb-1.5">Gift Box</p>
+//           {selectedBoxData ? (
+//             <div className="flex items-center justify-between bg-[#FEF9F5] border border-rose-100 rounded-xl px-3 py-2.5">
+//               <div className="flex items-center gap-2">
+//                 <span className="text-lg">{selectedBoxData.emoji}</span>
+//                 <span className="text-sm font-semibold text-[#3B2A35]">{selectedBoxData.name}</span>
+//               </div>
+//               <span className="text-sm font-extrabold text-[#C2556A]">₹{selectedBoxData.price}</span>
+//             </div>
+//           ) : (
+//             <div className="border border-dashed border-rose-200 rounded-xl px-3 py-2.5 text-xs text-rose-900/30 italic text-center">
+//               Not selected yet
+//             </div>
+//           )}
+//         </div>
+
+//         {/* Items */}
+//         <div>
+//           <div className="flex items-center justify-between mb-1.5">
+//             <p className="text-[10px] font-bold text-rose-900/40 uppercase tracking-widest">Items</p>
+//             <span className="text-[10px] font-bold text-white bg-[#C2556A] px-2 py-0.5 rounded-full">
+//               {selectedItemsData.length} selected
+//             </span>
+//           </div>
+
+//           {selectedItemsData.length > 0 ? (
+//             <div className="space-y-1.5 max-h-36 overflow-y-auto">
+//               {selectedItemsData.slice(0, 5).map((item) => (
+//                 <div key={item.id} className="flex justify-between items-center gap-2 text-xs">
+//                   <span className="text-rose-900/60 truncate flex-1 leading-snug">
+//                     {item.title}
+//                   </span>
+//                   <span className="font-semibold text-[#3B2A35] shrink-0">₹{item.price}</span>
+//                 </div>
+//               ))}
+//               {selectedItemsData.length > 5 && (
+//                 <p className="text-[10px] text-rose-900/35 italic">+{selectedItemsData.length - 5} more items</p>
+//               )}
+//             </div>
+//           ) : (
+//             <div className="border border-dashed border-rose-200 rounded-xl px-3 py-2.5 text-xs text-rose-900/30 italic text-center">
+//               No items selected yet
+//             </div>
+//           )}
+//         </div>
+
+//         {/* Message */}
+//         <div className="flex items-center justify-between">
+//           <p className="text-[10px] font-bold text-rose-900/40 uppercase tracking-widest">Message</p>
+//           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full
+//             ${customMessage ? "bg-green-50 text-green-700 border border-green-100" : "bg-gray-50 text-gray-400 border border-gray-100"}`}>
+//             {customMessage ? "Added ✓" : "Optional"}
+//           </span>
+//         </div>
+
+//         {/* Divider + price breakdown */}
+//         <div className="border-t border-rose-50 pt-3 space-y-2">
+//           {selectedBoxData && (
+//             <div className="flex justify-between text-xs text-rose-900/50">
+//               <span>Box: {selectedBoxData.name}</span>
+//               <span>₹{selectedBoxData.price}</span>
+//             </div>
+//           )}
+//           {selectedItemsData.length > 0 && (
+//             <div className="flex justify-between text-xs text-rose-900/50">
+//               <span>Items ({selectedItemsData.length})</span>
+//               <span>₹{selectedItemsData.reduce((s, i) => s + (i.price || 0), 0).toLocaleString()}</span>
+//             </div>
+//           )}
+//           <div className="flex justify-between items-center pt-1 border-t border-rose-50">
+//             <span className="font-bold text-[#3B2A35] text-base">Total</span>
+//             <span className="text-xl font-extrabold text-[#C2556A]">₹{total.toLocaleString()}</span>
+//           </div>
+//         </div>
+
+//         {/* Delivery indicator */}
+//         {total >= 999 ? (
+//           <div className="bg-[#F3FBF4] border border-green-100 rounded-xl px-3 py-2 text-xs font-semibold text-green-700 text-center flex items-center justify-center gap-1.5">
+//             <Truck size={12} /> Free delivery unlocked! 🎉
+//           </div>
+//         ) : total > 0 ? (
+//           <div className="bg-amber-50 border border-amber-100 rounded-xl px-3 py-2 text-xs text-amber-700 text-center">
+//             Add ₹{(999 - total).toFixed(0)} more for free delivery 🚚
+//           </div>
+//         ) : null}
+//       </div>
+
+//       {/* CTA */}
+//       {currentStep < 4 && (
+//         <div className="px-5 pb-5">
+//           <button
+//             onClick={onProceed}
+//             disabled={selectedItemsData.length === 0 && currentStep === 2}
+//             className="w-full py-2.5 rounded-full text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-md disabled:opacity-40 disabled:cursor-not-allowed"
+//             style={{ background: CTA_BG }}
+//           >
+//             {currentStep === 1 ? "Next: Choose Items →"  :
+//              currentStep === 2 ? "Next: Add Message →"   :
+//              "Next: Review Hamper →"}
+//           </button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+// /* ═══════════════════════════════════════════════════════════════
+//    STEP LABEL
+// ═══════════════════════════════════════════════════════════════ */
+// function StepLabel({ step, title, subtitle }) {
+//   return (
+//     <div className="mb-6">
+//       <p className="text-[10px] font-extrabold text-[#C2556A] tracking-[0.2em] uppercase mb-1">
+//         Step {step} of 4
+//       </p>
+//       <h2 className="text-2xl sm:text-3xl font-extrabold text-[#3B2A35] leading-tight">{title}</h2>
+//       {subtitle && <p className="text-sm text-rose-900/50 mt-1">{subtitle}</p>}
+//     </div>
+//   );
+// }
+
+// /* ════════════════════════════════════════════════════════════════
+//    MAIN PAGE
+// ════════════════════════════════════════════════════════════════ */
+// export default function CustomHamperPage() {
+//   const [currentStep,    setCurrentStep]    = useState(1);
+//   const [selectedBox,    setSelectedBox]    = useState(null);
+//   const [selectedItems,  setSelectedItems]  = useState([]);
+//   const [customMessage,  setCustomMessage]  = useState("");
+//   const [showFilters,    setShowFilters]    = useState(false);
+//   const [tempFilters,    setTempFilters]    = useState({});
+//   const [appliedFilters, setAppliedFilters] = useState({});
+//   const [priceRange,     setPriceRange]     = useState([0, 5000]);
+//   const [rating,         setRating]         = useState(0);
+
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
+//   const location = useLocation();
+//   const stepRefs = useRef([]);
+
+//   const { editMode, hamperData, hamperIndex }    = location.state || {};
+//   const { fromCart, cartItems: fromCartItems }   = location.state || {};
+//   const products = useSelector((s) => s.products.items);
+
+//   const selectedBoxData   = BOXES.find((b) => b.id === selectedBox) ?? null;
+//   const selectedItemsData = selectedItems.map((id) => products.find((p) => p.id === id)).filter(Boolean);
+//   const calculateTotal    = () =>
+//     (selectedBoxData?.price ?? 0) + selectedItemsData.reduce((s, i) => s + (i.price || 0), 0);
+
+//   /* ── filter ── */
+//   const selectedValues = Object.values(appliedFilters).flat().map((v) => v.toLowerCase());
+//   const filteredProducts = products.filter((p) => {
+//     const fm = selectedValues.length === 0 || selectedValues.every((val) =>
+//       p.subCategory?.toLowerCase() === val ||
+//       p.mainCategory?.toLowerCase() === val ||
+//       p.giftTypes?.some((t) => t.toLowerCase() === val)
+//     );
+//     return fm && p.price >= priceRange[0] && p.price <= priceRange[1] && (rating === 0 || p.rating >= rating);
+//   });
+
+//   /* ── effects ── */
+//   useEffect(() => {
+//     stepRefs.current[currentStep - 1]?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+//   }, [currentStep]);
+
+//   useEffect(() => {
+//     if (fromCart && fromCartItems && currentStep === 2)
+//       setSelectedItems(fromCartItems.filter((i) => i.type !== "hamper").map((i) => i.id));
+//   }, [fromCart, fromCartItems, currentStep]);
+
+//   useEffect(() => {
+//     if (editMode && hamperData) {
+//       const box = BOXES.find((b) => b.name === hamperData.box?.name);
+//       if (box) setSelectedBox(box.id);
+//       setSelectedItems((hamperData.items ?? []).map((i) => i.id));
+//       setCustomMessage(hamperData.message ?? "");
+//       setCurrentStep(4);
+//     }
+//   }, [editMode, hamperData]);
+
+//   useEffect(() => { setTempFilters({}); setAppliedFilters({}); }, []);
+
+//   const canProceed = () => {
+//     if (currentStep === 1) return selectedBox !== null;
+//     if (currentStep === 2) return selectedItems.length > 0;
+//     return true;
+//   };
+//   const goNext = () => canProceed() && setCurrentStep((p) => Math.min(4, p + 1));
+//   const goPrev = () => setCurrentStep((p) => Math.max(1, p - 1));
+
+//   const handleAddToCart = () => {
+//     const total = calculateTotal();
+//     const hamperItem = {
+//       id: editMode ? hamperData.id : Date.now(),
+//       type: "hamper",
+//       box:        { name: selectedBoxData?.name, price: selectedBoxData?.price ?? 0 },
+//       items:      selectedItemsData,
+//       message:    customMessage,
+//       quantity:   1,
+//       price:      total,
+//       totalPrice: total,
+//     };
+
+//     if (editMode) {
+//       dispatch(updateCartItem({ index: hamperIndex, item: hamperItem }));
+//     } else {
+//       dispatch(addtoCart(hamperItem));
+//     }
+
+//     if (fromCart && fromCartItems) {
+//       [...fromCartItems].sort((a, b) => b.index - a.index).forEach((i) => dispatch(removeFromCart(i.index)));
+//       toast.success("Items combined into hamper 🎁");
+//     }
+
+//     navigate("/cart");
+//   };
+
+//   const summaryProps = {
+//     selectedBoxData, selectedItemsData, customMessage,
+//     total: calculateTotal(), currentStep, onProceed: goNext,
+//   };
+
+//   /* ════════════ RENDER ════════════ */
+//   return (
+//     <div className="min-h-screen bg-[#FEF9F5]">
+
+//       {/* ── HERO ── */}
+//       <div className="relative overflow-hidden px-4 sm:px-6 pt-6 pb-10"
+//         style={{ background: "linear-gradient(135deg,#3B2A35 0%,#C2556A 60%,#E8956D 100%)" }}>
+//         <div className="absolute inset-0 pointer-events-none"
+//           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }} />
+//         <div className="relative z-10 text-center max-w-2xl mx-auto">
+//           <div className="inline-flex items-center gap-2 border border-white/20 rounded-full px-4 py-1.5 text-white text-[11px] font-bold tracking-widest uppercase mb-4"
+//             style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(8px)" }}>
+//             <Sparkles size={11} /> Personalised Just for You
+//           </div>
+//           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+//             Build Your <span className="italic font-light" style={{ color: "#FFD6E7" }}>Dream Hamper</span> ✨
+//           </h1>
+//           <p className="text-white/60 text-sm mt-2">
+//             Pick a box · Choose items · Add a message — all in one place
+//           </p>
+//         </div>
+//       </div>
+
+//       {/* ── STEP PROGRESS BAR (Flipkart style) ── */}
+//       <div className="bg-white border-b border-rose-100 sticky top-0 z-30 shadow-sm">
+//         <div className="max-w-6xl mx-auto px-4 py-0 overflow-x-auto">
+//           <div className="flex items-stretch min-w-max">
+//             {STEPS.map((step, index) => {
+//               const done   = currentStep > step.number;
+//               const active = currentStep === step.number;
+//               const Icon   = step.icon;
+//               return (
+//                 <div key={step.number} className="flex items-stretch">
+//                   {/* Step cell */}
+//                   <button
+//                     onClick={() => done && setCurrentStep(step.number)}
+//                     ref={(el) => (stepRefs.current[index] = el)}
+//                     className={`flex items-center gap-2.5 px-5 py-4 transition-all relative
+//                       ${done ? "cursor-pointer" : "cursor-default"}
+//                       ${active ? "text-[#C2556A]" : done ? "text-green-600" : "text-rose-900/30"}`}
+//                   >
+//                     {/* Active bottom border */}
+//                     {active && (
+//                       <motion.div layoutId="activeBorder"
+//                         className="absolute bottom-0 left-0 right-0 h-0.5 rounded-full"
+//                         style={{ background: CTA_BG }} />
+//                     )}
+
+//                     {/* Circle */}
+//                     <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-extrabold shrink-0 transition-all
+//                       ${active ? "text-white shadow-md" : done ? "bg-green-100 text-green-600" : "bg-rose-50 text-rose-300"}`}
+//                       style={active ? { background: CTA_BG } : {}}>
+//                       {done ? <Check size={12} strokeWidth={3} /> : step.number}
+//                     </div>
+
+//                     <div className="text-left">
+//                       <p className={`text-xs font-extrabold whitespace-nowrap
+//                         ${active ? "text-[#C2556A]" : done ? "text-green-600" : "text-rose-900/30"}`}>
+//                         {step.title}
+//                       </p>
+//                       {active && (
+//                         <p className="text-[10px] text-rose-900/40 whitespace-nowrap hidden sm:block">
+//                           {step.number === 1 ? "Choose a gift box size"  :
+//                            step.number === 2 ? "Select products to add"  :
+//                            step.number === 3 ? "Optional heartfelt note" :
+//                            "Confirm and add to cart"}
+//                         </p>
+//                       )}
+//                     </div>
+//                   </button>
+
+//                   {/* Connector */}
+//                   {index < STEPS.length - 1 && (
+//                     <div className="flex items-center px-1">
+//                       <ChevronRight size={14} className={done ? "text-green-300" : "text-rose-100"} />
+//                     </div>
+//                   )}
+//                 </div>
+//               );
+//             })}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* ── BODY ── */}
+//       <div className="max-w-6xl mx-auto px-3 sm:px-6 lg:px-8 py-6 pb-32 lg:pb-10">
+//         <AnimatePresence mode="wait">
+//           <motion.div key={currentStep}
+//             initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+//             exit={{ opacity: 0, y: -14 }} transition={{ duration: 0.28 }}>
+
+//             {/* ════════ STEP 1 — SELECT BOX ════════ */}
+//             {currentStep === 1 && (
+//               <div className="flex flex-col lg:flex-row gap-6 items-start">
+//                 <div className="flex-1 min-w-0">
+//                   <StepLabel step={1} title="Choose Your Gift Box 📦"
+//                     subtitle="Select a box size that best fits your planned items" />
+
+//                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+//                     {BOXES.map((box) => {
+//                       const sel = selectedBox === box.id;
+//                       return (
+//                         <motion.div key={box.id}
+//                           whileHover={{ y: -3 }} whileTap={{ scale: 0.98 }}
+//                           onClick={() => setSelectedBox(box.id)}
+//                           className={`cursor-pointer bg-white rounded-2xl border-2 overflow-hidden transition-all duration-200 group
+//                             ${sel ? "border-[#C2556A] shadow-lg shadow-[#C2556A]/15" : "border-rose-100 hover:border-rose-300 shadow-sm hover:shadow-md"}`}
+//                         >
+//                           {/* top accent bar */}
+//                           <div className={`h-1.5 w-full transition-all ${sel ? "" : "bg-rose-50"}`}
+//                             style={sel ? { background: CTA_BG } : {}} />
+
+//                           <div className="p-5">
+//                             <div className="flex items-start justify-between mb-3">
+//                               <div className="flex items-center gap-3">
+//                                 {/* big emoji */}
+//                                 <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl flex-shrink-0"
+//                                   style={{ background: sel ? "linear-gradient(135deg,#FFF0F3,#FFF6EC)" : "#F9F5F0" }}>
+//                                   {box.emoji}
+//                                 </div>
+//                                 <div>
+//                                   <h3 className="font-extrabold text-base text-[#3B2A35]">{box.name}</h3>
+//                                   <p className="text-xs text-rose-900/40">{box.size}</p>
+//                                 </div>
+//                               </div>
+
+//                               {/* Selected check */}
+//                               {sel ? (
+//                                 <div className="w-7 h-7 rounded-full flex items-center justify-center shadow-md shrink-0"
+//                                   style={{ background: CTA_BG }}>
+//                                   <Check size={14} className="text-white" strokeWidth={3} />
+//                                 </div>
+//                               ) : (
+//                                 <div className="w-7 h-7 rounded-full border-2 border-rose-200 flex-shrink-0" />
+//                               )}
+//                             </div>
+
+//                             <p className="text-xs text-rose-900/50 mb-3 leading-relaxed">{box.desc}</p>
+
+//                             <div className="flex items-center justify-between">
+//                               <span className="text-xs font-semibold text-white bg-[#C2556A] px-2.5 py-1 rounded-full">
+//                                 {box.capacity}
+//                               </span>
+//                               <span className="text-lg font-extrabold text-[#C2556A]">₹{box.price}</span>
+//                             </div>
+//                           </div>
+//                         </motion.div>
+//                       );
+//                     })}
+//                   </div>
+//                 </div>
+
+//                 <div className="hidden lg:block w-72 xl:w-80 shrink-0 sticky top-28">
+//                   <OrderSummary {...summaryProps} />
+//                 </div>
+//               </div>
+//             )}
+
+//             {/* ════════ STEP 2 — CHOOSE ITEMS ════════ */}
+//             {currentStep === 2 && (
+//               <div>
+//                 <div className="flex items-end justify-between flex-wrap gap-3 mb-5">
+//                   <StepLabel step={2} title="Choose Your Items 🛍️"
+//                     subtitle={`${selectedItems.length} item${selectedItems.length !== 1 ? "s" : ""} selected${fromCart ? " · Pre-filled from cart 🎁" : ""}`} />
+//                   <button onClick={() => setShowFilters(true)}
+//                     className="lg:hidden flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-bold text-white mb-4"
+//                     style={{ background: CTA_BG }}>
+//                     <Filter size={14} /> Filters
+//                   </button>
+//                 </div>
+
+//                 {/* Mobile filter drawer */}
+//                 {showFilters && (
+//                   <div className="fixed inset-0 bg-black/40 z-40 lg:hidden" onClick={() => setShowFilters(false)} />
+//                 )}
+//                 <div className={`fixed top-0 left-0 h-full w-72 bg-white z-50 shadow-2xl transition-transform duration-300 lg:hidden
+//                   ${showFilters ? "translate-x-0" : "-translate-x-full"}`}>
+//                   <div className="flex justify-between items-center px-4 py-3.5 border-b border-rose-100"
+//                     style={{ background: BLUSH }}>
+//                     <h3 className="font-bold text-[#3B2A35]">Filters</h3>
+//                     <button onClick={() => setShowFilters(false)} className="p-1.5 rounded-full hover:bg-rose-100">
+//                       <X size={17} className="text-rose-400" />
+//                     </button>
+//                   </div>
+//                   <div className="overflow-y-auto h-full pb-20">
+//                     <FilterSidebar isOpen={showFilters} onClose={() => setShowFilters(false)}
+//                       categoryMap={CATEGORY_MAP} tempFilters={tempFilters} setTempFilters={setTempFilters}
+//                       priceRange={priceRange} setPriceRange={setPriceRange} rating={rating} setRating={setRating}
+//                       onApply={() => { setAppliedFilters(tempFilters); setShowFilters(false); }}
+//                       onClear={() => { setTempFilters({}); setAppliedFilters({}); setPriceRange([0, 5000]); setRating(0); }} />
+//                   </div>
+//                 </div>
+
+//                 {/* 3-column layout */}
+//                 <div className="flex gap-4 items-start">
+//                   {/* Desktop filter sidebar */}
+//                   <div className="hidden lg:block w-56 shrink-0 sticky top-28 bg-white border border-rose-100 rounded-2xl overflow-hidden shadow-sm">
+//                     <div className="px-4 py-3 border-b border-rose-50" style={{ background: BLUSH }}>
+//                       <p className="text-xs font-bold text-[#3B2A35]">Filter Products</p>
+//                     </div>
+//                     <FilterSidebar isOpen={true} categoryMap={CATEGORY_MAP}
+//                       tempFilters={tempFilters} setTempFilters={setTempFilters}
+//                       priceRange={priceRange} setPriceRange={setPriceRange}
+//                       rating={rating} setRating={setRating}
+//                       onApply={() => setAppliedFilters(tempFilters)}
+//                       onClear={() => { setTempFilters({}); setAppliedFilters({}); setPriceRange([0, 5000]); setRating(0); }} />
+//                   </div>
+
+//                   {/* Products */}
+//                   <div className="flex-1 min-w-0">
+//                     {/* Count bar */}
+//                     <div className="flex items-center justify-between mb-3 bg-white border border-rose-100 rounded-xl px-4 py-2.5 shadow-sm">
+//                       <p className="text-sm font-semibold text-[#3B2A35]">
+//                         {filteredProducts.length} products
+//                       </p>
+//                       {selectedItems.length > 0 && (
+//                         <span className="text-xs font-bold text-white bg-[#C2556A] px-2.5 py-1 rounded-full">
+//                           {selectedItems.length} selected
+//                         </span>
+//                       )}
+//                     </div>
+
+//                     {filteredProducts.length === 0 ? (
+//                       <div className="bg-white rounded-2xl border border-rose-100 p-14 text-center shadow-sm">
+//                         <div className="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center"
+//                           style={{ background: BLUSH }}>
+//                           <Package size={22} className="text-[#C2556A]" />
+//                         </div>
+//                         <p className="font-bold text-[#3B2A35] text-sm mb-1">No products found</p>
+//                         <p className="text-xs text-rose-900/40">Try adjusting or clearing your filters</p>
+//                       </div>
+//                     ) : (
+//                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+//                         {filteredProducts.map((item) => (
+//                           <ProductCard key={item.id} {...item}
+//                             showSelect={true}
+//                             isSelected={selectedItems.includes(item.id)}
+//                             onSelect={(id) => setSelectedItems((p) =>
+//                               p.includes(id) ? p.filter((i) => i !== id) : [...p, id]
+//                             )} />
+//                         ))}
+//                       </div>
+//                     )}
+//                   </div>
+
+//                   {/* Order summary */}
+//                   <div className="hidden lg:block w-64 xl:w-72 shrink-0 sticky top-28">
+//                     <OrderSummary {...summaryProps} />
+//                   </div>
+//                 </div>
+//               </div>
+//             )}
+
+//             {/* ════════ STEP 3 — MESSAGE ════════ */}
+//             {currentStep === 3 && (
+//               <div className="flex flex-col lg:flex-row gap-6 items-start">
+//                 <div className="flex-1 min-w-0">
+//                   <StepLabel step={3} title="Add a Personal Message 💌"
+//                     subtitle="Optional — a heartfelt note makes every hamper more special" />
+
+//                   <div className="bg-white rounded-2xl border border-rose-100 shadow-sm overflow-hidden max-w-2xl">
+//                     <div className="px-6 pt-6 pb-2">
+//                       <label className="block text-sm font-bold text-[#3B2A35] mb-2">
+//                         Your Message <span className="text-rose-900/30 font-normal">(optional)</span>
+//                       </label>
+//                       <textarea
+//                         value={customMessage}
+//                         onChange={(e) => setCustomMessage(e.target.value)}
+//                         placeholder="e.g. 'Happy Birthday! Wishing you all the love and happiness 🎉'"
+//                         rows={5}
+//                         maxLength={250}
+//                         className="w-full border border-rose-200 rounded-xl px-4 py-3 text-sm text-[#3B2A35] resize-none focus:outline-none focus:ring-2 focus:border-[#C2556A] bg-[#FEF9F5] placeholder:text-rose-200 leading-relaxed transition-all"
+//                         style={{ "--tw-ring-color": "rgba(194,85,106,0.25)" }}
+//                       />
+//                       <div className="flex items-center justify-between mt-1.5 mb-4">
+//                         <p className="text-xs text-rose-900/30">This message will be printed on the greeting card inside</p>
+//                         <p className="text-xs text-rose-900/35 font-medium shrink-0 ml-2">{customMessage.length}/250</p>
+//                       </div>
+//                     </div>
+
+//                     {/* Preview */}
+//                     <AnimatePresence>
+//                       {customMessage && (
+//                         <motion.div
+//                           initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }}
+//                           exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.3 }}
+//                           className="overflow-hidden">
+//                           <div className="mx-6 mb-6 border-2 border-dashed border-rose-100 rounded-xl p-4 bg-[#FFF8F6]">
+//                             <p className="text-[10px] font-bold text-rose-900/40 uppercase tracking-widest mb-2.5">Card Preview</p>
+//                             <div className="bg-white rounded-xl px-5 py-4 shadow-sm border border-rose-50">
+//                               <div className="flex items-center gap-2 mb-2">
+//                                 <Gift size={14} className="text-[#C2556A]" />
+//                                 <p className="text-[10px] font-bold text-rose-900/40 uppercase tracking-widest">Your Message</p>
+//                               </div>
+//                               <p className="text-sm text-[#3B2A35] italic leading-relaxed">"{customMessage}"</p>
+//                             </div>
+//                           </div>
+//                         </motion.div>
+//                       )}
+//                     </AnimatePresence>
+//                   </div>
+
+//                   {/* Tips */}
+//                   <div className="mt-3 flex items-start gap-2 text-xs text-rose-900/40 max-w-2xl">
+//                     <Info size={13} className="shrink-0 mt-0.5 text-rose-300" />
+//                     <span>Tip: Keep it personal — mention the recipient's name and the occasion to make it extra memorable.</span>
+//                   </div>
+//                 </div>
+
+//                 <div className="hidden lg:block w-72 xl:w-80 shrink-0 sticky top-28">
+//                   <OrderSummary {...summaryProps} />
+//                 </div>
+//               </div>
+//             )}
+
+//             {/* ════════ STEP 4 — REVIEW ════════ */}
+//             {currentStep === 4 && (
+//               <div className="flex flex-col lg:flex-row gap-6 items-start">
+//                 <div className="flex-1 min-w-0 space-y-4">
+//                   <StepLabel step={4} title="Review Your Hamper 🎀"
+//                     subtitle="Everything look good? Add to cart when you're ready!" />
+
+//                   {/* Box card */}
+//                   <div className="bg-white rounded-2xl border border-rose-100 shadow-sm overflow-hidden">
+//                     <div className="flex items-center justify-between px-5 py-3.5 border-b border-rose-50" style={{ background: BLUSH }}>
+//                       <div className="flex items-center gap-2">
+//                         <Package size={14} className="text-[#C2556A]" />
+//                         <p className="text-xs font-extrabold text-[#3B2A35] uppercase tracking-widest">Gift Box</p>
+//                       </div>
+//                       <button onClick={() => setCurrentStep(1)}
+//                         className="text-[11px] font-bold text-[#C2556A] flex items-center gap-1 hover:underline">
+//                         <Pencil size={11} /> Change
+//                       </button>
+//                     </div>
+//                     <div className="p-4">
+//                       {selectedBoxData ? (
+//                         <div className="flex items-center gap-4 bg-[#FEF9F5] border border-rose-100 rounded-xl px-4 py-3">
+//                           <span className="text-3xl">{selectedBoxData.emoji}</span>
+//                           <div className="flex-1">
+//                             <p className="font-bold text-[#3B2A35]">{selectedBoxData.name}</p>
+//                             <p className="text-xs text-rose-900/40">{selectedBoxData.size} · {selectedBoxData.capacity}</p>
+//                           </div>
+//                           <span className="text-base font-extrabold text-[#C2556A]">₹{selectedBoxData.price}</span>
+//                         </div>
+//                       ) : (
+//                         <p className="text-xs text-rose-900/30 italic px-1">No box selected</p>
+//                       )}
+//                     </div>
+//                   </div>
+
+//                   {/* Items card */}
+//                   <div className="bg-white rounded-2xl border border-rose-100 shadow-sm overflow-hidden">
+//                     <div className="flex items-center justify-between px-5 py-3.5 border-b border-rose-50" style={{ background: BLUSH }}>
+//                       <div className="flex items-center gap-2">
+//                         <Gift size={14} className="text-[#C2556A]" />
+//                         <p className="text-xs font-extrabold text-[#3B2A35] uppercase tracking-widest">
+//                           Items <span className="text-[#C2556A]">({selectedItemsData.length})</span>
+//                         </p>
+//                       </div>
+//                       <button onClick={() => setCurrentStep(2)}
+//                         className="text-[11px] font-bold text-[#C2556A] flex items-center gap-1 hover:underline">
+//                         <Pencil size={11} /> Edit
+//                       </button>
+//                     </div>
+//                     <div className="p-4">
+//                       {selectedItemsData.length > 0 ? (
+//                         <div className="space-y-2.5 max-h-72 overflow-y-auto pr-1">
+//                           {selectedItemsData.map((item) => (
+//                             <div key={item.id}
+//                               className="flex items-center gap-3 bg-[#FEF9F5] border border-rose-100 rounded-xl p-3">
+//                               <div className="w-12 h-12 rounded-lg overflow-hidden bg-[#FFF0F3] shrink-0">
+//                                 <img src={Array.isArray(item.image) ? item.image[0] : item.image}
+//                                   alt={item.title} className="w-full h-full object-contain p-1" />
+//                               </div>
+//                               <div className="flex-1 min-w-0">
+//                                 <p className="text-sm font-semibold text-[#3B2A35] line-clamp-1">{item.title}</p>
+//                                 <p className="text-xs text-rose-900/40">{item.subCategory}</p>
+//                                 {(item.rating ?? 0) > 0 && (
+//                                   <div className="flex gap-0.5 mt-0.5">
+//                                     {[...Array(5)].map((_, si) => (
+//                                       <Star key={si} size={9}
+//                                         style={si < Math.floor(item.rating)
+//                                           ? { color: "#D4A847", fill: "#D4A847" }
+//                                           : { color: "#e5e7eb" }} />
+//                                     ))}
+//                                   </div>
+//                                 )}
+//                               </div>
+//                               <span className="text-sm font-extrabold text-[#3B2A35] shrink-0">₹{item.price}</span>
+//                             </div>
+//                           ))}
+//                         </div>
+//                       ) : (
+//                         <p className="text-xs text-rose-900/30 italic px-1">No items selected</p>
+//                       )}
+//                     </div>
+//                   </div>
+
+//                   {/* Message card */}
+//                   <div className="bg-white rounded-2xl border border-rose-100 shadow-sm overflow-hidden">
+//                     <div className="flex items-center justify-between px-5 py-3.5 border-b border-rose-50" style={{ background: BLUSH }}>
+//                       <div className="flex items-center gap-2">
+//                         <MessageSquare size={14} className="text-[#C2556A]" />
+//                         <p className="text-xs font-extrabold text-[#3B2A35] uppercase tracking-widest">Message</p>
+//                       </div>
+//                       <button onClick={() => setCurrentStep(3)}
+//                         className="text-[11px] font-bold text-[#C2556A] flex items-center gap-1 hover:underline">
+//                         <Pencil size={11} /> {customMessage ? "Edit" : "Add"}
+//                       </button>
+//                     </div>
+//                     <div className="p-4">
+//                       {customMessage ? (
+//                         <div className="bg-amber-50 border border-amber-100 rounded-xl px-4 py-3 text-sm text-amber-800 italic leading-relaxed">
+//                           "{customMessage}"
+//                         </div>
+//                       ) : (
+//                         <div className="flex items-center gap-2 px-1">
+//                           <p className="text-xs text-rose-900/30 italic">No message added</p>
+//                           <button onClick={() => setCurrentStep(3)}
+//                             className="text-xs font-bold text-[#C2556A] hover:underline flex items-center gap-1">
+//                             <ArrowRight size={11} /> Add one
+//                           </button>
+//                         </div>
+//                       )}
+//                     </div>
+//                   </div>
+
+//                   {/* Total */}
+//                   <div className="bg-white rounded-2xl border-2 border-[#C2556A]/20 shadow-sm px-5 py-4">
+//                     <div className="flex items-center justify-between">
+//                       <div>
+//                         <p className="text-base font-bold text-[#3B2A35]">Grand Total</p>
+//                         <p className="text-xs text-rose-900/40 mt-0.5">
+//                           {selectedBoxData?.name ?? "—"} + {selectedItemsData.length} items
+//                         </p>
+//                       </div>
+//                       <span className="text-2xl font-extrabold text-[#C2556A]">
+//                         ₹{calculateTotal().toLocaleString()}
+//                       </span>
+//                     </div>
+//                     {calculateTotal() >= 999 && (
+//                       <div className="mt-3 flex items-center gap-2 text-xs font-semibold text-green-700 bg-green-50 border border-green-100 rounded-xl px-3 py-2">
+//                         <Truck size={13} /> Free delivery included! 🎉
+//                       </div>
+//                     )}
+//                   </div>
+
+//                   {/* Trust row */}
+//                   <div className="grid grid-cols-3 gap-2.5">
+//                     {[
+//                       { icon: <Truck size={14} className="text-[#C2556A]" />,   label: "Free Delivery",  sub: "Above ₹999" },
+//                       { icon: <Shield size={14} className="text-[#C2556A]" />,  label: "Secure Payment", sub: "256-bit SSL" },
+//                       { icon: <Sparkles size={14} className="text-[#C2556A]" />,label: "Hand Packed",    sub: "With care 🎁" },
+//                     ].map(({ icon, label, sub }) => (
+//                       <div key={label} className="bg-white rounded-xl border border-rose-50 p-3 text-center shadow-sm">
+//                         <div className="w-8 h-8 rounded-full mx-auto mb-1.5 flex items-center justify-center"
+//                           style={{ background: BLUSH }}>
+//                           {icon}
+//                         </div>
+//                         <p className="text-[11px] font-bold text-[#3B2A35]">{label}</p>
+//                         <p className="text-[9px] text-rose-900/40">{sub}</p>
+//                       </div>
+//                     ))}
+//                   </div>
+//                 </div>
+
+//                 <div className="hidden lg:block w-72 xl:w-80 shrink-0 sticky top-28">
+//                   <OrderSummary {...summaryProps} />
+//                 </div>
+//               </div>
+//             )}
+
+//           </motion.div>
+//         </AnimatePresence>
+
+//         {/* ── MOBILE ORDER SUMMARY ── */}
+//         <div className="lg:hidden mt-5">
+//           <OrderSummary {...summaryProps} />
+//         </div>
+
+//         {/* ── NAV BUTTONS ── */}
+//         <div className="flex gap-3 mt-6">
+//           {currentStep > 1 && (
+//             <button onClick={goPrev}
+//               className="px-7 py-3.5 rounded-full border-2 border-rose-200 text-sm font-bold text-[#C2556A] hover:bg-rose-50 transition-all">
+//               ← Back
+//             </button>
+//           )}
+
+//           {currentStep < 4 ? (
+//             <button onClick={goNext} disabled={!canProceed()}
+//               className="flex-1 py-3.5 rounded-full text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed disabled:translate-y-0"
+//               style={{ background: CTA_BG }}>
+//               {currentStep === 1 ? "Continue: Choose Items →" :
+//                currentStep === 2 ? "Continue: Add Message →"  :
+//                "Continue: Review Hamper →"}
+//             </button>
+//           ) : (
+//             <button onClick={handleAddToCart}
+//               disabled={!selectedBoxData || selectedItemsData.length === 0}
+//               className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-full text-base font-bold text-white transition-all hover:-translate-y-0.5 hover:shadow-xl disabled:opacity-40 disabled:cursor-not-allowed"
+//               style={{ background: CTA_BG }}>
+//               <ShoppingCart size={17} />
+//               {editMode ? "Update Hamper 🎁" : "Add to Cart 🎁"}
+//             </button>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }

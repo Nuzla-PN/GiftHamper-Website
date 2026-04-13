@@ -1290,7 +1290,7 @@ import {
 import { couponsConfig } from "../data/dataConfig";
 import { HamperCartCard } from "../components/HamperCart";
 
-/* ─── CONSTANTS ──────────────────────────────────────────────── */
+//  CONSTANTS
 const FREE_DELIVERY_THRESHOLD = 999;
 const DELIVERY_FEE            = 79;
 const COMBINE_PACKING_CHARGE  = 99;
@@ -1318,9 +1318,9 @@ function SectionLabel({ icon, label, count, color = "#C2556A", bg = "#FFF0F3", b
   );
 }
 
-/* ════════════════════════════════════════════════════════════════
-   CART PAGE
-════════════════════════════════════════════════════════════════ */
+
+  //  CART PAGE
+
 export default function CartPage() {
   const dispatch  = useDispatch();
   const navigate  = useNavigate();
@@ -1429,7 +1429,7 @@ export default function CartPage() {
 
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 pb-32 lg:pb-10">
 
-        {/* FREE DELIVERY NUDGE */}
+        {/* FREE DELIVERY */}
         {deliveryFee > 0 ? (
           <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
             className="mb-5 bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 flex items-center gap-2.5 text-sm font-medium text-amber-800">
@@ -1446,9 +1446,9 @@ export default function CartPage() {
 
         <div className="flex flex-col lg:flex-row gap-6 items-start">
 
-          {/* ══════════════════════════════════════════
-              LEFT — CART ITEMS
-          ══════════════════════════════════════════ */}
+         
+              {/* LEFT — CART ITEMS */}
+       
           <div className="flex-1 min-w-0 space-y-4">
 
             {/* Out-of-stock warning */}
@@ -1459,9 +1459,9 @@ export default function CartPage() {
               </div>
             )}
 
-            {/* ════════════════════════════════════
-                SECTION A — CUSTOM HAMPERS
-            ════════════════════════════════════ */}
+           
+                 {/* CUSTOM HAMPERS */}
+           
             {hasHampers && (
               <div>
                 <SectionLabel
@@ -1501,9 +1501,9 @@ export default function CartPage() {
               </div>
             )}
 
-            {/* ════════════════════════════════════
-                SECTION B — INDIVIDUAL PRODUCTS
-            ════════════════════════════════════ */}
+           
+                {/* SECTION B — INDIVIDUAL PRODUCTS */}
+           
             {hasNormal && (
               <div>
                 <SectionLabel

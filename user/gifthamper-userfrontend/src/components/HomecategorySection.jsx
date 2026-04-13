@@ -577,9 +577,7 @@ export default function HomePage() {
         </Swiper>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          §2  MARQUEE — blush pink ribbon
-      ════════════════════════════════════════════════════════ */}
+      
       <div className="overflow-hidden py-3" style={{ background: "linear-gradient(90deg, #C2556A, #E8956D, #C2556A)" }}>
         <motion.div
           animate={{ x: ["0%", "-50%"] }}
@@ -594,9 +592,9 @@ export default function HomePage() {
         </motion.div>
       </div>
 
-      {/* ════════════════════════════════════════════════════════
-          §3  SHOP BY OCCASION
-      ════════════════════════════════════════════════════════ */}
+      
+            {/* SHOP BY OCCASION */}
+      
       <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} variants={stagger}>
           <motion.div variants={fadeUp()}>
@@ -627,9 +625,9 @@ export default function HomePage() {
 
       <Rule />
 
-      {/* ════════════════════════════════════════════════════════
-          §4  FEATURED HAMPERS — soft blush bg
-      ════════════════════════════════════════════════════════ */}
+     
+           {/* FEATURED HAMPERS  */}
+     
       <section className="py-16 sm:py-20" style={{ background: "linear-gradient(135deg, #FDF0F0 0%, #FEF5EC 100%)" }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} variants={stagger}>
@@ -648,9 +646,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          §5  WHY CHOOSE US — cute icon cards
-      ════════════════════════════════════════════════════════ */}
+      
+          {/* WHY CHOOSE US  */}
+     
       <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
           <motion.div variants={fadeUp()} className="text-center mb-10">
@@ -680,9 +678,9 @@ export default function HomePage() {
 
       <Rule />
 
-      {/* ════════════════════════════════════════════════════════
-          §6  SHOP BY RECIPIENT
-      ════════════════════════════════════════════════════════ */}
+      
+          {/* SHOP BY RECIPIENT */}
+      
       <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true, margin: "-60px" }} variants={stagger}>
           <motion.div variants={fadeUp()}>
@@ -709,9 +707,9 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          §7  FESTIVAL SPECIALS — warm peach gradient section
-      ════════════════════════════════════════════════════════ */}
+   
+        {/* FESTIVAL SPECIALS  */}
+    
       <section className="relative overflow-hidden py-16 sm:py-20" style={{ background: "linear-gradient(135deg, #3B2A35 0%, #6B3A4A 50%, #9B4A5A 100%)" }}>
         {/* soft sparkle dots */}
         <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: CONFETTI_TEXTURE }} />
@@ -741,9 +739,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          §8  TOP SELLERS
-      ════════════════════════════════════════════════════════ */}
+     
+         {/* TOP SELLERS */}
+    
       <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}>
           <motion.div variants={fadeUp()} className="text-center mb-10">
@@ -761,9 +759,9 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      {/* ════════════════════════════════════════════════════════
-          §9  CUSTOM HAMPER CTA — warm mulberry banner
-      ════════════════════════════════════════════════════════ */}
+  
+          {/* CUSTOM HAMPER  */}
+     
       <section className="pb-20 sm:pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
           <div

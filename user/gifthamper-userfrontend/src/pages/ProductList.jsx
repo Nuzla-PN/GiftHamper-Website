@@ -1386,6 +1386,13 @@ export default function ProductListing() {
     return urlMatch;
   });
 
+  const type = params.get("type");
+  if (type) {
+  filteredProducts = filteredProducts.filter((p) =>
+    p.giftTypes?.includes(type)
+  );
+}
+
   if (selectedValues.length > 0) {
     filteredProducts = filteredProducts.filter((product) =>
       selectedValues.some((value) => matchesFilter(product, value))

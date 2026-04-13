@@ -12,6 +12,8 @@ import GreetingCardSelection from "../pages/GreetingCardSelection.jsx";
 import CustomizeProduct from "../pages/CustomizeProduct.jsx";
 import CartPage from "../pages/Cart.jsx";
 import WishlistPage from "../pages/Wishlist.jsx";
+import Footer from "../components/Footer.jsx";
+import MyOrdersPage from "../pages/Orders.jsx";
 
 
 
@@ -32,8 +34,10 @@ const AppRoutes = ()=>{
       <Route path = "/greeting-card/:id" element = {<GreetingCardSelection/>}/>
       <Route path = "/wishlist" element={<WishlistPage/>}/>
       <Route path = "/cart" element={<CartPage/>}/>
+      <Route path = "/orders" element={<MyOrdersPage/>}/>
       <Route path="/seller/:sellerName" element={<SellerPage/>} />
 </Routes>
+<Footer/>
 </>
   );
 };

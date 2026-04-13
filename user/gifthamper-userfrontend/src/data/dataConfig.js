@@ -20,52 +20,17 @@ import {
   IndianRupee,
 } from "lucide-react";
 
+//in homepage
 export const categoryConfig = {
   Occasion: {
     name: "Occasion",
     items: [
-      {
-        id: "birthday",
-        title: "Birthday",
-        icon: Cake,
-        image:
-          "https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400",
-      },
-      {
-        id: "anniversary",
-        title: "Anniversary",
-        icon: Heart,
-        image:
-          "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400",
-      },
-      {
-        id: "wedding",
-        title: "Wedding",
-        icon: Sparkles,
-        image:
-          "https://images.unsplash.com/photo-1519741497674-611481863552?w=400",
-      },
-      {
-        id: "baby-shower",
-        title: "Baby Shower",
-        icon: Baby,
-        image:
-          "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400",
-      },
-      {
-        id: "graduation",
-        title: "Graduation",
-        icon: GraduationCap,
-        image:
-          "https://images.unsplash.com/photo-1623461487986-9400110de28e",
-      },
-      {
-        id: "housewarming",
-        title: "Housewarming",
-        icon: HomeIcon,
-        image:
-          "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400",
-      },
+      {id: "birthday",title: "Birthday",icon: Cake, image:"https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400",},
+      {id: "anniversary",title: "Anniversary",icon: Heart,image:"https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400",},
+      {id: "wedding",title: "Wedding",icon: Sparkles,image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=400",},
+      {id: "baby-shower",title: "Baby Shower",icon: Baby,image: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=400",},
+      {id: "graduation",title: "Graduation",icon: GraduationCap,image: "https://images.unsplash.com/photo-1623461487986-9400110de28e",},
+      {id: "housewarming",title: "Housewarming",icon: HomeIcon,image:"https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400",},
     ],
   },
 
@@ -102,11 +67,11 @@ export const categoryConfig = {
       { id: "NamePlates", title: "NamePlates", icon: Sparkles },
       { id: "Stationary", title: "Stationary", icon: Type },
       { id: "chocolate", title: "Chocolate Hamper", icon: Cookie },
-      { id: "snacks", title: "Snack Hamper", icon: Cookie },
-      { id: "dry-fruits", title: "Dry Fruit Hamper", icon: Grape },
-      { id: "coffee-tea", title: "Coffee & Tea", icon: Coffee },
-      { id: "self-care", title: "Self Care", icon: Sparkles },
-      { id: "personalized", title: "Personalized", icon: Type },
+      { id: "Snack Hamper", title: "Snack Hamper", icon: Cookie },
+      { id: "Dry Fruit Hamper", title: "Dry Fruit Hamper", icon: Grape },
+      { id: "Coffee & Tea", title: "Coffee & Tea", icon: Coffee },
+      { id: "Self Care", title: "Self Care", icon: Sparkles },
+      { id: "Personalized", title: "Personalized", icon: Type },
       { id: "wellness", title: "Wellness", icon: Leaf },
     ],
   },
