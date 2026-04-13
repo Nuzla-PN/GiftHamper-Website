@@ -465,12 +465,12 @@ function OrderCard({ order, onReview, onReorder, onCancel }) {
             }}
     >
       {/* ── ORDER HEADER ── */}
-      <div className="px-4 sm:px-5 py-4 border-b border-rose-50"
+      <div className="px-5 sm:px-6 py-5 border-b border-rose-50 space-y-3"
         style={{ background: "linear-gradient(135deg,#FFF8F9,#FFFAF5)" }}>
         <div className="flex items-start justify-between flex-wrap gap-3">
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-xs font-bold text-[#3B2A35] tracking-wide">{order.id}</span>
+              <span className="bg-rose-50 px-2 py-1 rounded-md text-xs font-bold text-[#C2556A]">{order.id}</span>
               <span className="w-1 h-1 rounded-full bg-rose-200 hidden sm:block" />
               <span className="text-xs text-rose-900/40">Placed {formatDate(order.placedOn)}</span>
               {order.deliveredOn && (
@@ -573,15 +573,15 @@ function OrderCard({ order, onReview, onReorder, onCancel }) {
       </div>
 
       {/* ── ITEMS PREVIEW ── */}
-      <div className="divide-y divide-rose-50">
+      <div className="space-y-4 px-4 sm:px-5 py-4">
         {(expanded ? order.items : order.items.slice(0, 2)).map((item) => {
           const reviewed = localReviews[item.id] || item.review;
           const disc     = item.originalPrice && item.originalPrice > item.price
             ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)
             : null;
           return (
-            <div key={item.id} className="px-4 sm:px-5 py-4">
-              <div className="flex gap-3 sm:gap-4">
+            <div key={item.id} className="bg-[#FEF9F5] rounded-2xl p-4 border border-rose-100">
+              <div className="flex gap-4 sm:gap-5 items-start">
                 {/* Image */}
                 <Link to={`/products/${item.id}`}>
                   <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-[#FFF8F6] border border-rose-100 shrink-0 flex items-center justify-center">
@@ -591,7 +591,7 @@ function OrderCard({ order, onReview, onReorder, onCancel }) {
                 </Link>
 
                 {/* Info */}
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 space-y-2">
                   <Link to={`/products/${item.id}`}>
                     <p className="text-sm font-bold text-[#3B2A35] hover:text-[#C2556A] transition-colors line-clamp-2 leading-snug">
                       {item.title}
@@ -631,7 +631,7 @@ function OrderCard({ order, onReview, onReorder, onCancel }) {
                   )}
 
                   {/* Action buttons */}
-                  <div className="flex flex-wrap gap-2 mt-2.5">
+                  <div className="flex flex-wrap gap-3 mt-3">
                     {isDelivered && !reviewed && (
                       <button
                         onClick={() => setReviewingItem(item)}
@@ -696,7 +696,7 @@ function OrderCard({ order, onReview, onReorder, onCancel }) {
         </div>
 
         {/* Action buttons strip */}
-        <div className="flex border-t border-rose-50 divide-x divide-rose-50">
+        <div className="flex border-t border-rose-50 divide-x divide-rose-50 mt-2">
           {isActive && order.timeline && (
             <button
               onClick={() => setShowTracking(!showTracking)}
@@ -935,7 +935,7 @@ export default function MyOrdersPage() {
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 pb-16">
 
         {/* ── SEARCH + FILTER + SORT BAR ── */}
-        <div className="bg-white rounded-2xl border border-rose-100 shadow-sm mb-5 overflow-hidden">
+        <div className="bg-white rounded-3xl border border-rose-100 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300 p-1">
 
           {/* Search */}
           <div className="px-4 pt-4 pb-3">
@@ -1078,7 +1078,7 @@ export default function MyOrdersPage() {
         <div className="mt-8 bg-white rounded-2xl border border-rose-100 p-6 text-center">
           <p className="text-sm font-semibold text-rose-900/50 mb-3">Looking for something special?</p>
           <Link to="/products"
-            className="inline-flex items-center gap-2 px-8 py-3 rounded-full font-bold text-sm text-white hover:shadow-lg hover:-translate-y-0.5 transition-all"
+            className="inline-flex items-center gap-2 px-8 py-3 rounded-full font-bold text-sm text-white hover:shadow-md hover:-translate-y-0.5 transition-all"
             style={{ background: "linear-gradient(135deg,#C2556A,#E8956D)" }}>
             <Gift size={15} /> Browse Hampers <ArrowRight size={14} />
           </Link>
