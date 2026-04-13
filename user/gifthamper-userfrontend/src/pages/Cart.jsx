@@ -1289,11 +1289,15 @@ import {
 } from "lucide-react";
 import { couponsConfig } from "../data/dataConfig";
 import { HamperCartCard } from "../components/HamperCart";
+import { placeOrder } from "../features/orders/orderSlice";
 
 //  CONSTANTS
 const FREE_DELIVERY_THRESHOLD = 999;
 const DELIVERY_FEE            = 79;
 const COMBINE_PACKING_CHARGE  = 99;
+
+
+
 
 function discountPct(price, originalPrice) {
   if (!originalPrice || originalPrice <= price) return null;
@@ -1325,7 +1329,11 @@ export default function CartPage() {
   const dispatch  = useDispatch();
   const navigate  = useNavigate();
   const cartItems = useSelector((state) => state.cart.items);
-
+  
+  const cartTotal = cartItems.reduce(
+    (total, item) => total + item.totalPrice,
+    0
+  );
   const hamperItems = cartItems.filter((i) => i.type === "hamper");
   const normalItems = cartItems.filter((i) => i.type !== "hamper");
 
@@ -1342,6 +1350,37 @@ export default function CartPage() {
       .filter((item) => item.type !== "hamper");
     navigate("/custom-hamper", { state: { fromCart: true, cartItems: normalItemsWithIndex } });
   };
+
+  const handlePlaceOrder = () => {
+  dispatch(placeOrder({
+    id: "ORD-" + Date.now(),
+    placedOn: new Date().toISOString(),
+    status: "placed",
+
+    items: cartItems.map(item => ({
+      id: item.id,
+      title: item.title,
+      image: item.image,
+      price: item.price,
+      qty: item.quantity,
+      sellerName: item.sellerName,
+    })),
+
+    total: cartTotal,
+    paymentMethod: "COD",
+
+    timeline: [
+      {
+        status: "placed",
+        time: new Date().toISOString(),
+        note: "Order placed successfully",
+      },
+    ],
+  }));
+
+  dispatch(clearCart()); // optional but recommended
+  navigate("/orders"); // redirect
+};
 
   /* ── Seller grouping ── */
   const groupedBySeller = useMemo(() => {
@@ -1956,11 +1995,12 @@ export default function CartPage() {
               </div>
 
               <div className="px-5 pb-5">
-                <Link to="/checkout"
+                <button  onClick={handlePlaceOrder}
+                
                   className="block w-full text-center py-4 rounded-full font-bold text-base text-white transition-all hover:shadow-xl hover:-translate-y-0.5"
                   style={{ background: "linear-gradient(135deg,#C2556A,#E8956D)" }}>
-                  Proceed to Checkout →
-                </Link>
+                  Place Order
+                </button>
                 <p className="text-xs text-center text-rose-900/35 mt-2 flex items-center justify-center gap-1">
                   <Shield size={11} /> Secured by 256-bit SSL encryption
                 </p>
@@ -2003,11 +2043,13 @@ export default function CartPage() {
               Save ₹{(savedAmount + couponDiscount).toLocaleString()}
             </span>
           )}
-          <Link to="/checkout"
-            className="ml-auto px-7 py-3.5 rounded-full font-bold text-sm text-white transition-all hover:shadow-lg"
-            style={{ background: "linear-gradient(135deg,#C2556A,#E8956D)" }}>
-            Checkout →
-          </Link>
+          <button
+            onClick={handlePlaceOrder}
+            className="w-full px-7 py-3.5 rounded-full font-bold text-sm text-white"
+            style={{ background: "linear-gradient(135deg,#C2556A,#E8956D)" }}
+          >
+            Place Order
+          </button>
         </div>
       </div>
     </div>
