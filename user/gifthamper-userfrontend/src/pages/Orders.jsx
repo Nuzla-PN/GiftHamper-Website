@@ -459,7 +459,10 @@ function OrderCard({ order, onReview, onReorder, onCancel }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.97 }}
-      className="bg-white rounded-2xl border border-rose-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-300"
+     className="bg-white rounded-3xl border border-rose-200 shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
+            style={{
+            boxShadow: "0 10px 25px rgba(194,85,106,0.08)",
+            }}
     >
       {/* ── ORDER HEADER ── */}
       <div className="px-4 sm:px-5 py-4 border-b border-rose-50"
@@ -502,12 +505,36 @@ function OrderCard({ order, onReview, onReorder, onCancel }) {
         {isActive && !isCancelled && (
           <div className="mt-4">
             <div className="flex justify-between mb-1.5">
-              {["Placed","Confirmed","Shipped","Out for Delivery","Delivered"].map((l, i) => (
-                <span key={l} className="text-[9px] font-semibold text-center"
-                  style={{ color: cfg.step > i ? "#C2556A" : "#bdbdbd", width: "18%" }}>
-                  {l}
-                </span>
-              ))}
+             {[
+                { label: "Placed", icon: ShoppingBag },
+                { label: "Confirmed", icon: CheckCircle },
+                { label: "Shipped", icon: Truck },
+                { label: "Out for Delivery", icon: Truck },
+                { label: "Delivered", icon: CheckCircle },
+                ].map((step, i) => {
+                const Icon = step.icon;
+                const active = cfg.step > i;
+
+                return (
+                    <div key={i} className="flex flex-col items-center w-[18%]">
+                    <div
+                        className="w-6 h-6 flex items-center justify-center rounded-full"
+                        style={{
+                        background: active ? "#C2556A" : "#eee",
+                        color: active ? "#fff" : "#aaa",
+                        }}
+                    >
+                        <Icon size={12} />
+                    </div>
+                    <span
+                        className="text-[9px] mt-1 font-semibold"
+                        style={{ color: active ? "#C2556A" : "#bdbdbd" }}
+                    >
+                        {step.label}
+                    </span>
+                    </div>
+                );
+                })}
             </div>
             <div className="h-1.5 rounded-full overflow-hidden bg-rose-100">
               <motion.div
@@ -1002,13 +1029,21 @@ export default function MyOrdersPage() {
         </p>
 
         {/* ── ORDER CARDS ── */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           <AnimatePresence>
             {filtered.map((order, index) => (
               <motion.div key={order.id}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.06 }}>
+              
+                 whileHover={{ y: -4 }}   // ✅ ADD HERE (hover effect)
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.97 }}
+                    className="relative bg-white rounded-3xl border border-rose-200 shadow-md overflow-hidden hover:shadow-xl transition-all duration-300"
+                    style={{ boxShadow: "0 10px 25px rgba(194,85,106,0.08)" }}
+                transition={{ delay: index * 0.06 }}> 
+                <div className="absolute left-0 top-0 h-full w-1.5 rounded-l-3xl"
+       style={{ background: "linear-gradient(#C2556A,#E8956D)" }} />
                 <OrderCard
                   order={order}
                   onReorder={handleReorder}
