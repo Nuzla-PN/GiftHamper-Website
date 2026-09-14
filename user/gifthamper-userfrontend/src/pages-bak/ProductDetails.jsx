@@ -28,6 +28,7 @@ import {
 import ProductCard from "../components/ProductCard";
 import { couponsConfig } from "../data/dataConfig";
 import { addtoCart } from "../features/cart/cartSlice";
+import { toggleWishlist } from "../features/wishlist/wishlistSlice";
 
 const savedAddresses = [
   {
@@ -118,7 +119,7 @@ const [cardMessage, setCardMessage] = useState("");
   customColor ||
   hasCustomImage;
 
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const isWishlisted = useSelector((state) => state.wishlist.items.some((item) => item.id === product?.id));
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchEndX, setTouchEndX] = useState(0);
@@ -334,7 +335,7 @@ relatedProducts = relatedProducts.slice(0, 4);
             />
 
             <button
-              onClick={() => setIsWishlisted(!isWishlisted)}
+              onClick={() => dispatch(toggleWishlist({ id: product.id, title: product.title, price: product.price, originalPrice: product.originalPrice, image: product.image, stock: product.stock }))}
               className="absolute top-4 right-4 bg-white p-3 rounded-full shadow"
             >
               <Heart

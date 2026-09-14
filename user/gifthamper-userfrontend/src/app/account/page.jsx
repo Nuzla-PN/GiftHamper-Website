@@ -3,6 +3,7 @@
 import { useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Package,
   Star,
@@ -19,6 +20,8 @@ import {
   Edit3,
   ShoppingBag,
 } from "lucide-react";
+import { removeFromWishlist } from "../../features/wishlist/wishlistSlice";
+import { addtoCart } from "../../features/cart/cartSlice";
 
 const tabs = [
   { id: "orders", label: "Order History", icon: Package },
@@ -316,16 +319,53 @@ function AddressesTab() {
 }
 
 function WishlistTab() {
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+
+  const handleAddToCart = (item) => {
+    dispatch(addtoCart({
+      id: item.id,
+      name: item.name,
+      image: item.image,
+      price: item.price,
+      originalPrice: item.originalPrice,
+      quantity: 1,
+      totalPrice: item.price,
+      stock: item.inStock ? 10 : 0,
+      addons: {},
+    }));
+  };
+
+  if (wishlistItems.length === 0) {
+    return (
+      <div className="text-center py-16">
+        <Heart className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">Your wishlist is empty</h3>
+        <p className="text-sm text-gray-500 mb-6">Browse products and add your favorites to the wishlist</p>
+        <Link href="/products" className="inline-flex items-center px-5 py-2.5 rounded-lg bg-[#8B3A62] text-white text-sm font-semibold hover:bg-[#6E2D4D] transition-colors">
+          Browse Products
+        </Link>
+      </div>
+    );
+  }
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-      {mockWishlist.map((item) => (
+      {wishlistItems.map((item) => (
         <div
           key={item.id}
           className="bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-md transition-shadow group"
         >
           <div className="relative bg-[#FDF5F3] p-4 flex items-center justify-center h-40">
-            <ShoppingBag className="w-16 h-16 text-[#8B3A62] opacity-30 group-hover:opacity-50 transition-opacity" />
-            <button className="absolute top-3 right-3 p-1.5 rounded-full bg-white shadow-sm hover:bg-red-50 transition-colors">
+            {item.image ? (
+              <img src={item.image} alt={item.name} className="w-full h-full object-contain" />
+            ) : (
+              <ShoppingBag className="w-16 h-16 text-[#8B3A62] opacity-30 group-hover:opacity-50 transition-opacity" />
+            )}
+            <button
+              onClick={() => dispatch(removeFromWishlist(item.id))}
+              className="absolute top-3 right-3 p-1.5 rounded-full bg-white shadow-sm hover:bg-red-50 transition-colors"
+            >
               <Trash2 className="w-3.5 h-3.5 text-red-500" />
             </button>
             {!item.inStock && (
@@ -344,12 +384,15 @@ function WishlistTab() {
               <span className="text-sm font-bold text-[#8B3A62]">
                 ₹{item.price.toLocaleString("en-IN")}
               </span>
-              <span className="text-xs text-gray-400 line-through">
-                ₹{item.originalPrice.toLocaleString("en-IN")}
-              </span>
+              {item.originalPrice > 0 && (
+                <span className="text-xs text-gray-400 line-through">
+                  ₹{item.originalPrice.toLocaleString("en-IN")}
+                </span>
+              )}
             </div>
             <button
               disabled={!item.inStock}
+              onClick={() => handleAddToCart(item)}
               className={`w-full mt-3 py-2 rounded-lg text-xs font-semibold transition-all ${
                 item.inStock
                   ? "bg-[#8B3A62] text-white hover:bg-[#6E2D4D]"

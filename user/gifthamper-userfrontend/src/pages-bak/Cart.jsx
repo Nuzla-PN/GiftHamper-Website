@@ -1976,7 +1976,7 @@ export default function CartPage() {
               Save ₹{(savedAmount + couponDiscount).toLocaleString()}
             </span>
           )}
-          <Link to="/checkout"
+          <Link href="/checkout"
             className="ml-auto px-7 py-3 rounded-full font-bold text-sm text-white transition-all hover:shadow-lg"
             style={{ background: "linear-gradient(135deg,#C2556A,#E8956D)" }}>
             Checkout →

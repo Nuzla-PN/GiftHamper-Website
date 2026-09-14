@@ -614,6 +614,8 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Heart, Check, ShoppingCart } from "lucide-react";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleWishlist } from "../features/wishlist/wishlistSlice";
 
 export default function ProductCard({
   id = "",
@@ -626,12 +628,14 @@ export default function ProductCard({
   reviews = 0,
   mainCategory,
   subCategory,
+  stock = 10,
   showSelect = false,
   isSelected = false,
   onSelect,
   viewMode = "grid",
 }) {
-  const [isWishlisted, setIsWishlisted] = useState(false);
+  const dispatch = useDispatch();
+  const isWishlisted = useSelector((state) => state.wishlist.items.some((item) => item.id === id));
   const [hovered, setHovered] = useState(false);
 
   const discountPercent =
@@ -784,7 +788,7 @@ export default function ProductCard({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              setIsWishlisted(!isWishlisted);
+              dispatch(toggleWishlist({ id, title, price, originalPrice, image, stock }));
             }}
             style={{
               position: "absolute",

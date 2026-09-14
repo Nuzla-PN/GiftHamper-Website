@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 import {
   Search,
   Heart,
@@ -43,6 +44,9 @@ export default function Navbar() {
   const [isMobile, setIsMobile] = useState(false);
   const [mobileActiveDropdown, setMobileActiveDropdown] = useState(null);
   const navigate = useRouter();
+
+  const cartCount = useSelector((state) => state.cart.items.reduce((sum, item) => sum + item.quantity, 0));
+  const wishlistCount = useSelector((state) => state.wishlist.items.length);
   
  
   useEffect(() => {
@@ -187,10 +191,12 @@ const priceRangeCategories = priceConfig.map((item) => ({
               </button>
 
               
-              <button className="relative p-2 text-gray-700 hover:text-[#8B3A62] transition-colors">
+              <Link href="/account?tab=wishlist" className="relative p-2 text-gray-700 hover:text-[#8B3A62] transition-colors">
                 <Heart className="w-6 h-6" />
-                <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium"></span>
-              </button>
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">{wishlistCount}</span>
+                )}
+              </Link>
 
               
               <button onClick={() => {
@@ -198,7 +204,9 @@ const priceRangeCategories = priceConfig.map((item) => ({
                       navigate.push("/cart");
                     }}className="relative p-2 text-gray-700 hover:text-[#8B3A62] transition-colors">
                 <ShoppingCart className="w-6 h-6" />
-                <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium"></span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-[#D4AF37] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">{cartCount}</span>
+                )}
               </button>
 
               
