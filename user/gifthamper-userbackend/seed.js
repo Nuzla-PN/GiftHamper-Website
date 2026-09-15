@@ -8,11 +8,11 @@ const GreetingCard = require("./models/GreetingCard");
 const Coupon = require("./models/Coupon");
 
 const sellers = [
-  { name: "Sweet Delights", description: "Premium chocolates and confectionery", rating: 4.8, reviews: 156, productsCount: 12 },
-  { name: "Nature's Basket", description: "Organic dry fruits and health foods", rating: 4.6, reviews: 98, productsCount: 8 },
-  { name: "GiftGuru", description: "Curated gift hampers for every occasion", rating: 4.7, reviews: 210, productsCount: 15 },
-  { name: "Wellness Hub", description: "Self-care and wellness products", rating: 4.5, reviews: 75, productsCount: 6 },
-  { name: "Coffee House", description: "Premium coffee and tea collections", rating: 4.4, reviews: 62, productsCount: 5 },
+  { name: "Sweet Delights", email: "sweetdelights@gifthamper.com", password: "seller123", description: "Premium chocolates and confectionery", rating: 4.8, reviews: 156, productsCount: 12 },
+  { name: "Nature's Basket", email: "naturesbasket@gifthamper.com", password: "seller123", description: "Organic dry fruits and health foods", rating: 4.6, reviews: 98, productsCount: 8 },
+  { name: "GiftGuru", email: "giftguru@gifthamper.com", password: "seller123", description: "Curated gift hampers for every occasion", rating: 4.7, reviews: 210, productsCount: 15 },
+  { name: "Wellness Hub", email: "wellnesshub@gifthamper.com", password: "seller123", description: "Self-care and wellness products", rating: 4.5, reviews: 75, productsCount: 6 },
+  { name: "Coffee House", email: "coffeehouse@gifthamper.com", password: "seller123", description: "Premium coffee and tea collections", rating: 4.4, reviews: 62, productsCount: 5 },
 ];
 
 const products = [

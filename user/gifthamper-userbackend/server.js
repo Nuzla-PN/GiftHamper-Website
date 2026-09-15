@@ -16,7 +16,7 @@ app.use("/api/orders", require("./routes/order"));
 app.use("/api/reviews", require("./routes/review"));
 app.use("/api/addresses", require("./routes/address"));
 app.use("/api/wishlist", require("./routes/wishlist"));
-app.use("/api/sellers", require("./routes/seller"));
+app.use("/api/sellers", require("./routes/sellers"));
 app.use("/api/addons", require("./routes/addon"));
 
 app.get("/", (req, res) => res.json({ message: "GiftHamper API Running" }));
