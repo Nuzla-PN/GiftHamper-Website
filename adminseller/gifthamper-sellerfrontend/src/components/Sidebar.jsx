@@ -2,9 +2,19 @@
 
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
-import { LayoutDashboard, Package, ShoppingCart, User, LogOut, Gift } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  User,
+  LogOut,
+  Gift,
+  ChevronLeft,
+  ChevronRight,
+} from 'lucide-react';
+import { useState } from 'react';
 
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -17,37 +27,52 @@ export default function Sidebar({ isOpen, onClose }) {
   const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
+  const { seller } = useSelector((state) => state.auth);
+  const [collapsed, setCollapsed] = useState(false);
 
   const handleLogout = () => {
     dispatch(logout());
     router.push('/login');
   };
 
+  const sidebarWidth = collapsed ? 'w-[72px]' : 'w-[240px]';
+
   return (
     <>
+      {/* Mobile overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden transition-opacity"
           onClick={onClose}
         />
       )}
 
+      {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 z-50 h-full w-64 bg-white border-r border-gray-200 transform transition-transform duration-300 lg:translate-x-0 lg:static lg:z-auto ${
+        className={`fixed top-0 left-0 z-50 h-full ${sidebarWidth} bg-[#1A1A2E] transform transition-all duration-300 lg:translate-x-0 lg:static lg:z-auto flex flex-col ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center gap-3 px-6 py-5 border-b border-gray-100">
-          <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-            <Gift className="w-6 h-6 text-white" />
+        {/* Brand */}
+        <div className="flex items-center gap-3 px-5 h-16 border-b border-white/10 flex-shrink-0">
+          <div
+            className="w-9 h-9 flex items-center justify-center flex-shrink-0"
+            style={{ background: '#8B3A62' }}
+          >
+            <Gift className="w-5 h-5 text-white" />
           </div>
-          <div>
-            <h1 className="text-lg font-bold text-primary">GiftHamper</h1>
-            <p className="text-xs text-gray-400">Seller Portal</p>
-          </div>
+          {!collapsed && (
+            <div className="overflow-hidden">
+              <h1 className="text-sm font-bold text-white whitespace-nowrap">GiftHamper</h1>
+              <p className="text-[9px] font-semibold uppercase tracking-[0.15em] text-gray-500">
+                Seller Portal
+              </p>
+            </div>
+          )}
         </div>
 
-        <nav className="px-4 py-6 space-y-1">
+        {/* Navigation */}
+        <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -56,28 +81,54 @@ export default function Sidebar({ isOpen, onClose }) {
                 key={item.href}
                 href={item.href}
                 onClick={onClose}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 ${
-                  isActive
-                    ? 'bg-primary text-white'
-                    : 'text-gray-600 hover:bg-gray-50 hover:text-primary'
+                className={`nav-item ${isActive ? 'active' : ''} ${
+                  collapsed ? 'justify-center px-0' : ''
                 }`}
+                title={collapsed ? item.label : undefined}
               >
-                <Icon className="w-5 h-5" />
-                <span className="font-medium">{item.label}</span>
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                {!collapsed && <span className="font-medium">{item.label}</span>}
               </Link>
             );
           })}
         </nav>
 
-        <div className="absolute bottom-0 left-0 right-0 px-4 py-4 border-t border-gray-100">
+        {/* User section */}
+        <div className="border-t border-white/10 p-3 flex-shrink-0">
+          {!collapsed && seller && (
+            <div className="flex items-center gap-3 px-3 py-2 mb-2">
+              <div
+                className="w-8 h-8 flex items-center justify-center flex-shrink-0 text-white text-xs font-bold"
+                style={{ background: '#8B3A62' }}
+              >
+                {seller.name?.charAt(0)?.toUpperCase() || 'S'}
+              </div>
+              <div className="overflow-hidden">
+                <p className="text-xs font-medium text-white truncate">{seller.name}</p>
+                <p className="text-[10px] text-gray-500 truncate">{seller.email}</p>
+              </div>
+            </div>
+          )}
+
           <button
             onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-gray-600 hover:bg-red-50 hover:text-red-500 transition-colors duration-200"
+            className={`flex items-center gap-3 w-full px-3 py-2.5 text-sm text-gray-400 hover:text-red-400 hover:bg-white/5 transition-all duration-200 ${
+              collapsed ? 'justify-center' : ''
+            }`}
+            title={collapsed ? 'Logout' : undefined}
           >
-            <LogOut className="w-5 h-5" />
-            <span className="font-medium">Logout</span>
+            <LogOut className="w-5 h-5 flex-shrink-0" />
+            {!collapsed && <span className="font-medium">Logout</span>}
           </button>
         </div>
+
+        {/* Collapse toggle — desktop only */}
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="hidden lg:flex items-center justify-center h-10 border-t border-white/10 text-gray-500 hover:text-white hover:bg-white/5 transition-all duration-200"
+        >
+          {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
+        </button>
       </aside>
     </>
   );

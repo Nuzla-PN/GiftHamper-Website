@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateProfile } from '../../../features/auth/authSlice';
-import { User, Mail, FileText, Image, Loader2, Save } from 'lucide-react';
+import { User, Mail, FileText, Image, Loader2, Save, CheckCircle } from 'lucide-react';
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
@@ -36,14 +36,21 @@ export default function ProfilePage() {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6">
+      {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-800">Profile</h1>
-        <p className="text-gray-500 mt-1">Manage your seller profile</p>
+        <span className="section-badge">Profile</span>
+        <h1 className="text-2xl font-bold text-gray-900 mt-3">Profile</h1>
+        <p className="text-sm text-gray-500 mt-1">Manage your seller profile</p>
       </div>
 
+      {/* Profile card */}
       <div className="card">
-        <div className="flex items-center gap-4 mb-8 pb-6 border-b border-gray-100">
-          <div className="w-20 h-20 bg-primary rounded-full flex items-center justify-center overflow-hidden">
+        {/* Avatar + info header */}
+        <div className="flex items-center gap-5 mb-8 pb-6 border-b border-gray-100">
+          <div
+            className="w-20 h-20 flex items-center justify-center overflow-hidden flex-shrink-0"
+            style={{ background: '#8B3A62' }}
+          >
             {form.avatar ? (
               <img src={form.avatar} alt="Avatar" className="w-full h-full object-cover" />
             ) : (
@@ -53,22 +60,30 @@ export default function ProfilePage() {
             )}
           </div>
           <div>
-            <h2 className="text-xl font-semibold text-gray-800">{seller?.name}</h2>
-            <p className="text-gray-400">{seller?.email}</p>
+            <h2 className="text-xl font-bold text-gray-900">{seller?.name}</h2>
+            <p className="text-sm text-gray-400">{seller?.email}</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.15em] mt-1" style={{ color: '#D4AF37' }}>
+              Seller Account
+            </p>
           </div>
         </div>
 
+        {/* Success message */}
         {saved && (
-          <div className="bg-green-50 border border-green-200 text-green-600 px-4 py-3 rounded-lg mb-4 text-sm">
+          <div className="flex items-center gap-2 border border-emerald-200 bg-emerald-50 text-emerald-600 px-4 py-3 text-sm mb-6">
+            <CheckCircle className="w-4 h-4 flex-shrink-0" />
             Profile updated successfully!
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Name */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+            <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-500 mb-2">
+              Full Name
+            </label>
             <div className="relative">
-              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="text"
                 required
@@ -79,24 +94,32 @@ export default function ProfilePage() {
             </div>
           </div>
 
+          {/* Email (disabled) */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-500 mb-2">
+              Email Address
+            </label>
             <div className="relative">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="email"
                 disabled
-                className="input-field pl-10 bg-gray-50 text-gray-500 cursor-not-allowed"
+                className="input-field pl-10 bg-gray-50 text-gray-400 cursor-not-allowed"
                 value={seller?.email || ''}
               />
             </div>
-            <p className="text-xs text-gray-400 mt-1">Email cannot be changed</p>
+            <p className="text-[10px] text-gray-400 mt-1.5 uppercase tracking-wider">
+              Email cannot be changed
+            </p>
           </div>
 
+          {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-500 mb-2">
+              Description
+            </label>
             <div className="relative">
-              <FileText className="absolute left-3 top-3 w-5 h-5 text-gray-400" />
+              <FileText className="absolute left-3 top-3 w-4 h-4 text-gray-400" />
               <textarea
                 rows={4}
                 className="input-field pl-10"
@@ -107,10 +130,13 @@ export default function ProfilePage() {
             </div>
           </div>
 
+          {/* Avatar URL */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Avatar URL</label>
+            <label className="block text-[10px] font-bold uppercase tracking-[0.15em] text-gray-500 mb-2">
+              Avatar URL
+            </label>
             <div className="relative">
-              <Image className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <Image className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
                 type="url"
                 className="input-field pl-10"
@@ -121,13 +147,18 @@ export default function ProfilePage() {
             </div>
           </div>
 
+          {/* Save button */}
           <div className="flex justify-end pt-4 border-t border-gray-100">
             <button
               type="submit"
               disabled={loading}
               className="btn-primary flex items-center gap-2"
             >
-              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+              {loading ? (
+                <div className="spinner" />
+              ) : (
+                <Save className="w-4 h-4" />
+              )}
               {loading ? 'Saving...' : 'Save Changes'}
             </button>
           </div>

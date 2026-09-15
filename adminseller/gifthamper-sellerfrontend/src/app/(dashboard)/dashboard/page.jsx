@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Package, ShoppingCart, DollarSign, TrendingUp } from 'lucide-react';
+import { Package, ShoppingCart, DollarSign, Inbox } from 'lucide-react';
 import api from '../../../lib/axios';
 
 export default function DashboardPage() {
@@ -41,105 +41,128 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+        <div
+          className="w-10 h-10 border-3 border-t-transparent rounded-full animate-spin"
+          style={{ borderColor: '#8B3A62', borderTopColor: 'transparent', borderWidth: '3px' }}
+        />
       </div>
     );
   }
 
   const statCards = [
     {
-      title: 'Total Products',
+      label: 'PRODUCTS',
       value: stats.products,
       icon: Package,
-      color: 'bg-blue-50 text-blue-600',
-      iconBg: 'bg-blue-100',
+      variant: 'blue',
     },
     {
-      title: 'Total Orders',
+      label: 'ORDERS',
       value: stats.orders,
       icon: ShoppingCart,
-      color: 'bg-green-50 text-green-600',
-      iconBg: 'bg-green-100',
+      variant: 'gold',
     },
     {
-      title: 'Revenue',
+      label: 'REVENUE',
       value: `₹${stats.revenue.toLocaleString()}`,
       icon: DollarSign,
-      color: 'bg-secondary-50 text-secondary-600',
-      iconBg: 'bg-secondary-100',
+      variant: 'green',
     },
   ];
 
+  const statusClass = (status) => {
+    switch (status) {
+      case 'delivered': return 'status-delivered';
+      case 'shipped': return 'status-shipped';
+      case 'processing': return 'status-processing';
+      case 'cancelled': return 'status-cancelled';
+      default: return 'status-pending';
+    }
+  };
+
   return (
     <div className="space-y-6">
+      {/* Section badge */}
       <div>
-        <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-        <p className="text-gray-500 mt-1">Overview of your gift hamper business</p>
+        <span className="section-badge">Overview</span>
+        <h1 className="text-2xl font-bold text-gray-900 mt-3">Dashboard</h1>
+        <p className="text-sm text-gray-500 mt-1">Your gift hamper business at a glance</p>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {statCards.map((stat) => {
-          const Icon = stat.icon;
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {statCards.map((card) => {
+          const Icon = card.icon;
           return (
-            <div key={stat.title} className="card flex items-center gap-4">
-              <div className={`w-12 h-12 ${stat.iconBg} rounded-xl flex items-center justify-center`}>
-                <Icon className={`w-6 h-6 ${stat.color.split(' ')[1]}`} />
+            <div key={card.label} className={`stat-card ${card.variant}`}>
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">
+                  {card.label}
+                </p>
+                <div
+                  className="w-10 h-10 flex items-center justify-center"
+                  style={{ background: '#FDF5F3' }}
+                >
+                  <Icon className="w-5 h-5" style={{ color: '#8B3A62' }} />
+                </div>
               </div>
-              <div>
-                <p className="text-sm text-gray-500">{stat.title}</p>
-                <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
-              </div>
+              <p className="text-3xl font-bold text-gray-900">{card.value}</p>
             </div>
           );
         })}
       </div>
 
+      {/* Recent Orders */}
       <div className="card">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-gray-800">Recent Orders</h3>
-          <a href="/orders" className="text-sm text-primary hover:text-primary-600 font-medium">
+          <span className="section-badge">Recent Orders</span>
+          <a
+            href="/orders"
+            className="text-xs font-semibold uppercase tracking-[0.1em] hover:underline"
+            style={{ color: '#8B3A62' }}
+          >
             View All
           </a>
         </div>
 
         {recentOrders.length === 0 ? (
-          <p className="text-gray-400 text-center py-8">No orders yet</p>
+          <div className="flex flex-col items-center justify-center py-12 text-gray-300">
+            <Inbox className="w-12 h-12 mb-3" />
+            <p className="text-sm text-gray-400">No orders yet</p>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-left text-gray-500 border-b border-gray-100">
-                  <th className="pb-3 font-medium">Order ID</th>
-                  <th className="pb-3 font-medium">Customer</th>
-                  <th className="pb-3 font-medium">Amount</th>
-                  <th className="pb-3 font-medium">Status</th>
-                  <th className="pb-3 font-medium">Date</th>
+                <tr className="table-header">
+                  <th className="text-left px-4 py-3 font-semibold">Order ID</th>
+                  <th className="text-left px-4 py-3 font-semibold">Customer</th>
+                  <th className="text-left px-4 py-3 font-semibold">Amount</th>
+                  <th className="text-left px-4 py-3 font-semibold">Status</th>
+                  <th className="text-left px-4 py-3 font-semibold">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {recentOrders.map((order) => (
-                  <tr key={order._id} className="border-b border-gray-50 last:border-0">
-                    <td className="py-3 font-mono text-xs">
+                  <tr
+                    key={order._id}
+                    className="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="px-4 py-3.5 font-mono text-xs font-semibold text-gray-600">
                       #{order._id?.slice(-8).toUpperCase()}
                     </td>
-                    <td className="py-3">{order.user?.name || order.customerName || 'N/A'}</td>
-                    <td className="py-3 font-medium">₹{order.totalAmount?.toLocaleString() || 0}</td>
-                    <td className="py-3">
-                      <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          order.status === 'delivered'
-                            ? 'bg-green-100 text-green-700'
-                            : order.status === 'shipped'
-                            ? 'bg-blue-100 text-blue-700'
-                            : order.status === 'processing'
-                            ? 'bg-yellow-100 text-yellow-700'
-                            : 'bg-gray-100 text-gray-700'
-                        }`}
-                      >
+                    <td className="px-4 py-3.5 text-gray-700">
+                      {order.user?.name || order.customerName || 'N/A'}
+                    </td>
+                    <td className="px-4 py-3.5 font-semibold text-gray-900">
+                      ₹{order.totalAmount?.toLocaleString() || 0}
+                    </td>
+                    <td className="px-4 py-3.5">
+                      <span className={`status-pill ${statusClass(order.status)}`}>
                         {order.status || 'pending'}
                       </span>
                     </td>
-                    <td className="py-3 text-gray-400">
+                    <td className="px-4 py-3.5 text-gray-400 text-xs">
                       {new Date(order.createdAt).toLocaleDateString()}
                     </td>
                   </tr>

@@ -2,34 +2,155 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  body {
-    @apply bg-background text-gray-800;
-  }
+:root {
+  --primary: #8B3A62;
+  --primary-light: #A64D79;
+  --primary-dark: #6E2D4D;
+  --secondary: #D4AF37;
+  --secondary-light: #E8C84A;
+  --accent: #C2556A;
+  --bg: #FDF5F3;
+  --bg-card: #FFFFFF;
+  --bg-sidebar: #1A1A2E;
+  --text-primary: #1a1a2e;
+  --text-secondary: #64748b;
+  --border: #E2E8F0;
 }
 
-@layer components {
-  .btn-primary {
-    @apply bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-600 transition-colors duration-200 font-medium;
-  }
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text-primary);
+}
 
-  .btn-secondary {
-    @apply bg-secondary text-white px-4 py-2 rounded-lg hover:bg-secondary-600 transition-colors duration-200 font-medium;
-  }
+/* Neo-brutalist card style */
+.card {
+  @apply bg-white border border-gray-200 p-6 transition-all duration-200;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.card:hover {
+  box-shadow: 4px 4px 0px var(--primary);
+  transform: translate(-1px, -1px);
+}
 
-  .btn-outline {
-    @apply border border-primary text-primary px-4 py-2 rounded-lg hover:bg-primary-50 transition-colors duration-200 font-medium;
-  }
+/* KPI stat card */
+.stat-card {
+  @apply bg-white border border-gray-200 p-5 relative overflow-hidden;
+}
+.stat-card::after {
+  content: '';
+  @apply absolute bottom-0 left-0 right-0 h-1;
+  background: var(--primary);
+}
+.stat-card.gold::after { background: var(--secondary); }
+.stat-card.green::after { background: #10B981; }
+.stat-card.blue::after { background: #3B82F6; }
+.stat-card.red::after { background: #EF4444; }
 
-  .btn-danger {
-    @apply bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors duration-200 font-medium;
-  }
+/* Professional buttons */
+.btn-primary {
+  @apply px-5 py-2.5 text-sm font-semibold text-white transition-all duration-200;
+  background: var(--primary);
+}
+.btn-primary:hover {
+  background: var(--primary-dark);
+  box-shadow: 3px 3px 0px var(--secondary);
+  transform: translate(-1px, -1px);
+}
+.btn-primary:active {
+  transform: translate(0, 0);
+  box-shadow: none;
+}
 
-  .input-field {
-    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent;
-  }
+.btn-secondary {
+  @apply px-5 py-2.5 text-sm font-semibold border-2 transition-all duration-200;
+  border-color: var(--primary);
+  color: var(--primary);
+  background: transparent;
+}
+.btn-secondary:hover {
+  background: var(--primary);
+  color: white;
+}
 
-  .card {
-    @apply bg-white rounded-xl shadow-sm border border-gray-100 p-6;
-  }
+.btn-danger {
+  @apply px-5 py-2.5 text-sm font-semibold text-white bg-red-500 transition-all duration-200;
+}
+.btn-danger:hover {
+  background: #DC2626;
+  box-shadow: 3px 3px 0px #EF4444;
+}
+
+/* Input fields */
+.input-field {
+  @apply w-full px-4 py-2.5 text-sm border border-gray-200 bg-white transition-all duration-200 outline-none;
+}
+.input-field:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(139, 58, 98, 0.1);
+}
+
+/* Section title badge */
+.section-badge {
+  @apply inline-block px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-white;
+  background: var(--primary);
+}
+
+/* Status pills */
+.status-pill {
+  @apply inline-flex items-center px-3 py-1 text-xs font-semibold uppercase tracking-wider border;
+}
+.status-pending { @apply bg-amber-50 text-amber-700 border-amber-200; }
+.status-processing { @apply bg-blue-50 text-blue-700 border-blue-200; }
+.status-shipped { @apply bg-purple-50 text-purple-700 border-purple-200; }
+.status-delivered { @apply bg-emerald-50 text-emerald-700 border-emerald-200; }
+.status-cancelled { @apply bg-red-50 text-red-700 border-red-200; }
+
+/* Table styles */
+.table-header {
+  @apply text-[10px] font-bold uppercase tracking-[0.15em] text-gray-500 bg-gray-50 border-b border-gray-200;
+}
+
+/* Professional sidebar active state */
+.nav-item {
+  @apply flex items-center gap-3 px-4 py-2.5 text-sm text-gray-400 transition-all duration-200 cursor-pointer;
+}
+.nav-item:hover {
+  @apply text-white bg-white/5;
+}
+.nav-item.active {
+  @apply text-white;
+  background: linear-gradient(90deg, rgba(139,58,98,0.3) 0%, transparent 100%);
+  border-left: 3px solid var(--secondary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+/* Login panel animation */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.animate-slide-left {
+  animation: slideInLeft 0.5s ease-out forwards;
+}
+.animate-slide-right {
+  animation: slideInRight 0.5s ease-out forwards;
+}
+
+/* Spinner */
+.spinner {
+  @apply w-5 h-5 border-2 border-white border-t-transparent rounded-full;
+  animation: spin 0.6s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
