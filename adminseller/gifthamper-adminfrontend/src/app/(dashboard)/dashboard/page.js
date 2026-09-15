@@ -19,15 +19,16 @@ export default function DashboardPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
-        <p className="text-gray-500">Welcome to GiftHamper Admin Panel</p>
+        <span className="section-badge">Admin Dashboard</span>
+        <h1 className="text-2xl font-bold text-[#1a1a2e] mt-3">Dashboard Overview</h1>
+        <p className="text-sm text-gray-500 mt-1">Welcome to the GiftHamper admin panel</p>
       </div>
 
       {loading ? (
-        <div className="text-center py-12 text-gray-500">Loading dashboard...</div>
+        <div className="text-center py-16 text-gray-400 text-sm">Loading dashboard...</div>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <StatsCard
               icon={Users}
               label="Total Sellers"
@@ -54,44 +55,52 @@ export default function DashboardPage() {
             />
           </div>
 
-          {stats.recentOrders && stats.recentOrders.length > 0 && (
-            <div className="bg-white rounded-lg shadow p-6">
-              <h2 className="text-lg font-semibold text-gray-800 mb-4">Recent Orders</h2>
-              <div className="space-y-3">
-                {stats.recentOrders.map((order) => (
-                  <div
-                    key={order._id}
-                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
-                  >
-                    <div>
-                      <p className="font-medium text-gray-800">
-                        Order #{order._id?.slice(-8) || 'N/A'}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        {new Date(order.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold text-gray-800">
-                        ${(order.totalAmount || order.total || 0).toLocaleString()}
-                      </p>
-                      <span
-                        className={`text-xs px-2 py-1 rounded-full ${
-                          order.status === 'delivered'
-                            ? 'bg-green-100 text-green-700'
-                            : order.status === 'cancelled'
-                            ? 'bg-red-100 text-red-700'
-                            : 'bg-yellow-100 text-yellow-700'
-                        }`}
-                      >
-                        {order.status}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          {/* Recent Orders */}
+          <div className="card">
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="text-sm font-bold uppercase tracking-wider text-[#1a1a2e]">Recent Orders</h2>
+              <a href="/orders" className="text-xs font-semibold text-[#8B3A62] hover:underline">View All</a>
             </div>
-          )}
+            {stats.recentOrders && stats.recentOrders.length > 0 ? (
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="table-header">
+                      <th className="px-4 py-3 text-left">Order ID</th>
+                      <th className="px-4 py-3 text-left">Date</th>
+                      <th className="px-4 py-3 text-left">Amount</th>
+                      <th className="px-4 py-3 text-left">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-100">
+                    {stats.recentOrders.map((order) => (
+                      <tr key={order._id} className="hover:bg-gray-50 transition-colors">
+                        <td className="px-4 py-3 text-sm font-mono font-semibold text-[#1a1a2e]">
+                          #{order._id?.slice(-8) || 'N/A'}
+                        </td>
+                        <td className="px-4 py-3 text-sm text-gray-500">
+                          {new Date(order.createdAt).toLocaleDateString()}
+                        </td>
+                        <td className="px-4 py-3 text-sm font-semibold text-[#1a1a2e]">
+                          ${(order.totalAmount || order.total || 0).toLocaleString()}
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className={`status-pill status-${order.status}`}>
+                            {order.status}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <ShoppingCart className="mx-auto text-gray-300 mb-3" size={40} />
+                <p className="text-sm text-gray-400">No recent orders found</p>
+              </div>
+            )}
+          </div>
         </>
       )}
     </div>

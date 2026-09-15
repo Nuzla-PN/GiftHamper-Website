@@ -17,20 +17,22 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="bg-white shadow-sm border-b h-16 flex items-center justify-between px-6">
+    <header className="sticky top-0 z-30 bg-white border-b border-gray-200 h-16 flex items-center justify-between px-6">
+      <div />
       <div className="flex items-center gap-4">
-        <h2 className="text-lg font-semibold text-gray-800">Welcome back, {adminName}</h2>
-      </div>
-      <div className="flex items-center gap-4">
-        <button className="relative p-2 text-gray-500 hover:text-primary transition-colors">
-          <Bell size={20} />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        <button className="relative w-9 h-9 flex items-center justify-center text-gray-400 hover:text-[#8B3A62] hover:bg-[#8B3A62]/5 transition-colors">
+          <Bell size={18} />
+          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
         </button>
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+        <div className="w-px h-8 bg-gray-200" />
+        <div className="flex items-center gap-3">
+          <div className="w-9 h-9 bg-[#8B3A62] flex items-center justify-center">
             <User size={16} className="text-white" />
           </div>
-          <span className="text-sm font-medium text-gray-700">{adminName}</span>
+          <div className="hidden sm:block">
+            <p className="text-sm font-semibold text-[#1a1a2e] leading-none">{adminName}</p>
+            <p className="text-[11px] text-gray-400 mt-0.5">Super Admin</p>
+          </div>
         </div>
       </div>
     </header>

@@ -16,11 +16,11 @@ export default function DashboardLayout({ children }) {
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-[#F8F6F4]">
       <Sidebar />
-      <div className="ml-64 transition-all duration-300">
+      <div className="lg:ml-[260px] transition-all duration-300">
         <Header />
-        <main className="p-6">{children}</main>
+        <main className="p-4 lg:p-6 pt-16 lg:pt-6">{children}</main>
       </div>
     </div>
   );
